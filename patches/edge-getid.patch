@@ -1,0 +1,31 @@
+--- a/vendor/alom/graphviz/src/Alom/Graphviz/Edge.php	2025-04-18 18:14:53.640037284 +0200
++++ b/vendor/alom/graphviz/src/Alom/Graphviz/Edge.php	2025-04-17 14:22:40.298970640 +0200
+@@ -99,17 +99,27 @@
+     {
+         $edges = array();
+         foreach ($this->list as $edge) {
++            // Each element of the list should be a node, right?  So why are we
++            // calling them edges, for a start?  And why are we sending objects to
++            // a function that escapes strings.  Either this is really brain damaged
++            // or there is something i fundamentally do not understand here.
++            //
++            // I'm commenting out the code that was here and replacing it with node->getId()
++            // cheeks 8/4/18
++            $edges[] = $this->escape($edge->getId());
++
++/*
+             if (is_array($edge)) {
+                 $edges[] = $this->escapePath($edge);
+             } else {
+                 $edges[] = $this->escape($edge);
+             }
++*/
+         }
+ 
+         $edge = implode($this->getOperator(), $edges);
+ 
+         $attributes = $this->attributes->render($indent + 1);
+-
+         return str_repeat($spaces, $indent) . $edge . ($attributes ? ' ' . $attributes : $attributes) . ";\n";
+     }
+ 

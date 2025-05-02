@@ -1,0 +1,15 @@
+{
+    "require": {
+        "alom/graphviz": "^1.1",
+        "cweagans/composer-patches": "^1.7"
+    },
+    "extra": {
+        "patches": {
+            "alom/graphviz": {
+                "Fix edge render for objects with getId": "patches/edge-getid.patch",
+                "Fix graph getEdge method": "patches/graph-getedge.patch",
+                "Fix BaseInstruction methods": "patches/baseinstruction.patch"
+            }
+        }
+    }
+}

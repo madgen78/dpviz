@@ -1,29 +1,29 @@
 html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
-#vizContainer {
-	width: 100%;
-	height: 100%;
-	max-width: 100%;
-	max-height: 100%;
-	/*overflow: hidden; 
-	/*border: 1px solid black; /* Just for visualization */
+#vizContainerBody {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    /*overflow: hidden;
+    /*border: 1px solid black; /* Just for visualization */
 }
 #set_table tr:nth-child(even){background-color: #EEEEEE;}
 /* the lines within the edges */
 .edge:active path,
 .edge:hover path {
-	cursor: pointer;
-	stroke: fuchsia;
+    cursor: pointer;
+    stroke: fuchsia;
         stroke-width: 3;
         stroke-opacity: 1;
 }
 /* arrows are typically drawn with a polygon */
 .edge:active polygon,
 .edge:hover polygon {
-	cursor: pointer;
+    cursor: pointer;
         stroke: fuchsia;
         stroke-width: 3;
         fill: fuchsia;
@@ -33,27 +33,26 @@ html, body {
 /* If you happen to have text and want to color that as well... */
 .edge:active text,
 .edge:hover text {
-	cursor: pointer;
+    cursor: pointer;
         fill: fuchsia;
 }
 svg {
-	max-width: 100%;
-	max-height: 100%;
-	display: block;
-	/*margin: auto; /* Center the SVG horizontally */
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    /*margin: auto; /* Center the SVG horizontally */
 }
 #graph0 {
-	border: none;
+    border: none;
 }
 
 .selected ellipse {
-	fill: #ff0000 !important;
+    fill: #ff0000 !important;
 }
 .highlighted-edge path {
-	stroke: #ff0000 !important;
-	stroke-width: 3px !important;
+    stroke: #ff0000 !important;
+    stroke-width: 3px !important;
 }
 .highlighted-edge polygon {
-	fill: #ff0000 !important;
+    fill: #ff0000 !important;
 }
-

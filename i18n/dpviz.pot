@@ -1,0 +1,723 @@
+# This file is part of FreePBX.
+#
+# For licensing information, please see the file named LICENSE located in the module directory
+#
+# FreePBX language template for extensionsettings
+# Copyright (C) 2008-2016 Sangoma, Inc.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-27 12:23+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: i18n\n"
+"X-Poedit-SearchPathExcluded-2: assets\n"
+
+#: Dpviz.class.php:203
+msgid "Date & Time Stamp"
+msgstr ""
+
+#: Dpviz.class.php:207
+msgid "Displays the date and time on the graph."
+msgstr ""
+
+#: Dpviz.class.php:214
+msgid "Export as High-Resolution PNG"
+msgstr ""
+
+#: Dpviz.class.php:220
+msgid "Increases PNG resolution during export."
+msgstr ""
+
+#: Dpviz.class.php:227
+msgid "Horizontal Layout"
+msgstr ""
+
+#: Dpviz.class.php:231
+msgid "Displays the dial plan in a horizontal layout."
+msgstr ""
+
+#: Dpviz.class.php:238
+msgid "Combine Queue Agents and RG Members into one node"
+msgstr ""
+
+#: Dpviz.class.php:242
+msgid ""
+"When an extension is part of both a queue and a ring group, it will be shown "
+"as a single node instead of two."
+msgstr ""
+
+#: Dpviz.class.php:249
+msgid "Pan & Zoom"
+msgstr ""
+
+#: Dpviz.class.php:253
+msgid ""
+"Allows you to use pan and zoom functions. Click and hold to pan, and use the "
+"mouse wheel to zoom."
+msgstr ""
+
+#: Dpviz.class.php:259
+msgid "Show Dynamic Members for Queues"
+msgstr ""
+
+#: Dpviz.class.php:263
+msgid "Displays the list of dynamic agents currently assigned to the queues."
+msgstr ""
+
+#: Dpviz.class.php:269
+msgid "Show Extension Optional Destinations"
+msgstr ""
+
+#: Dpviz.class.php:273
+msgid ""
+"Displays and follows the optional destinations (No Answer, Busy, Not "
+"Reachable) set for the extension in the Advanced tab."
+msgstr ""
+
+#: Dpviz.class.php:327
+#, php-format
+msgid "❌Unknown page: %s"
+msgstr ""
+
+#: Dpviz.class.php:377
+msgid "✔ Settings saved successfully"
+msgstr ""
+
+#: Dpviz.class.php:384
+msgid "❌ Failed to save settings"
+msgstr ""
+
+#: Dpviz.class.php:394
+msgid "✔ Settings reset to default values"
+msgstr ""
+
+#: Dpviz.class.php:423
+#, php-format
+msgid "✔ You are using the latest version: %s"
+msgstr ""
+
+#: Dpviz.class.php:427
+#, php-format
+msgid "⚠ A new version is available: %s, current version: %s"
+msgstr ""
+
+#: Dpviz.class.php:433
+msgid "❌ Unknown command"
+msgstr ""
+
+#: Dpviz.class.php:454
+msgid "Failed to fetch release info."
+msgstr ""
+
+#: Dpviz.class.php:460
+msgid "Invalid response from GitHub."
+msgstr ""
+
+#: Restore.php:18
+msgid "Skipping KVStore import, no data found!"
+msgstr ""
+
+#: dpp.php:59
+#, php-format
+msgid "Invalid direction '%s'!"
+msgstr ""
+
+#: dpp.php:93
+#, php-format
+msgid "Not extracting class name from '%s'!"
+msgstr ""
+
+#: dpp.php:176 dpp.php:229
+#, php-format
+msgid "Class '%s' not found in '%s'!"
+msgstr ""
+
+#: dpp.php:185 dpp.php:238
+#, php-format
+msgid "Class '%s' Create OK!"
+msgstr ""
+
+#: dpp.php:191 dpp.php:244
+#, php-format
+msgid "Class '%s' Create OK, but without priority!"
+msgstr ""
+
+#: dpp.php:310
+#, php-format
+msgid "Couldn't open log file: %s"
+msgstr ""
+
+#: dpp.php:314
+#, php-format
+msgid "[%s] [Level %d] %s\n"
+msgstr ""
+
+#: dpp.php:478 dpp/destination_5500_inbound_routes.php:23
+msgid "ANY"
+msgstr ""
+
+#: dpp.php:499
+#, php-format
+msgid "Caller ID Number= %s\\n"
+msgstr ""
+
+#: dpp.php:500
+#, php-format
+msgid "Description= %s\\n"
+msgstr ""
+
+#: dpp.php:501
+#, php-format
+msgid "Alert Info= %s\\n"
+msgstr ""
+
+#: dpp.php:502
+#, php-format
+msgid "CID Prefix= %s\\n"
+msgstr ""
+
+#: dpp.php:503
+#, php-format
+msgid "MOH Class= %s\\n"
+msgstr ""
+
+#: dpp.php:540
+msgid " Always"
+msgstr ""
+
+#: dpp.php:569
+#, php-format
+msgid "(new node: %s)"
+msgstr ""
+
+#: dpp/destination_10000_ring_groups_members.php:22
+#: dpp/destination_9000_queue_members.php:23
+#, php-format
+msgid "Ext %s\\n%s"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:24
+#: dpp/destination_4000_dynroute.php:21 dpp/destination_7500_recording.php:20
+msgid "None"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:37 dpp/destination_6000_ivr.php:43
+msgid "yes"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:37
+#: dpp/destination_1000_announcement.php:43 dpp/destination_6000_ivr.php:43
+#: dpp/destination_6000_ivr.php:49
+msgid "no"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:42
+#: dpp/destination_2000_daynight.php:36 dpp/destination_6000_ivr.php:48
+msgid "disabled"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:46
+#, php-format
+msgid "Announcements: %s\\nRecording: %s\\nRecord (%s): %s"
+msgstr ""
+
+#: dpp/destination_1000_announcement.php:62
+#: dpp/destination_10500_set_cid.php:37 dpp/destination_11000_tts.php:36
+#: dpp/destination_5500_inbound_routes.php:35
+#: dpp/destination_6500_languages.php:34
+#: dpp/destination_8000_queue_priorities.php:37
+msgid " Continue"
+msgstr ""
+
+#: dpp/destination_10500_set_cid.php:24
+#, php-format
+msgid "Set CID\\nName= %s\\lNumber= %s\\l"
+msgstr ""
+
+#: dpp/destination_11000_tts.php:22
+#, php-format
+msgid "TTS: %s"
+msgstr ""
+
+#: dpp/destination_11000_tts.php:23
+#, php-format
+msgid "Engine: %s\\nDesc: %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:22
+#, php-format
+msgid "%s\\nMode= %s\\n"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:23
+#, php-format
+msgid "Timezone= %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:25
+#, php-format
+msgid "TC: %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:45
+msgid "No times defined"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:57
+#, php-format
+msgid "Name= %s\\nDescription= %s\\nType= %s\\nTimezone= %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:64
+msgid "Calendars= "
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:72
+#: dpp/destination_11500_timeconditions.php:74
+msgid "All"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:73
+#, php-format
+msgid "Categories= %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:75
+#, php-format
+msgid "Events= %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:77
+#, php-format
+msgid "Name= %s\\n%s\\n%s\\n%s\\nExpand= %s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:83
+#: dpp/destination_11500_timeconditions.php:86
+#, php-format
+msgid " Match:\\n%s"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:92
+msgid " No Match"
+msgstr ""
+
+#: dpp/destination_11500_timeconditions.php:95
+#, php-format
+msgid " No Match:\\n%s"
+msgstr ""
+
+#: dpp/destination_12000_voicemail.php:23
+msgid "(Busy Message)"
+msgstr ""
+
+#: dpp/destination_12000_voicemail.php:24
+msgid "(Instructions Only)"
+msgstr ""
+
+#: dpp/destination_12000_voicemail.php:25
+msgid "(No Message)"
+msgstr ""
+
+#: dpp/destination_12000_voicemail.php:26
+msgid "(Unavailable Message)"
+msgstr ""
+
+#: dpp/destination_12000_voicemail.php:32
+#, php-format
+msgid "Voicemail: %s %s %s\\n%s"
+msgstr ""
+
+#: dpp/destination_12500_vmblast.php:22
+#, php-format
+msgid "VM Blast: %s %s"
+msgstr ""
+
+#: dpp/destination_13000_vmblast_members.php:23
+#, php-format
+msgid "Ext %s %s\\n%s"
+msgstr ""
+
+#: dpp/destination_13500_trunk.php:23
+#, php-format
+msgid "Trunk (%s): %s"
+msgstr ""
+
+#: dpp/destination_1500_blackhole.php:18
+msgid "Music On Hold"
+msgstr ""
+
+#: dpp/destination_1500_blackhole.php:21
+#, php-format
+msgid "Terminate Call: %s"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:36
+#, php-format
+msgid "\\nToggle (%s): %s"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:36
+msgid "enabled"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:48 dpp/destination_2000_daynight.php:52
+msgid "(Active)"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:61
+#, php-format
+msgid " Day Mode %s"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:68
+#, php-format
+msgid " Night Mode %s"
+msgstr ""
+
+#: dpp/destination_2000_daynight.php:74
+#, php-format
+msgid "Call Flow: %s%s"
+msgstr ""
+
+#: dpp/destination_2500_meetme.php:22
+#, php-format
+msgid "Conferences: %s %s"
+msgstr ""
+
+#: dpp/destination_3000_directory.php:22
+#, php-format
+msgid "Directory: %s"
+msgstr ""
+
+#: dpp/destination_3000_directory.php:34 dpp/destination_4000_dynroute.php:58
+#: dpp/destination_6000_ivr.php:93
+msgid " Invalid Input"
+msgstr ""
+
+#: dpp/destination_3500_disa.php:22
+#, php-format
+msgid "DISA: %s"
+msgstr ""
+
+#: dpp/destination_4000_dynroute.php:23
+#, php-format
+msgid "DYN: %s\\nAnnouncement: %s"
+msgstr ""
+
+#: dpp/destination_4000_dynroute.php:39
+#, php-format
+msgid "  Match: %s\\n%s"
+msgstr ""
+
+#: dpp/destination_4000_dynroute.php:49
+#, php-format
+msgid " Invalid Input, Default (%s secs)"
+msgstr ""
+
+#: dpp/destination_4000_dynroute.php:65
+#, php-format
+msgid " Default (%s secs)"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:25
+#, php-format
+msgid "Extension: %s %s\\n%s"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:44
+msgid " No Answer, Busy, Not Reachable"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:54
+msgid " No Answer & Busy"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:63
+#: dpp/destination_4500_from_did_direct.php:128
+msgid " Not Reachable"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:74
+msgid " No Answer & Not Reachable"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:83
+#: dpp/destination_4500_from_did_direct.php:121
+msgid " Busy"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:94
+msgid " Busy & Not Reachable"
+msgstr ""
+
+#: dpp/destination_4500_from_did_direct.php:103
+#: dpp/destination_4500_from_did_direct.php:114
+msgid " No Answer"
+msgstr ""
+
+#: dpp/destination_5000_featurecodes.php:27
+#, php-format
+msgid "Feature Code: %s \\<%s\\>"
+msgstr ""
+
+#: dpp/destination_6000_ivr.php:51
+#, php-format
+msgid "IVR: %s\\nAnnouncement: %s\\lRecord (%s): %s\\l"
+msgstr ""
+
+#: dpp/destination_6000_ivr.php:71
+#, php-format
+msgid " Selection %s"
+msgstr ""
+
+#: dpp/destination_6000_ivr.php:83
+#, php-format
+msgid " Invalid Input, Timeout (%s secs)"
+msgstr ""
+
+#: dpp/destination_6000_ivr.php:100
+#, php-format
+msgid " Timeout (%s secs)"
+msgstr ""
+
+#: dpp/destination_6500_languages.php:22
+#, php-format
+msgid "Languages: %s"
+msgstr ""
+
+#: dpp/destination_7000_misc.php:22
+#, php-format
+msgid "Misc Dest: %s (%s)"
+msgstr ""
+
+#: dpp/destination_7500_recording.php:22
+#, php-format
+msgid "Play Recording: %s"
+msgstr ""
+
+#: dpp/destination_8000_queue_priorities.php:24
+#, php-format
+msgid "Queue Priorities: %s\\nPriority: %s"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:24
+msgid "Unlimited"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:31
+#, php-format
+msgid "Queue %s: %s"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:48
+msgid " Static"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:48
+msgid " Dynamic"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:60 dpp/destination_9500_ring_groups.php:48
+#, php-format
+msgid " No Answer (%s)"
+msgstr ""
+
+#: dpp/destination_8500_queues.php:68
+#, php-format
+msgid " IVR Break Out (every %s)"
+msgstr ""
+
+#: dpp/destination_9500_ring_groups.php:21
+#, php-format
+msgid "Ring Group: %s %s"
+msgstr ""
+
+#: dpp/destination_9999999_custom.php:36
+#, php-format
+msgid "Cust Dest: %s\\nTarget: %s\\l"
+msgstr ""
+
+#: dpp/table_1000_users.php:28
+msgid "unassigned"
+msgstr ""
+
+#: views/page.main.php:1 views/rnav.php:1 views/view.dialplan.err.route.php:1
+#: views/view.dialplan.php:1 views/view.dialplan.select.null.php:1
+#: views/view.nav_and_usage.php:1 views/view.options.php:1
+msgid "No direct script access allowed"
+msgstr ""
+
+#: views/page.main.php:4
+msgid "Dial Plan Vizualizer"
+msgstr ""
+
+#: views/page.main.php:12
+msgid "Dial Plan"
+msgstr ""
+
+#: views/page.main.php:17
+msgid "Settings"
+msgstr ""
+
+#: views/page.main.php:22
+msgid "Navigation and Usage"
+msgstr ""
+
+#: views/rnav.php:17
+msgid "DID / CID"
+msgstr ""
+
+#: views/rnav.php:18 views/view.nav_and_usage.php:19
+msgid "Description"
+msgstr ""
+
+#: views/rnav.php:19
+msgid "Destination"
+msgstr ""
+
+#: views/view.dialplan.err.route.php:16
+#, php-format
+msgid "Error: Could not find inbound route for '%s'"
+msgstr ""
+
+#: views/view.dialplan.err.route.php:17
+#, php-format
+msgid ""
+"The system was unable to locate a matching inbound route for the specified "
+"destination: '%s'. This may indicate that the route has been deleted, is "
+"misconfigured, or that the call is being directed to a non-existent or "
+"unregistered pattern. Please verify the inbound route settings and ensure "
+"that the destination is correctly defined within your Dial Plan "
+"configuration."
+msgstr ""
+
+#: views/view.dialplan.php:11
+msgid "Reload Page"
+msgstr ""
+
+#: views/view.dialplan.php:12
+#, php-format
+msgid "Export as %s"
+msgstr ""
+
+#: views/view.dialplan.php:13 views/view.nav_and_usage.php:28
+msgid "Highlight Paths"
+msgstr ""
+
+#: views/view.dialplan.php:23
+#, php-format
+msgid "Dial Plan For Inbound Route %s%s:%s"
+msgstr ""
+
+#: views/view.dialplan.select.null.php:16
+msgid "No Dial Plan has been selected for display!"
+msgstr ""
+
+#: views/view.dialplan.select.null.php:17
+msgid ""
+"In order to generate and view the corresponding call flow, please select a "
+"Dial Plan from the available menu. Once selected, the detailed call flow "
+"information will load automatically, allowing you to review and analyze the "
+"call routing configuration associated with that plan. This selection is "
+"required to proceed with inspecting or editing the call flow."
+msgstr ""
+
+#: views/view.nav_and_usage.php:10
+msgid "Information on how to navigate and use the dial plane flow"
+msgstr ""
+
+#: views/view.nav_and_usage.php:18
+msgid "Feature"
+msgstr ""
+
+#: views/view.nav_and_usage.php:24
+msgid "Redraw from a Node"
+msgstr ""
+
+#: views/view.nav_and_usage.php:25
+msgid ""
+"Press <strong>Ctrl</strong> (<strong>Cmd</strong> on macOS) and left-click a "
+"node to make it the new starting point in the diagram. To revert, "
+"<strong>Ctrl/Cmd + left-click</strong> the parent node."
+msgstr ""
+
+#: views/view.nav_and_usage.php:29
+msgid ""
+"Click <strong>Highlight Paths</strong>, then select a node or edge (links "
+"are inactive). Click <strong>Remove Highlights</strong> to clear."
+msgstr ""
+
+#: views/view.nav_and_usage.php:32
+msgid "Hover"
+msgstr ""
+
+#: views/view.nav_and_usage.php:33
+msgid "Hover over a path to highlight between destinations."
+msgstr ""
+
+#: views/view.nav_and_usage.php:36
+msgid "Open Destinations"
+msgstr ""
+
+#: views/view.nav_and_usage.php:37
+msgid "Click a destination to open it in a new tab."
+msgstr ""
+
+#: views/view.nav_and_usage.php:40
+msgid "Open Time Groups"
+msgstr ""
+
+#: views/view.nav_and_usage.php:41
+msgid ""
+"Click on a \"<strong>Match: (timegroup)</strong>\" or \"<strong>NoMatch</"
+"strong>\" to open in a new tab."
+msgstr ""
+
+#: views/view.nav_and_usage.php:44
+msgid "Pan"
+msgstr ""
+
+#: views/view.nav_and_usage.php:45
+msgid "Hold the left mouse button and drag to move the view."
+msgstr ""
+
+#: views/view.nav_and_usage.php:48
+msgid "Zoom"
+msgstr ""
+
+#: views/view.nav_and_usage.php:49
+msgid "Use the mouse wheel to zoom in and out."
+msgstr ""
+
+#: views/view.options.php:14
+msgid "Check for Updates"
+msgstr ""
+
+#: views/view.options.php:46
+msgid "Yes"
+msgstr ""
+
+#: views/view.options.php:48
+msgid "No"
+msgstr ""
+
+#: views/view.options.php:71
+msgid "Save Changes"
+msgstr ""
+
+#: views/view.options.php:75
+msgid "Reset Default"
+msgstr ""
