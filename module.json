@@ -1,6 +1,6 @@
 {
     "rawname": "dpviz",
-    "repo": "unsupported",
+    "repo": "local",
     "name": "Dial Plan Vizualizer",
     "version": "1.0.22",
     "publisher": "AdamV",
