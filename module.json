@@ -9,6 +9,6 @@
     "changelog": "Updated for ANY route. Updated for E.164 format. Added Highlighting.",
     "category": "Reports",
     "description": "Graphical display of the dial plan for any Inbound Route",
-    "location": "https://github.com/madgen78/dpviz/archive/refs/heads/main.tar.gz"
+    "location": "https://github.com/madgen78/dpviz/archive/refs/heads/main.zip"
 }
 
