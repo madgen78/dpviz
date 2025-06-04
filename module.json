@@ -2,13 +2,13 @@
     "rawname": "dpviz",
     "repo": "unsupported",
     "name": "Dial Plan Vizualizer",
-    "version": "1.0.22",
+    "version": "1.0.21",
     "publisher": "AdamV",
     "license": "GPLv3+",
     "licenselink": "http://www.gnu.org/licenses/gpl-3.0.txt",
     "changelog": "Updated for ANY route. Updated for E.164 format. Added Highlighting.",
     "category": "Reports",
     "description": "Graphical display of the dial plan for any Inbound Route",
-    "location": "https://pool.volchko.xyz/dpviz-1.0.22.tar.gz"
+    "location": "https://modules.volchko.xyz/dpviz/dpviz-1.0.22.tar.gz"
 }
 
