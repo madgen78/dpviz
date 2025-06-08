@@ -2,11 +2,11 @@
     "rawname": "dpviz",
     "repo": "unsupported",
     "name": "Dial Plan Vizualizer",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "publisher": "AdamV",
     "license": "GPLv3+",
     "licenselink": "http://www.gnu.org/licenses/gpl-3.0.txt",
-    "changelog": "Updated for ANY route. Updated for E.164 format. Added Highlighting.",
+   "changelog": "Registration statuses, Modules: Blacklist, Queue Callback, Queue Plus, Virtual Queues",
     "category": "Reports",
     "description": "Graphical display of the dial plan for any Inbound Route",
     "location": "https://modules.volchko.xyz/dpviz/dpviz-1.0.22.tar.gz"
