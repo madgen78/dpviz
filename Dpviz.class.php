@@ -126,6 +126,10 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
                 exit;
 
             case 'make':
+                // Properly setting up the language because calls to ajax.php currently ignore the lang COOKIE
+                \FreePBX::create()->View->setAdminLocales();
+                \bindtextdomain("dpviz", __DIR__ . "/i18n");
+                \textdomain("dpviz");
                 include 'process.php';
                 echo json_encode(array(
                     //'vizButtons' => $buttons,
