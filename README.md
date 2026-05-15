@@ -5,15 +5,6 @@ The **Dial Plan Vizualizer** (dpviz) is a module for [FreePBX®](http://www.free
 
 This module visually maps out the call flow for any inbound route, making it an essential tool for PBX administrators. It simplifies troubleshooting, optimization, and documentation of call routing by providing a clear, interactive diagram of how calls are handled.
 
-> ### 📣 If you want a visual editor — or VitalPBX support
->
-> **Call Flow Studio** is the commercial successor to dpviz that I've been building. For FreePBX, it's a full visual *editor* (not just a viewer) — palette, drag-create, undo/redo, multi-user, live extension / queue / agent state, simulated time ("what does this dial plan do at 11 AM on a holiday?"). It also adds **read-only visualization for VitalPBX**, with multi-tenant scoping and per-extension diversion rendering.
->
-> **dpviz isn't going anywhere** — it stays free for FreePBX. CFS is what you reach for when you want to edit on the canvas, or when you're on VitalPBX.
->
-> → **[callflowstudio.io](https://callflowstudio.io)**
-
-
 It is particularly useful for:
 - **Understanding call distribution** – "Which extensions ring when someone calls X?"
 - **Tracing call logic** – "When a call comes in on Y, does it go directly to the IVR, or are Time Conditions applied first?"
