@@ -253,6 +253,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 	$stop=false; //reset on new call
 
 	if (!isset($route['parent_edge_code'])){$route['parent_edge_code']='';}
+	if (!isset($route['parent_edge_color'])){$route['parent_edge_color']='#000';}
 
 	if ($minimal){
 		$patterns = array(
