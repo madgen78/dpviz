@@ -134,7 +134,7 @@ function formatPhoneNumbers($phoneNumber, $locale = 'en_US') {
 }
 
 function sanitize_filename($string, $replace_with = '_') {
-    // Replace spaces and other separators with underscore (or your preferred character)
+    // Replace spaces and other separators with underscore
     $string = preg_replace('/[^\w\-\.]+/', $replace_with, $string);
 
     // Remove multiple consecutive replace characters
@@ -143,7 +143,7 @@ function sanitize_filename($string, $replace_with = '_') {
     // Trim leading/trailing replace character
     $string = trim($string, $replace_with);
 
-    // Prevent reserved names (optional for Windows safety)
+    // Prevent reserved Windows names
     $reserved = array('CON','PRN','AUX','NUL','COM1','COM2','COM3','COM4','COM5','COM6','COM7','COM8','COM9',
                  'LPT1','LPT2','LPT3','LPT4','LPT5','LPT6','LPT7','LPT8','LPT9');
     if (in_array(strtoupper($string), $reserved)) {
@@ -180,7 +180,7 @@ function makeNode($module,$id,$label,$tooltip,$node,$rec,$sections,$active=true)
 			case 'Call Recording':
 					$url=$rawname.'&view=form&extdisplay='.$id;
 					$shape='rect';
-					$color='#deb887';
+					$color='#f75f5f';
 					break;
 			
 			case 'Conferences':
@@ -204,14 +204,14 @@ function makeNode($module,$id,$label,$tooltip,$node,$rec,$sections,$active=true)
 			case 'DISA':
 					$url=$rawname.'&view=form&itemid='.$id;
 					$shape='rect';
-					$color='#eb94e2';
+					$color='#e8fa42';
 					break;
 
 			case 'Dyn Route':
 					if (empty($rec)){$append='#norec';}
 					$url=$rawname.'&action=edit&id='.$id.$append;
 					$shape='rect';
-					$color='#92b8ef';
+					$color='#818fd5';
 					break;
 
 			case 'Feature Code':
@@ -287,7 +287,7 @@ function makeNode($module,$id,$label,$tooltip,$node,$rec,$sections,$active=true)
 			case 'Set CID':
 					$url=$rawname.'&view=form&id='.$id;
 					$shape='rect';
-					$color='#ed9581';
+					$color='#9a74fb';
 					break;
 
 			case 'Time Conditions':
@@ -299,21 +299,21 @@ function makeNode($module,$id,$label,$tooltip,$node,$rec,$sections,$active=true)
 			
 			case 'TTS':
 					$url=$rawname.'&view=form&id='.$id;
-					$shape='note';
-					$color='#ed9581';
+					$shape='rect';
+					$color='#e89530';
 					break;
 
 			case 'Trunks':
 					$idArray=explode(",",$id);
 					$url=$rawname.'&tech='.$idArray[0].'&extdisplay=OUT_'.$idArray[1];
 					$shape='rect';
-					$color='#66cdaa';
+					$color='#42dffa';
 					break;
 					
 			case 'VM Blast':
 					$url=$rawname.'&view=form&extdisplay='.$id;
 					$shape='rect';
-					$color='#dcdcdc';
+					$color='#968869';
 					break;
 
 			case 'Virtual Queues':
@@ -331,10 +331,12 @@ function makeNode($module,$id,$label,$tooltip,$node,$rec,$sections,$active=true)
 					break;
 
 			default:
-					// Code to execute if no case matches
+					// Code to execute if no case matches. Deliberately NOT the
+					// Voicemail grey - an unrecognized destination type must not
+					// masquerade as a real module.
 					$url='#';
 					$shape='rect';
-					$color='#979291';
+					$color='#cbbcf3';
 	}
 	if (!$active){
 		$color= muteHexColor($color, .80);
@@ -1164,10 +1166,121 @@ function resolveExtensionStatus($extension, $context = 'queue', $flags = []) {
     ];
 }
 
+/**
+ * Is this IVR selection a plain integer that is safe to fold into a range?
+ *
+ * Deliberately stricter than is_numeric(): real dial plans use selections like
+ * "*", "*98" and multi-digit entries, and a leading-zero key such as "007" must
+ * keep its own text rather than be cast to 7. Anything rejected here is shown
+ * verbatim on its own line.
+ */
+function isCollapsibleSelection($sel) {
+    return (bool) preg_match('/^(0|[1-9][0-9]*)$/', (string)$sel);
+}
+
+/**
+ * Collapse a list of IVR selection keys into a compact range string:
+ *   0,1,2,3   -> "0-3"
+ *   1,3,7     -> "1,3,7"
+ *   0,1,2,5,6 -> "0-2,5,6"
+ *
+ * Runs of three or more consecutive keys become a range; a pair stays listed,
+ * since "0,1" is no longer than "0-1" and reads more plainly. Non-numeric keys
+ * (Invalid Input, Timeout) are the caller's problem - they are not keypresses
+ * and must not be folded into a range.
+ *
+ * Only plain integers are collapsed - see isCollapsibleSelection(). A selection
+ * like "007" or "*98" is left to the caller so its exact text survives; casting
+ * those to int would silently redisplay "007" as "7".
+ */
+function collapseSelectionRanges($keys) {
+    $nums = array();
+    foreach ($keys as $k) {
+        if (isCollapsibleSelection($k)) {
+            $nums[] = (int)$k;
+        }
+    }
+    if (empty($nums)) {
+        return '';
+    }
+
+    $nums = array_values(array_unique($nums));
+    sort($nums, SORT_NUMERIC);
+
+    $flush = function ($start, $prev) {
+        if ($start === $prev)     { return (string)$start; }
+        if ($prev - $start === 1) { return $start . ',' . $prev; }
+        return $start . '-' . $prev;
+    };
+
+    $parts = array();
+    $start = $prev = $nums[0];
+    $count = count($nums);
+
+    for ($i = 1; $i < $count; $i++) {
+        if ($nums[$i] === $prev + 1) {
+            $prev = $nums[$i];
+            continue;
+        }
+        $parts[] = $flush($start, $prev);
+        $start = $prev = $nums[$i];
+    }
+    $parts[] = $flush($start, $prev);
+
+    return implode(',', $parts);
+}
+
+/**
+ * Evaluate a time condition's calendar (or calendar group) at a given instant.
+ *
+ * $nowTs is a Unix timestamp (the driver does Carbon::createFromTimestamp), so
+ * it carries the simulated time straight through. Timezone is deliberately left
+ * null: setTimezone() bails on an empty value, which keeps the calendar's own
+ * timezone in place. Passing the time condition's timezone here would override
+ * it and make simulated results disagree with real-time ones.
+ *
+ * Returns true when the calendar matches at that instant, false when it does
+ * not, and null when we cannot tell - Calendar module absent or disabled, an id
+ * that no longer resolves, or a driver that threw. Callers treat null as
+ * "unknown" and leave the edge neutral rather than coloring an unverified state.
+ */
+function calendarIsCurrently($tc, $nowTs = null) {
+    if (empty($tc['calendar_id']) && empty($tc['calendar_group_id'])) {
+        return null;
+    }
+
+    try {
+        if (!\FreePBX::Modules()->checkStatus("calendar")) {
+            return null;
+        }
+
+        $cal = \FreePBX::Calendar();
+
+        if (!empty($tc['calendar_id'])) {
+            if (!method_exists($cal, 'matchCalendar')) {
+                return null;
+            }
+            return (bool) $cal->matchCalendar($tc['calendar_id'], $nowTs, null);
+        }
+
+        if (!method_exists($cal, 'matchGroup')) {
+            return null;
+        }
+        return (bool) $cal->matchGroup($tc['calendar_group_id'], $nowTs, null);
+
+    } catch (\Exception $e) {
+        freepbx_log(FPBX_LOG_WARNING, "dpviz: could not evaluate calendar for time condition: ".$e->getMessage());
+        return null;
+    } catch (\Throwable $e) {
+        // PHP 7+ Errors. Never reached on 5.6, where the class does not exist.
+        freepbx_log(FPBX_LOG_WARNING, "dpviz: could not evaluate calendar for time condition: ".$e->getMessage());
+        return null;
+    }
+}
+
 function lazyFetchRow(&$route, $table, $id, $query, $idcol, $multi = false, $postprocess = null) {
     global $db; // persistent FreePBX DB handle
 
-    // Run query
     $rows = $multi
         ? $db->getAll($query, [], DB_FETCHMODE_ASSOC)
         : $db->getRow($query, [], DB_FETCHMODE_ASSOC);
@@ -1218,8 +1331,15 @@ function lazyLoadRow(&$route, $table, $id, $cidnum = '') {
 						);
 
 				case 'calendar':
+				case 'calendargroup':
+						// The Calendar module keys several unrelated payloads by the same id
+						// (calendars, groups, calendar-raw, calendar-sync, outlook-details).
+						// Without the namespace filter getRow() returns whichever row MySQL
+						// hands back first - calendar-sync is a bare timestamp, calendar-raw
+						// is iCal text - and json_decode() then yields no name for the label.
+						$calNs = ($table === 'calendargroup') ? 'groups' : 'calendars';
 						return lazyFetchRow($route,$table,$id,
-						"SELECT * FROM kvstore_FreePBX_modules_Calendar WHERE `key` = " . q($id),
+						"SELECT * FROM kvstore_FreePBX_modules_Calendar WHERE `key` = " . q($id) . " AND `id` = " . q($calNs),
 								'key',
 								false,
 								function ($row) {
@@ -1567,6 +1687,10 @@ function lazyLoadRow(&$route, $table, $id, $cidnum = '') {
 													$row['time'] .= $month . $day . $dow . $time . checkTimeGroupLogic($tgd['time']) . "\l"; 
 												}
 										} else {
+												// no entries means no GotoIfTime, so the dialplan never matches
+												if (!DB::isError($details)) {
+														$row['iscurrently'] = false;
+												}
 												$row['time'] = "No times defined";
 										}
 										return $row;
@@ -1773,7 +1897,7 @@ function getLabel($destination, &$route, &$unresolvedDestinations, $selectionId 
         return "Feature Code: {$ext} - {$desc}";
     }
 
-    // Fallback — stash unresolved with selection id
+    // Fallback: stash unresolved with selection id
     $unresolvedDestinations[] = [
         'selection'   => $selectionId,
         'dest' => $destination

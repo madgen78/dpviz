@@ -87,7 +87,10 @@ if ($options['inuseby']){
 }
 
 if (empty($dproute)) {
-$header = "<div><h2>" . _('Error: Could not find inbound route for') ." ".$ext."</h2></div>";
+// $ext is request-supplied and this header is injected with jQuery .html(),
+// which executes scripts. Saved views are shared between admins and store ext
+// verbatim, so an unescaped value here is stored XSS, not just self-XSS.
+$header = "<div><h2>" . _('Error: Could not find inbound route for') ." ".htmlspecialchars($ext, ENT_QUOTES, 'UTF-8')."</h2></div>";
 }else{
 	dpp_load_tables($dproute);   # adds data for time conditions, IVRs, etc.
 
@@ -246,13 +249,14 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 	$direction=($horizontal== 1) ? 'LR' : 'TB';
 	$dynmembers= isset($options['dynmembers']) ? $options['dynmembers'] : '0';
 	$combineQueueRing= isset($options['combineQueueRing']) ? $options['combineQueueRing'] : '0';
-	$extOptional= isset($options['extOptional']) ? $options['extOptional'] : '0';
-	$fmfmOption= isset($options['fmfm']) ? $options['fmfm'] : '0';
+	$extOptional= isset($options['extOptional']) ? $options['extOptional'] : '1';
+	$fmfmOption= isset($options['fmfm']) ? $options['fmfm'] : '1';
 	$langOption= isset($options['lang']) ? $options['lang'] : 'en';
 	$minimal= isset($options['minimal']) ? $options['minimal'] : '1';
 	$stop=false; //reset on new call
 
 	if (!isset($route['parent_edge_code'])){$route['parent_edge_code']='';}
+	if (!isset($route['parent_edge_color'])){$route['parent_edge_color']='#000';}
 
 	if ($minimal){
 		$patterns = array(
@@ -337,7 +341,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
     
 			$origNodeId = $orig;
 			
-			$allDestinations=\FreePBX::Modules()->getDestinations();  //needed to load the <modules>.functions.incs
+			$allDestinations=\FreePBX::Dpviz()->safeGetDestinations();  //needed to load the <modules>.functions.incs
 			$modulef = module_functions::create();
 			$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 			
@@ -466,7 +470,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 										'fillcolor' => $color,
 										'color'     => $outline,
 										'penwidth'  => '2',
-										'style'     => 'rounded,filled'
+										'style'     => 'rounded,filled,dashed'
 								]);
 
 								if ($counter % 5 === 0) {
@@ -512,7 +516,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 						'fillcolor' => $color,
 						'color'     => $outline,
 						'penwidth'  => '2',
-						'style'     => 'rounded,filled'
+						'style'     => 'rounded,filled,dashed'
 				]);
 
 				$usageNode = $dpgraph->get($usageId);
@@ -546,11 +550,12 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 		$ptxt = $route['parent_node']->getAttribute('label', '');
 		$ntxt = $node->getAttribute('label', '');
 		
-		$edgeCases = ['TC', 'Call Flow Control'];
+		// match the prefix makeNode() writes, not any label containing "TC"
+		$edgeCases = ['TC: ', 'Call Flow Control: '];
 		$containsEdgecase = false;
 
 		foreach ($edgeCases as $needle) {
-				if (strpos($ptxt, $needle) !== false) {
+				if (strpos($ptxt, $needle) === 0) {
 						$containsEdgecase = true;
 						break;
 				}
@@ -821,7 +826,6 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 				// Speaker icon if applicable
 				$speaker = ($vmtype == 'u' || $vmtype == 'b') ? '🔊 ' : '';
 
-				// Extension name
 				$extname = '';
 				if (!empty($extension['name'])) {
 						$extname = sanitizeLabels($extension['name']);
@@ -833,14 +837,12 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 						$msgLabel = "\n" . $extension['mailbox']['label'];
 				}
 
-				// Email if present
 				$extemail = '';
 				if (!empty($extension['mailbox']['email'])) {
 						$extemail = "\n" . sanitizeLabels($extension['mailbox']['email']);
 						$extemail = str_replace(",", ",\n", $extemail);
 				}
 
-				// Final label
 				$label = $speaker . $vmnum . " " . $extname . " (" . $vm_array[$vmtype] . ")" . $msgLabel . $extemail;
 
 				makeNode($module, $vmnum, $label, $tooltip, $node, '', $options['sections']);
@@ -1016,29 +1018,35 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 				$maxwait = secondsToTimes($maxwait);
 			}
 			
-			$label.=$qnum . " " . sanitizeLabels($q['descr']) . "\n" . _('Strategy').": ".$q['data']['strategy']."\l" . $qRecName;
+			$label.=$qnum . " " . sanitizeLabels($q['descr']) . "\n" . _('Strategy').": ".(isset($q['data']['strategy']) ? $q['data']['strategy'] : '')."\l" . $qRecName;
 			$restrict=array(_('Call as Dialed'),_('No Follow-Me or Call Forward'),_('Extensions Only'));
 			$skipbusy=array(_('No'),_('Yes'),'Yes + (ringinuse=no)','Queue calls only (ringinuse=no)');
 			$mohclass=array('MoH Only',_('Ring Only'),_('Agent Ringing'));
 			$joinarray=array(''=>_('Always'),'free'=>_('No Free Agents'),'ready'=>_('No Ready Agents'),'nofreeagent'=>_('There are both logged in and no free agents'));
 			$noyes=array(_('No'),_('Yes'));
-			$maxcallers = ($q['data']['maxlen'] == 0) ? _('Unlimited') : $q['data']['maxlen'];
+			$qMaxlen = isset($q['data']['maxlen']) ? $q['data']['maxlen'] : 0;
+			$maxcallers = ($qMaxlen == 0) ? _('Unlimited') : $qMaxlen;
 			
-			if ($q['data']['announce-frequency']==0){
+			$announceFreq     = isset($q['data']['announce-frequency']) ? $q['data']['announce-frequency'] : 0;
+			$minAnnounceFreq  = isset($q['data']['min-announce-frequency']) ? $q['data']['min-announce-frequency'] : 0;
+			$announcePosition = isset($q['data']['announce-position']) ? $q['data']['announce-position'] : '';
+			$announceHoldtime = isset($q['data']['announce-holdtime']) ? $q['data']['announce-holdtime'] : '';
+			if ($announceFreq==0){
 				$position="["._('Caller Position')."]\n"._('Disabled')."\n\n";
 			}else{
 				$position="["._('Caller Position')."]\n"
-					._('Frequency').": ".secondsToTimes($q['data']['announce-frequency'])."\n"
-					._('Minimum Announcement Interval').": ".secondsToTimes($q['data']['min-announce-frequency'])."\n"
-					._('Announce Position').": ".ucfirst($q['data']['announce-position'])."\n"
-					._('Announce Hold Time').": ".ucfirst($q['data']['announce-holdtime'])."\n\n";
+					._('Frequency').": ".secondsToTimes($announceFreq)."\n"
+					._('Minimum Announcement Interval').": ".secondsToTimes($minAnnounceFreq)."\n"
+					._('Announce Position').": ".ucfirst($announcePosition)."\n"
+					._('Announce Hold Time').": ".ucfirst($announceHoldtime)."\n\n";
 			}
 
-			if ($q['data']['periodic-announce-frequency']==0){
-				$repeat='Disabled';
-				$edgeRepeat='';
+			$periodicAnnounceFreq = isset($q['data']['periodic-announce-frequency']) ? $q['data']['periodic-announce-frequency'] : 0;
+			if ($periodicAnnounceFreq==0){
+				$repeat=_('Disabled');
+				$edgeRepeat=" (" . _('announcement off') . ")";
 			}else{
-				$repeat=secondsToTimes($q['data']['periodic-announce-frequency']);
+				$repeat=secondsToTimes($periodicAnnounceFreq);
 				$edgeRepeat=" (" . _('every') . " ".$repeat.")";
 			}
 			
@@ -1066,27 +1074,48 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 					$periodic = "["._('Periodic Announcements')."]\n"._('Disabled')."\n";
 			}
 			
+			// Queue "data" can be sparse for queues that never had these options
+			// configured; guard every read (PHP 5.6-safe, no null coalescing).
+			$qStrategy        = isset($q['data']['strategy']) ? $q['data']['strategy'] : '';
+			$qAutofill        = isset($q['data']['autofill']) ? $q['data']['autofill'] : '';
+			$qSkipJoin        = isset($q['data']['skip_joinannounce']) ? $q['data']['skip_joinannounce'] : '';
+			$qRecording       = isset($q['data']['recording']) ? $q['data']['recording'] : '';
+			$qAnsweredElse    = isset($q['data']['answered_elsewhere']) ? $q['data']['answered_elsewhere'] : 0;
+			$qTimeout         = isset($q['data']['timeout']) ? $q['data']['timeout'] : 0;
+			$qRetry           = isset($q['data']['retry']) ? $q['data']['retry'] : 0;
+			$qWrapuptime      = isset($q['data']['wrapuptime']) ? $q['data']['wrapuptime'] : 0;
+			$qJoinempty       = isset($q['data']['joinempty']) ? $q['data']['joinempty'] : '';
+			$qLeavewhenempty  = isset($q['data']['leavewhenempty']) ? $q['data']['leavewhenempty'] : '';
+			$qUseCtx          = isset($q['use_queue_context']) ? $q['use_queue_context'] : 0;
+			$qCwignore        = isset($q['cwignore']) ? $q['cwignore'] : 0;
+			$qRinging         = isset($q['ringing']) ? $q['ringing'] : 0;
+			$restrictLabel    = isset($restrict[$qUseCtx]) ? $restrict[$qUseCtx] : '';
+			$skipbusyLabel    = isset($skipbusy[$qCwignore]) ? $skipbusy[$qCwignore] : '';
+			$mohLabel         = isset($mohclass[$qRinging]) ? $mohclass[$qRinging] : '';
+			$joinLabel        = isset($joinarray[$qSkipJoin]) ? $joinarray[$qSkipJoin] : '';
+			$answeredLabel    = isset($noyes[$qAnsweredElse]) ? $noyes[$qAnsweredElse] : '';
+
 			$tooltip=
 				"["._('General Settings')."]\n"
 				._('CID Prefix').": ".$cidPrefix."\n"
-				._('Strategy').": ".$q['data']['strategy']."\n"
-				._('Agent Restrictions').": ".$restrict[$q['use_queue_context']]."\n"
-				._('Autofill').": ".ucfirst($q['data']['autofill'])."\n"
-				._('Skip Busy Agents').": ".$skipbusy[$q['cwignore']]."\n"
-				._('Music On Hold Class').": ".$music." (".$mohclass[$q['ringing']].")\n"
+				._('Strategy').": ".$qStrategy."\n"
+				._('Agent Restrictions').": ".$restrictLabel."\n"
+				._('Autofill').": ".ucfirst($qAutofill)."\n"
+				._('Skip Busy Agents').": ".$skipbusyLabel."\n"
+				._('Music On Hold Class').": ".$music." (".$mohLabel.")\n"
 				._('Join Announcement').": " . findRecording($route, $recID) . "\n"
-				._('When').": " .$joinarray[$q['data']['skip_joinannounce']]. "\n"
-				._('Call Recording').": ".$q['data']['recording']."\n"
-				._('Mark calls answered elsewhere').": ".$noyes[$q['data']['answered_elsewhere']]."\n
+				._('When').": " .$joinLabel. "\n"
+				._('Call Recording').": ".$qRecording."\n"
+				._('Mark calls answered elsewhere').": ".$answeredLabel."\n
 				\n["._('Timing & Agent Options')."]\n"
 				._('Max Wait Time').": ".$maxwait."\n"
-				._('Agent Timeout').": ".secondsToTimes($q['data']['timeout'])."\n"
-				._('Agent Retry').": ".secondsToTimes($q['data']['retry'])."\n"
-				._('Wrap Up Time').": ".secondsToTimes($q['data']['wrapuptime'])."\n
+				._('Agent Timeout').": ".secondsToTimes($qTimeout)."\n"
+				._('Agent Retry').": ".secondsToTimes($qRetry)."\n"
+				._('Wrap Up Time').": ".secondsToTimes($qWrapuptime)."\n
 				\n["._('Capacity Options')."]\n"
 				._('Max Callers').": ".$maxcallers."\n"
-				._('Join Empty').": ".ucfirst($q['data']['joinempty'])."\n"
-				._('Leave Empty').": ".ucfirst($q['data']['leavewhenempty'])."\n
+				._('Join Empty').": ".ucfirst($qJoinempty)."\n"
+				._('Leave Empty').": ".ucfirst($qLeavewhenempty)."\n
 				\n".$position.$periodic;
 			
 			
@@ -1196,26 +1225,23 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 									if (isset($route['extensions'][$member])) {
 											$extension = &$route['extensions'][$member];
 
-											// Flags for static members
 											$flags = array(
 													'paused'   => in_array($member, $route['queues'][$qnum]['paused']),
 													'loggedin' => true,   // always logged in
 													'dynamic'  => false   // static member
 											);
 
-											// Resolve status
 											$status = resolveExtensionStatus($extension, 'queue_edge', $flags);
 
 											if ($status['icon'] !== '🟡' && $status['icon'] !== '⏸️') {
 													$status['icon'] = '';
 											}
 
-											// Edge label
 											$route['parent_edge_label'] = " " . $status['icon'] . _('Static') . $penalty;
 											$route['parent_edge_code']  = 'static';
 
 									} else {
-											// fallback if extension truly not found
+											// fallback if the extension was not found
 											$route['parent_edge_label'] = " " . _('Static') . $penalty;
 											$route['parent_edge_code']  = 'static';
 									}
@@ -1231,17 +1257,14 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 									if (isset($route['extensions'][$member])) {
 											$extension = &$route['extensions'][$member];
 
-											// Flags for dynamic members
 											$flags = [
 													'paused'   => in_array($member, $route['queues'][$qnum]['paused']),
 													'loggedin' => in_array($member, $route['queues'][$qnum]['loggedin']),
 													'dynamic'  => true
 											];
 
-											// Resolve status
 											$status = resolveExtensionStatus($extension, 'queue_edge', $flags);
 
-											// Edge label
 											$route['parent_edge_label'] = " " . $status['icon'] . _('Dynamic') . $penalty;
 											$route['parent_edge_code']  = 'dynamic';
 									}
@@ -1307,7 +1330,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 			}
 			
 			#Breakout Menus
-			if (is_numeric($q['ivr_id'])) {
+			if (is_numeric($q['ivr_id']) && $q['ivr_id'] > 0) {
 					$ivr = lazyLoadRow($route, 'ivrs', $q['ivr_id']);
 					if ($ivr) {
 							$route['parent_edge_label'] = " IVR Break Out" . $edgeRepeat;
@@ -1363,20 +1386,16 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 				$qlabel  = _('Ext')." ".$qextension."\n".sanitizeLabels($extension['name']);
 				$tooltip = _('Extension').": ".$qextension."\n"._('Name').": ".sanitizeLabels($extension['name']);
 
-				// Flags for single node
 				$flags = array(
 						'paused'   => false,  // single node can't be paused
 						'loggedin' => ($dynmembers && ($qnum!='' && in_array($qextension, $route['queues'][$qnum]['loggedin']))),
 						'dynamic'  => true
 				);
 
-				// Resolve status
 				$status = resolveExtensionStatus($extension, 'queue', $flags);
 
-				// Tooltip (append detailed info)
 				$tooltip .= buildExtTooltip($qextension, $route);
 
-				// Node appearance
 				$node->attribute('penwidth', '2');
 				switch ($status['icon']) {
 						case '⚪': $node->attribute('color', 'grey'); break;      // virtual
@@ -1563,13 +1582,10 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 						'dynamic'  => false
 				);
 
-				// Resolve status
 				$status = resolveExtensionStatus($extension, 'ringgroup_node', $flags);
 
-				// Tooltip (append detailed info)
 				$tooltip .= buildExtTooltip($rgext, $route);
 
-				// Node appearance
 				$node->attribute('penwidth', '2');
 				switch ($status['icon']) {
 						case '⚪': $node->attribute('color', 'grey'); break;    // virtual
@@ -1849,9 +1865,34 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 					});
 
 
-					$labelList = array_map(function ($e) {
-							return $e['label'];
-					}, $entries);
+					// Numeric keypresses collapse into a single "Selections 0-9" line so a
+					// destination caught by every digit no longer stacks ten lines onto the
+					// edge. Invalid Input and Timeout keep their own lines - they are not
+					// keypresses - and the collapsed line sits where the first digit was, so
+					// the ordering established by the sort above is preserved.
+					$labelList  = array();
+					$selKeys    = array();
+					$selSlot    = null;
+
+					foreach ($entries as $e) {
+							$s = isset($e['sel']) ? $e['sel'] : '';
+							if (isCollapsibleSelection($s)) {
+									if ($selSlot === null) {
+											$selSlot = count($labelList);
+											$labelList[] = null; // reserved, filled in below
+									}
+									$selKeys[] = $s;
+							} else {
+									$labelList[] = $e['label'];
+							}
+					}
+
+					if ($selSlot !== null) {
+							$collapsed = collapseSelectionRanges($selKeys);
+							$labelList[$selSlot] = (count($selKeys) === 1)
+									? sprintf(_('Selection %s'), $collapsed)
+									: sprintf(_('Selections %s'), $collapsed);
+					}
 
 					$label = implode(",\n", $labelList);
 
@@ -1859,10 +1900,8 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 
 							$route['parent_edge_label'] = "";
 							$sel = $entries[0]['sel'];
-							// Build insert node
 							$insertDestNode = insertDestination($dpgraph, 'sel-' . $inum . '&' . $sel . '|' . $dest);
 
-							// Create edge
 							$edge = $dpgraph->beginEdge([$node, $insertDestNode]);
 							$edgeLabel = " " . $label;
 
@@ -1900,7 +1939,12 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 		#
 		# Inbound Routes
 		#
-  } elseif (preg_match("/^from-trunk,((?:[^\[&,]+(?:\[[^\]]+\])?))(&[^,]*)?,(\d+),(.+)/", $destination, $matches)) {
+		# The DID may be an Asterisk pattern with any number of character classes,
+		# and those classes may themselves contain commas (e.g.
+		# _800565[0-6,8][0-3,6-9]22). Consume whole [...] groups so their commas
+		# are not mistaken for the field separator, and allow literals and classes
+		# to repeat in any order.
+  } elseif (preg_match("/^from-trunk,((?:[^\[&,]|\[[^\]]*\])*)(&[^,]*)?,(\d+),(.+)/", $destination, $matches)) {
 		$module   = "Incoming";
 		$num = $matches[1];
 		
@@ -1915,7 +1959,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 		$currentLocale = preg_replace('/\..*$/', '', $currentLocale);
 		
 		if ($incoming) {
-			// Success — $incoming is the row from DB
+			// $incoming is the row from DB
 			if (!empty($numcid)) {
 					$numcidd = " / " . formatPhoneNumbers($numcid,$currentLocale);
 			} else {
@@ -2268,7 +2312,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 													 . $tz;
 						}
 				} elseif (!empty($tc['calendar_group_id'])) {
-						$cal = lazyLoadRow($route, 'calendar', $tc['calendar_group_id']);
+						$cal = lazyLoadRow($route, 'calendargroup', $tc['calendar_group_id']);
 						if (!empty($cal)) {
 								$tgLabel = sanitizeLabels($cal['name']);
 								$tgLink  = 'config.php?display=calendargroups&action=edit&id='.$tc['calendar_group_id'];
@@ -2299,6 +2343,13 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 			}
 			$tgTooltip=sanitizeLabels($tgTooltip);
 			$canAddSelection = hasSectionAccess($options['sections'], 'timegroups');
+
+			// Evaluated at $now, which is the simulated instant when custom_datetime
+			// is set and the real clock otherwise - so calendar edges track the same
+			// moment the node header advertises, exactly as time groups do.
+			$calMatch = ($tc['mode'] === 'calendar-group')
+					  ? calendarIsCurrently($tc, $now->getTimestamp())
+					  : null;
 			
 			# Now set the current node to be the parent and recurse on both the true and false branches
 			$route['parent_edge_label'] = " "._('Match').": ".$tgLabel;
@@ -2312,9 +2363,14 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 				$route['parent_edge_color']='#228B22';
 			}elseif ($tc['mode'] === 'time-group' && isset($tg['iscurrently']) && !$tg['iscurrently']){
 				$route['parent_edge_color']='red';
-			}elseif ($tc['mode'] === 'calendar-group' ){
+			}elseif ($calMatch === true){
+				$route['parent_edge_color']='#228B22';
+			}elseif ($calMatch === false){
+				$route['parent_edge_color']='red';
+			}else{
+				//a mode we cannot evaluate
 				$route['parent_edge_color']='#000';
-			}	
+			}
 			
 			
 			
@@ -2364,7 +2420,12 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 					$route['parent_edge_color']='red';
 			}elseif ($tc['mode'] === 'time-group' && isset($tg['iscurrently']) && !$tg['iscurrently']){
 					$route['parent_edge_color']='#228B22';
-			}elseif ($tc['mode'] === 'calendar-group' ){
+			}elseif ($calMatch === true){
+					$route['parent_edge_color']='red';
+			}elseif ($calMatch === false){
+					$route['parent_edge_color']='#228B22';
+			}else{
+				//a mode we cannot evaluate
 				$route['parent_edge_color']='#000';
 			}
 			
@@ -2462,7 +2523,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 			
 			if (!empty($dynrt['routes'])) {
 
-					// Step 1: Group entries by destination
+					// Group entries by destination
 					$grouped = array();
 
 					foreach ($dynrt['routes'] as $selid => $ent) {
@@ -2470,7 +2531,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 							$dest = $ent['dest'];
 							$sel  = $ent['selection'];
 
-							// Format label similar to IVR, but can tweak wording if wanted
+							// Same label format as the IVR routes
 							$label = sprintf(_('Match: %s'), sanitizeLabels($sel));
 
 							if (!empty($ent['description'])) {
@@ -2484,29 +2545,26 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 							];
 					}
 
-					// Step 2: Process grouped destinations
+					// Process grouped destinations
 					foreach ($grouped as $dest => $entries) {
 
 							$labelList = array_map(function ($e) {
 									return $e['label'];
 							}, $entries);
 
-							// Combine labels
 							$edgeLabel = implode(",\n", $labelList);
 
-							// Case A: Single match AND insertnode enabled → insert node
+							// single match with insertnode enabled: insert a node
 							if (count($entries) === 1 && !empty($options['insertnode'])) {
 
 									$route['parent_edge_label'] = "";
 									$sel  = $entries[0]['sel'];
 
-									// Create insert node
 									$insertDestNode = insertDestination(
 											$dpgraph,
 											'dyn-' . $dynnum . '&' . $sel . '|' . $dest
 									);
 
-									// Create edge
 									$edge = $dpgraph->beginEdge([$node, $insertDestNode]);
 
 									$edge->attribute('labeltooltip', $edgeLabel);
@@ -2520,7 +2578,7 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 									dpp_follow_destinations($route, $dest . ',' . $dynLang, '', $options);
 
 							} else {
-									// Case B: Multiple matches → collapsed single edge
+									// multiple matches: collapse into one edge
 									$route['parent_edge_label'] = " " . $edgeLabel;
 									$route['parent_node']       = $node;
 									
@@ -2667,7 +2725,12 @@ function dpp_follow_destinations (&$route, $destination, $optional, $options) {
 			
 			#check current status and set path to active
 			list($dactive, $nactive) = getDayNightStatus($daynightnum);
-			
+
+			// getDayNightStatus() returns ["",""] when the DAYNIGHT key is
+			// unset or unreadable. FreePBX's dialplan treats an unset key as
+			// Day, so default to Day to keep the active path consistent.
+			$cmode = _('Day');
+
 			if ($dactive) {
 					//$color = '#b6e3b6';
 					$cmode = _('Day');

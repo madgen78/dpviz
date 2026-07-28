@@ -167,6 +167,179 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
     }
 
 
+    /**
+     * Reject cross-site requests to state-changing commands.
+     *
+     * The framework already referer-checks, but only when the CHECKREFERER
+     * config setting is enabled -- a system-wide toggle this module does not
+     * control and an admin can switch off. This repeats the check locally so
+     * dpviz's write endpoints defend themselves either way, and additionally
+     * honors Origin, which the framework does not look at.
+     *
+     * By construction this can never reject a request the framework would
+     * have accepted with CHECKREFERER on: that path already required a
+     * same-host Referer, which satisfies this too.
+     */
+    protected function requireSameOrigin() {
+        $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+        if ($host === '') {
+            return $this->denyCrossOrigin();
+        }
+
+        // A cross-site <form> cannot set a custom header, and a cross-origin
+        // fetch that tries one is stopped by the CORS preflight, so this
+        // header is proof the call came from our own page's JavaScript.
+        if (!empty($_SERVER['HTTP_X_DPVIZ_REQUEST'])) {
+            return true;
+        }
+
+        // Origin first (sent on cross-origin form posts, so it is the more
+        // reliable signal), then Referer. First one present decides.
+        foreach (array('HTTP_ORIGIN', 'HTTP_REFERER') as $key) {
+            if (empty($_SERVER[$key])) {
+                continue;
+            }
+            $parsed = parse_url($_SERVER[$key]);
+            if (empty($parsed['host'])) {
+                continue;
+            }
+            $candidate = $parsed['host'] . (isset($parsed['port']) ? ':' . $parsed['port'] : '');
+            return ($candidate === $host) ? true : $this->denyCrossOrigin();
+        }
+
+        return $this->denyCrossOrigin();
+    }
+
+    protected function denyCrossOrigin() {
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+            http_response_code(403);
+        }
+        echo json_encode(array(
+            'status'  => 'error',
+            'message' => _('Request rejected: cross-site or unverifiable origin.')
+        ));
+        exit;
+    }
+
+    /**
+     * Does the logged-in admin hold the given FreePBX section (ACL) permission?
+     *
+     * Section names are the menuitem keys from each module's module.xml -- the
+     * same keys config.php gates page display on (ivr, queues, did, ...). We
+     * defer to ampuser::checkSection() so the '*' wildcard and the legacy
+     * ampuser conversion path are handled exactly as core handles them.
+     *
+     * Returns false when there is no authenticated admin in the session. That
+     * matters: Ajax.class.php skips authentication entirely for requests
+     * originating from 127.0.0.1, so without this the loopback interface would
+     * be an unauthenticated write path into the dialplan.
+     */
+    protected function userHasSection($section) {
+        if ($section === '' || !isset($_SESSION['AMP_user'])) {
+            return false;
+        }
+        $user = $_SESSION['AMP_user'];
+        if (!is_object($user) || !method_exists($user, 'checkSection')) {
+            return false;
+        }
+        return (bool)$user->checkSection($section);
+    }
+
+    /**
+     * Gate a state-changing ajax command on a section permission.
+     *
+     * Emits a JSON error and exits when the admin lacks the permission, so
+     * callers can treat a return as "allowed". The graph only draws the
+     * add/edit affordances a user has access to, but that is a client-side
+     * decision -- this is the server-side enforcement behind it.
+     */
+    protected function requireSection($section) {
+        if ($this->userHasSection($section)) {
+            return true;
+        }
+
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+            http_response_code(403);
+        }
+        echo json_encode(array(
+            'status'  => 'error',
+            'message' => _('Permission denied: your account does not have access to this module.')
+        ));
+        exit;
+    }
+
+    /**
+     * Maps the module names the create-destination modal posts to the FreePBX
+     * section that governs them. Anything not listed here is refused outright.
+     */
+    protected function createDestinationSection($module) {
+        $map = array(
+            'Announcements'      => 'announcement',
+            'Call Flow Control'  => 'daynight',
+            'Call Recording'     => 'callrecording',
+            'Dynamic Routes'     => 'dynroute',
+            'Inbound Routes'     => 'did',
+            'IVR'                => 'ivr',
+            'Languages'          => 'languages',
+            'Misc Destinations'  => 'miscdests',
+            'Queues'             => 'queues',
+            'Ring Groups'        => 'ringgroups',
+            'Set CallerID'       => 'setcid',
+            'Time Conditions'    => 'timeconditions'
+        );
+
+        return isset($map[$module]) ? $map[$module] : '';
+    }
+
+    /**
+     * Resolve a requested audio file to a real path inside one of the two
+     * directories this module is allowed to serve, or false.
+     *
+     * The roots come from FreePBX config where available so installs that move
+     * ASTVARLIBDIR/ASTSPOOLDIR keep working; the literals are the stock paths
+     * and only act as a fallback.
+     */
+    protected function resolveAudioPath($filename) {
+        $varlib = '/var/lib/asterisk';
+        $spool  = '/var/spool/asterisk';
+        try {
+            $cfg = \FreePBX::Config();
+            $v = $cfg->get('ASTVARLIBDIR');
+            $s = $cfg->get('ASTSPOOLDIR');
+            if (!empty($v)) { $varlib = $v; }
+            if (!empty($s)) { $spool  = $s; }
+        } catch (\Exception $e) {
+            // fall back to the stock paths
+        }
+
+        $roots = array(
+            rtrim($varlib, '/') . '/sounds',
+            rtrim($spool, '/') . '/voicemail'
+        );
+
+        $real = realpath($filename);
+        if ($real === false || !is_file($real)) {
+            return false;
+        }
+
+        foreach ($roots as $root) {
+            $realRoot = realpath($root);
+            if ($realRoot === false) {
+                continue;
+            }
+            // Trailing separator matters: without it "/var/lib/asterisk/sounds"
+            // would also prefix-match "/var/lib/asterisk/sounds-stolen/x.wav"
+            $realRoot = rtrim($realRoot, '/') . '/';
+            if (strpos($real, $realRoot) === 0) {
+                return $real;
+            }
+        }
+
+        return false;
+    }
+
     protected function getCurrentUsername() {
         if (isset($_SESSION['AMP_user'])) {
             if (is_string($_SESSION['AMP_user']) && $_SESSION['AMP_user'] !== '') {
@@ -466,7 +639,6 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 						case 'saveview':
 						case 'deleteview':
 						case 'feedback':
-						case 'coffee':
 						case 'nodestselect':
 						case 'save_nodest':
 						case 'create_destination':
@@ -488,6 +660,18 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 
     public function ajaxHandler() {
         $action = isset($_REQUEST['command']) ? $_REQUEST['command'] : '';
+
+        // Every command that changes state is origin-checked here, in one
+        // place, so a new endpoint cannot quietly skip the gate.
+        $stateChanging = array(
+            'save_options', 'save_whatsnew', 'saveview', 'deleteview',
+            'save_nodest', 'create_destination', 'add_ivr_entry',
+            'add_dyn_entry', 'set_simtime'
+        );
+        if (in_array($action, $stateChanging, true)) {
+            $this->requireSameOrigin();
+        }
+
         switch ($action) {
             case 'save_options':
                 $panzoom = isset($_POST['panzoom']) ? $_POST['panzoom'] : '';
@@ -759,7 +943,14 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										$filename .= ".wav";
 									}
 
-									if (file_exists($filename) && is_readable($filename)) {
+									// Confine the read to the two directories this endpoint is
+									// meant to serve. realpath() collapses ../ and resolves
+									// symlinks first, so the comparison is against the true
+									// on-disk path, not the string the browser sent. Without
+									// this, any .wav anywhere on the box was readable.
+									$filename = $this->resolveAudioPath($filename);
+
+									if ($filename !== false && is_readable($filename)) {
 											$xFilename = str_replace(
 													array("/var/lib/asterisk/sounds/", "/var/spool/asterisk/voicemail/"),
 													"",
@@ -781,6 +972,10 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
                 exit;
 
 						case 'saveview':
+								// Saved views are shared by every admin, so writing one is
+								// only for admins who actually hold the dpviz section
+								$this->requireSection('dpviz');
+
 								try {
 										$description = isset($_POST['description']) ? trim($_POST['description']) : '';
 										$ext         = isset($_POST['ext']) ? trim($_POST['ext']) : '';
@@ -816,7 +1011,6 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 																VALUES (:description, :ext, :jump, :skip)";
 										}
 
-										// Execute query
 										$stmt = $this->db->prepare($sql);
 										$stmt->execute($params);
 
@@ -840,6 +1034,8 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
                 exit;
 								
 						case 'deleteview':
+								$this->requireSection('dpviz');
+
 								try {
 										if (isset($_POST['id']) && $_POST['id'] !== '') {
 												$viewId = $_POST['id'];
@@ -857,7 +1053,6 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 									exit;
 
 						case 'feedback':
-								// Get data from form
 								$message = isset($_POST['message']) ? $_POST['message'] : '';
 								$email   = isset($_POST['email']) ? $_POST['email'] : '';
 								$lang   = isset($_POST['lang']) ? $_POST['lang'] : '';
@@ -885,14 +1080,10 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 								}
 								exit;
 
-						case 'coffee':
-								return $this->sendAction('coffee');
-								exit;
-								
 						case 'nodestselect':
 								$freepbx = \FreePBX::create();
 								$vm = $freepbx->Modules->loadFunctionsInc('voicemail');
-								$destinations = $freepbx->Modules->getDestinations();
+								$destinations = $this->safeGetDestinations();
 								
 								$grouped = [];
 
@@ -1002,7 +1193,10 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										$id      = $m[1];
 								}
 								
-								if (preg_match("/^(?:no|insert)Destfrom-trunk,((?:[^\[&,]+(?:\[[^\]]+\])?))(&[^,]*)?,(\d+),(.+)/", $titleText, $m)) {
+								// Same pattern rule as the from-trunk branch in process.php: a DID
+								// can carry several character classes, and commas inside them are
+								// part of the pattern, not field separators.
+								if (preg_match("/^(?:no|insert)Destfrom-trunk,((?:[^\[&,]|\[[^\]]*\])*)(&[^,]*)?,(\d+),(.+)/", $titleText, $m)) {
 										$context = 'from-trunk';
 										$id      = str_replace("ANY", "", $m[1]);;
 										$cid     = str_replace("&", "", $m[2]);
@@ -1013,23 +1207,24 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										exit;
 								}
 
-								// Map context -> table/column
+								// Map context -> table/column, plus the FreePBX section that
+								// governs the object whose destination we are about to rewrite
 								$map = [
-										'from-trunk'                => ['table' => 'incoming',       'key_cols' => ['extension','cidnum'], 'dest_col' => 'destination'],
-										'app-announcement'          => ['table' => 'announcement',   'key_cols' => ['announcement_id'],    'dest_col' => 'post_dest'],
-										'app-daynight'              => ['table' => 'daynight',       'key_cols' => ['ext','dmode'],        'dest_col' => 'dest'],
-										'app-languages'             => ['table' => 'languages',      'key_cols' => ['language_id'],        'dest_col' => 'dest'],
-										'app-setcid'                => ['table' => 'setcid',         'key_cols' => ['cid_id'],             'dest_col' => 'dest'],
-										'dynrouteinvalid'           => ['table' => 'dynroute',       'key_cols' => ['id'],                 'dest_col' => 'invalid_dest'],
-										'dynroutedefault'           => ['table' => 'dynroute',       'key_cols' => ['id'],                 'dest_col' => 'default_dest'],
-										'ext-callrecording'         => ['table' => 'callrecording',  'key_cols' => ['callrecording_id'],   'dest_col' => 'dest'],
-										'ext-group'                 => ['table' => 'ringgroups',     'key_cols' => ['grpnum'],             'dest_col' => 'postdest'],
-										'ext-queues'                => ['table' => 'queues_config',  'key_cols' => ['extension'],          'dest_col' => 'dest'],
-										'ivrinvalid'                => ['table' => 'ivr_details',    'key_cols' => ['id'],                 'dest_col' => 'invalid_destination'],
-										'ivrtimeout'                => ['table' => 'ivr_details',    'key_cols' => ['id'],                 'dest_col' => 'timeout_destination'],
-										'ivrentries'                => ['table' => 'ivr_entries',    'key_cols' => ['ivr_id','selection'], 'dest_col' => 'dest'],
-										'timeconditionstruegoto'    => ['table' => 'timeconditions', 'key_cols' => ['timeconditions_id'],  'dest_col' => 'truegoto'],
-										'timeconditionsfalsegoto'   => ['table' => 'timeconditions', 'key_cols' => ['timeconditions_id'],  'dest_col' => 'falsegoto'],
+										'from-trunk'                => ['table' => 'incoming',       'key_cols' => ['extension','cidnum'], 'dest_col' => 'destination',          'section' => 'did'],
+										'app-announcement'          => ['table' => 'announcement',   'key_cols' => ['announcement_id'],    'dest_col' => 'post_dest',            'section' => 'announcement'],
+										'app-daynight'              => ['table' => 'daynight',       'key_cols' => ['ext','dmode'],        'dest_col' => 'dest',                 'section' => 'daynight'],
+										'app-languages'             => ['table' => 'languages',      'key_cols' => ['language_id'],        'dest_col' => 'dest',                 'section' => 'languages'],
+										'app-setcid'                => ['table' => 'setcid',         'key_cols' => ['cid_id'],             'dest_col' => 'dest',                 'section' => 'setcid'],
+										'dynrouteinvalid'           => ['table' => 'dynroute',       'key_cols' => ['id'],                 'dest_col' => 'invalid_dest',         'section' => 'dynroute'],
+										'dynroutedefault'           => ['table' => 'dynroute',       'key_cols' => ['id'],                 'dest_col' => 'default_dest',         'section' => 'dynroute'],
+										'ext-callrecording'         => ['table' => 'callrecording',  'key_cols' => ['callrecording_id'],   'dest_col' => 'dest',                 'section' => 'callrecording'],
+										'ext-group'                 => ['table' => 'ringgroups',     'key_cols' => ['grpnum'],             'dest_col' => 'postdest',             'section' => 'ringgroups'],
+										'ext-queues'                => ['table' => 'queues_config',  'key_cols' => ['extension'],          'dest_col' => 'dest',                 'section' => 'queues'],
+										'ivrinvalid'                => ['table' => 'ivr_details',    'key_cols' => ['id'],                 'dest_col' => 'invalid_destination',  'section' => 'ivr'],
+										'ivrtimeout'                => ['table' => 'ivr_details',    'key_cols' => ['id'],                 'dest_col' => 'timeout_destination',  'section' => 'ivr'],
+										'ivrentries'                => ['table' => 'ivr_entries',    'key_cols' => ['ivr_id','selection'], 'dest_col' => 'dest',                 'section' => 'ivr'],
+										'timeconditionstruegoto'    => ['table' => 'timeconditions', 'key_cols' => ['timeconditions_id'],  'dest_col' => 'truegoto',             'section' => 'timeconditions'],
+										'timeconditionsfalsegoto'   => ['table' => 'timeconditions', 'key_cols' => ['timeconditions_id'],  'dest_col' => 'falsegoto',            'section' => 'timeconditions'],
 										// add more mappings later...
 								];
 
@@ -1038,11 +1233,14 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										exit;
 								}
 
+								// Enforce the ACL on the object being modified. New map
+								// entries must carry a 'section' or they are refused.
+								$this->requireSection(isset($map[$context]['section']) ? $map[$context]['section'] : '');
+
 								$table   = $map[$context]['table'];
 								$keyCols = $map[$context]['key_cols'];
 								$destCol = $map[$context]['dest_col'];
 
-								// Initialize
 								$where  = [];
 								$params = [':dest' => $destination];
 
@@ -1111,8 +1309,12 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										exit;
 								}
 
+								// Creating a destination means creating an object in another
+								// module -- require that module's section, not just a dpviz login
+								$this->requireSection($this->createDestinationSection($module));
+
 								try {
-									
+
 										switch ($module) {
 											
 												case 'Announcements':
@@ -1125,7 +1327,10 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 																exit;
 														}
 												
-														$id = dpviz_announcement_add($name, $destination, !empty($input['recording_id']) ? $input['recording_id'] : 0);
+														$recId = !empty($input['recording_id']) ? $input['recording_id'] : 0;
+
+														// Use the Announcements module's own API instead of a raw INSERT
+														$id = \FreePBX::Announcement()->addAnnouncement($name, $recId, 0, $destination, 0, 0, '');
 														
 														// Build FreePBX destination string
 														$value = "app-announcement-" . $id . ",s,1";
@@ -1216,7 +1421,18 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 																exit;
 														}
 														
-														$id = dpviz_callrecording_add($name,$input['recordingmode'],$destination);
+														$recMode = isset($input['recordingmode']) ? $input['recordingmode'] : '';
+
+														// Use the Call Recording module's own API instead of a raw INSERT
+														$id = \FreePBX::Callrecording()->add($name, $recMode, $destination);
+
+														if (empty($id)) {
+																echo json_encode(array(
+																		'status'  => 'error',
+																		'message' => _('Could not create Call Recording.')
+																));
+																exit;
+														}
 														
 														// Build FreePBX destination string
 														$value = "ext-callrecording," . $id . ",1";
@@ -1370,7 +1586,55 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 																]);
 																exit;
 														}
-														$id = dpviz_ivr_add($name, $input['timeout_time'], $input['ivrEntries'], !empty($input['recording_id']) ? $input['recording_id'] : 0);
+														$recId = !empty($input['recording_id']) ? $input['recording_id'] : 0;
+
+														$ivrData = array(
+																'id'                      => '',
+																'name'                    => $name,
+																'description'             => '',
+																'announcement'            => (int)$recId,
+																'directdial'              => 'Disabled',
+																'invalid_loops'           => 3,
+																'invalid_retry_recording' => 'default',
+																'invalid_destination'     => 'app-blackhole,zapateller,1',
+																'timeout_enabled'         => null,
+																'invalid_recording'       => 'default',
+																'retvm'                   => '',
+																'timeout_time'            => $input['timeout_time'],
+																'timeout_recording'       => 'default',
+																'timeout_retry_recording' => 'default',
+																'timeout_destination'     => 'app-blackhole,zapateller,1',
+																'timeout_loops'           => 3,
+																'timeout_append_announce' => 0,
+																'invalid_append_announce' => 0,
+																'timeout_ivr_ret'         => 0,
+																'invalid_ivr_ret'         => 0,
+																'alertinfo'               => '',
+																'rvolume'                 => 0
+														);
+
+														if (dpviz_ivr_details_has_column('strict_dial_timeout')) {
+																$ivrData['strict_dial_timeout'] = 2;
+														}
+
+														// Use the IVR module's own API instead of raw INSERTs
+														$ivr = \FreePBX::Ivr();
+														$id  = $ivr->saveDetails($ivrData);
+
+														if (!empty($input['ivrEntries']) && is_array($input['ivrEntries'])) {
+																$ivrEntries = array();
+																foreach ($input['ivrEntries'] as $e) {
+																		$ivrEntries[] = array(
+																				'ivr_id'    => $id,
+																				'selection' => $e['digit'],
+																				'dest'      => $e['dest'],
+																				'ivr_ret'   => 0
+																		);
+																}
+																if (!empty($ivrEntries)) {
+																		$ivr->saveEntry($id, $ivrEntries);
+																}
+														}
 														
 														// Build FreePBX destination string
 														$value = "ivr-" . $id . ",s,1";
@@ -1686,7 +1950,7 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 																]);
 																exit;
 														}
-														// Validation — require at least one of the three IDs
+														// require at least one of the three IDs
 														if (
 																empty($input['timegroup_id']) &&
 																empty($input['calendar_id']) &&
@@ -1795,6 +2059,8 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 
 								$ivrId = (int)$m[1];
 
+								$this->requireSection('ivr');
+
 								// Check for duplicates
 								if ($this->ivrEntryExists($ivrId, $digit)) {
 										echo json_encode([
@@ -1804,16 +2070,26 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										exit;
 								}
 								
-								$sql = "INSERT INTO ivr_entries (ivr_id, selection, dest)
-												VALUES (?, ?, ?)";
+								$ivr = \FreePBX::Ivr();
 
-								$stmt = $this->db->prepare($sql);
+								// Read existing entries, append the new one, then save the full
+								// set back through the IVR module instead of a raw INSERT
+								$allEntries = $ivr->getAllEntries();
+								$entries = (isset($allEntries[$ivrId]) && is_array($allEntries[$ivrId])) ? $allEntries[$ivrId] : array();
 
-								if ($stmt->execute([$ivrId, $digit, $destination])) {
+								$entries[] = array(
+										'ivr_id'    => $ivrId,
+										'selection' => $digit,
+										'dest'      => $destination,
+										'ivr_ret'   => 0
+								);
+
+								try {
+										$ivr->saveEntry($ivrId, $entries);
 										needreload();
 										echo json_encode(['status' => 'success']);
-								} else {
-										echo json_encode(['status' => 'error', 'message' => 'Insert failed.']);
+								} catch (\Exception $e) {
+										echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 								}
 
 								exit;
@@ -1845,6 +2121,8 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 
 								$dynId = (int)$m[1];
 
+								$this->requireSection('dynroute');
+
 								// Check for duplicates
 								if ($this->dynEntryExists($dynId, $digit)) {
 										echo json_encode([
@@ -1854,16 +2132,26 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										exit;
 								}
 
-								$sql = "INSERT INTO dynroute_dests (dynroute_id, selection, dest)
-												VALUES (?, ?, ?)";
+								$dyn = \FreePBX::Dynroute();
 
-								$stmt = $this->db->prepare($sql);
+								// Read existing entries, append the new one, then save the full
+								// set back through the Dynamic Routes module instead of a raw INSERT
+								$allEntries = $dyn->getAllEntries();
+								$entries = (isset($allEntries[$dynId]) && is_array($allEntries[$dynId])) ? $allEntries[$dynId] : array();
 
-								if ($stmt->execute([$dynId, $digit, $destination])) {
+								$entries[] = array(
+										'dynroute_id' => $dynId,
+										'selection'   => $digit,
+										'dest'        => $destination,
+										'description' => ''
+								);
+
+								try {
+										$dyn->saveEntry($dynId, $entries);
 										needreload();
 										echo json_encode(['status' => 'success']);
-								} else {
-										echo json_encode(['status' => 'error', 'message' => 'Insert failed.']);
+								} catch (\Exception $e) {
+										echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 								}
 
 								exit;
@@ -1871,17 +2159,13 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 						case 'list_timegroups':
 								header('Content-Type: application/json; charset=utf-8');
 								try {
-										// BMO object
 										$tc = \FreePBX::Timeconditions();
-										// Returns array like [id => description]
 										$groupsRaw = $tc->listTimegroups();
 
 										if (is_array($groupsRaw)) {
 												$groups = array();
 												foreach ($groupsRaw as $row) {
-														// id comes from [0] or [value]
 														$id   = isset($row['value']) ? $row['value'] : $row[0];
-														// name/description comes from [1]
 														$desc = isset($row[1]) ? $row[1] : $id;
 
 														$groups[] = array(
@@ -1964,17 +2248,13 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 						case 'list_languages':
 								header('Content-Type: application/json; charset=utf-8');
 								try {
-										// BMO object
 										$lang = \FreePBX::Soundlang();
-										// Returns array like [id => description]
 										$groupsRaw = $lang->getLanguages();
 
 										if (is_array($groupsRaw)) {
 												$groups = array();
 												foreach ($groupsRaw as $row) {
-														// id comes from [0] or [value]
 														$id   = isset($row['lang_code']) ? $row['lang_code'] : $row[0];
-														// name/description comes from [1]
 														$desc = isset($row['description']) ? $row['description'] : $id;
 														$groups[] = array(
 																'lang_code'   => (string)$id,
@@ -1998,17 +2278,13 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 						case 'list_music':
 								header('Content-Type: application/json; charset=utf-8');
 								try {
-										// BMO object
 										$music = \FreePBX::Music();
-										// Returns array like [id => description]
 										$groupsRaw = $music->getCategories();
 
 										if (is_array($groupsRaw)) {
 												$groups = array();
 												foreach ($groupsRaw as $row) {
-														// id comes from [0] or [value]
 														$id   = isset($row['id']) ? $row['id'] : $row[0];
-														// name/description comes from [1]
 														$desc = isset($row['category']) ? $row['category'] : $id;
 														$groups[] = array(
 																'id'          => (string)$id,
@@ -2291,6 +2567,65 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 				return $stmt->fetchColumn() > 0;
 		}
 
+		/**
+		 * Wrapper around \FreePBX::Modules()->getDestinations().
+		 *
+		 * getDestinations() runs every installed module's legacy
+		 * <module>_destinations() function. A single stale third-party module
+		 * (e.g. an old calendar that still reads $group['description']) can raise
+		 * an E_NOTICE / E_WARNING which Whoops promotes to an ErrorException; in
+		 * dpviz's JSON/AJAX context that becomes a hard HTTP 500 that takes down
+		 * the whole graph. We install a temporary error handler that swallows
+		 * (and logs) non-fatal notices/warnings raised while destinations load,
+		 * so one broken module degrades gracefully instead of 500-ing dpviz.
+		 * Real errors still propagate. PHP 5.6 safe (finally is 5.5+).
+		 *
+		 * @param array $restrict Optional module restrict list, passed through.
+		 * @return array          Destinations, or [] if the call itself throws.
+		 */
+		public function safeGetDestinations($restrict = array()) {
+				// Non-fatal error types we swallow. Anything else (recoverable /
+				// fatal) is left to normal handling by returning false below.
+				$swallow = E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT | E_USER_NOTICE | E_USER_WARNING | E_USER_DEPRECATED;
+
+				set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($swallow) {
+						// Respect the @ suppression operator on all PHP versions.
+						if (!(error_reporting() & $errno)) {
+								return false;
+						}
+						// Let anything outside our non-fatal set fall through to
+						// the normal (Whoops) handler.
+						if (!($errno & $swallow)) {
+								return false;
+						}
+						freepbx_log(FPBX_LOG_WARNING, sprintf(
+								"dpviz: suppressed a non-fatal error while loading module destinations: %s in %s on line %d",
+								$errstr, $errfile, $errline
+						));
+						return true; // handled; do not promote to an exception
+				});
+
+				try {
+						return \FreePBX::Modules()->getDestinations($restrict);
+				} catch (\Exception $e) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(
+								"dpviz: getDestinations() threw while loading module destinations: %s in %s on line %d",
+								$e->getMessage(), $e->getFile(), $e->getLine()
+						));
+						return array();
+				} catch (\Throwable $e) {
+						// PHP 7+ Errors (won't parse-break on 5.6 since it's a
+						// separate catch block; \Throwable simply never matches there).
+						freepbx_log(FPBX_LOG_ERROR, sprintf(
+								"dpviz: getDestinations() raised %s while loading module destinations: %s in %s on line %d",
+								get_class($e), $e->getMessage(), $e->getFile(), $e->getLine()
+						));
+						return array();
+				} finally {
+						restore_error_handler();
+				}
+		}
+
 }
 
 
@@ -2305,9 +2640,8 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
  */
  
 function drawselects_unassigned($goto = '', $name = 'goto', $restrict = [], $class = '') {
-    $destinations = \FreePBX::Modules()->getDestinations($restrict);
+    $destinations = \FreePBX::Dpviz()->safeGetDestinations($restrict);
 
-    // Start select
     $html  = '<select name="' . htmlspecialchars($name) . '" id="' . htmlspecialchars($name) . '"';
     if ($class) {
         $html .= ' class="' . htmlspecialchars($class) . '"';
@@ -2321,7 +2655,6 @@ function drawselects_unassigned($goto = '', $name = 'goto', $restrict = [], $cla
            . _('-- Unassigned --')
            . '</option>';
 
-    // Loop through all modules/destinations
     foreach ($destinations as $mod => $dests) {
     if (empty($dests)) continue;
 				$html .= '<optgroup label="' . htmlspecialchars($mod) . '">';
@@ -2342,64 +2675,6 @@ function drawselects_unassigned($goto = '', $name = 'goto', $restrict = [], $cla
 
 
 
-function dpviz_announcement_add($description, $destination, $recording_id = 0) {
-    global $db, $amp_conf;
-
-    $sql = "INSERT INTO announcement 
-        (description, recording_id, allow_skip, post_dest, return_ivr, noanswer, repeat_msg)
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-    $sth = $db->prepare($sql);
-    $res = $db->execute($sth, [
-        $description,
-        (int)$recording_id,
-        0,
-        $destination,
-        0,
-        0,
-        ''
-    ]);
-
-    if (\DB::isError($res)) {
-        die_freepbx($res->getMessage() . $sql);
-    }
-
-    if (method_exists($db, 'insert_id')) {
-        return $db->insert_id();
-    } elseif ($amp_conf['AMPDBENGINE'] == 'sqlite3') {
-        return sqlite_last_insert_rowid($db->connection);
-    } else {
-        return mysql_insert_id($db->connection);
-    }
-}
-
-function dpviz_callrecording_add($description, $recordingmode, $destination) {
-    global $db, $amp_conf;
-
-    $sql = "INSERT INTO callrecording 
-        (callrecording_mode, description, dest)
-        VALUES (?, ?, ?)";
-
-    $sth = $db->prepare($sql);
-    $res = $db->execute($sth, [
-        $recordingmode,
-        $description,
-        $destination
-    ]);
-
-    if (\DB::isError($res)) {
-        die_freepbx($res->getMessage() . $sql);
-    }
-
-    if (method_exists($db, 'insert_id')) {
-        return $db->insert_id();
-    } elseif ($amp_conf['AMPDBENGINE'] == 'sqlite3') {
-        return sqlite_last_insert_rowid($db->connection);
-    } else {
-        return mysql_insert_id($db->connection);
-    }
-}
-
 function dpviz_ivr_details_has_column($column) {
     global $db;
     static $columns = null;
@@ -2417,83 +2692,4 @@ function dpviz_ivr_details_has_column($column) {
     }
 
     return isset($columns[$column]);
-}
-
-function dpviz_ivr_add($name, $timeout, $entries=array(), $recording_id = 0) {
-    global $db, $amp_conf;
-
-    $ivrData = array(
-        'name' => $name,
-        'description' => '',
-        'announcement' => (int)$recording_id,
-        'directdial' => 'Disabled',
-        'invalid_loops' => 3,
-        'invalid_retry_recording' => 'default',
-        'invalid_destination' => 'app-blackhole,zapateller,1',
-        'timeout_enabled' => null,
-        'invalid_recording' => 'default',
-        'retvm' => '',
-        'timeout_time' => $timeout,
-        'timeout_recording' => 'default',
-        'timeout_retry_recording' => 'default',
-        'timeout_destination' => 'app-blackhole,zapateller,1',
-        'timeout_loops' => 3,
-        'timeout_append_announce' => 0,
-        'invalid_append_announce' => 0,
-        'timeout_ivr_ret' => 0,
-        'invalid_ivr_ret' => 0,
-        'alertinfo' => '',
-        'rvolume' => 0
-    );
-
-    if (dpviz_ivr_details_has_column('strict_dial_timeout')) {
-        $ivrData['strict_dial_timeout'] = 2;
-    }
-
-    $columns = array_keys($ivrData);
-    $placeholders = array_fill(0, count($columns), '?');
-
-    $sql = "INSERT INTO ivr_details (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
-
-    $sth = $db->prepare($sql);
-    $res = $db->execute($sth, array_values($ivrData));
-
-    if (\DB::isError($res)) {
-        die_freepbx($res->getMessage() . $sql);
-    }
-
-    // PEAR DB insert_id handling
-    if (method_exists($db, 'insert_id')) {
-        $id = $db->insert_id();
-    } else {
-        if ($amp_conf['AMPDBENGINE'] == 'sqlite3') {
-            $id = sqlite_last_insert_rowid($db->connection);
-        } else {
-            $id = mysql_insert_id($db->connection);
-        }
-    }
-		
-		if (!empty($entries)){
-			foreach ($entries as $e){
-				$sql = "INSERT INTO ivr_entries (
-						ivr_id, selection, dest, ivr_ret
-				) VALUES (
-						?, ?, ?, ?
-				)";
-
-				$sth = $db->prepare($sql);
-				$res = $db->execute($sth, array(
-						// ivr_id
-						$id,
-						// selection
-						$e['digit'],
-						// dest
-						$e['dest'],
-						// ivr_ret
-						0
-				));
-			}
-		}
-
-    return $id;
 }

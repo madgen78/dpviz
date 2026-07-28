@@ -1,11 +1,27 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
+/**
+ * Escape a value for HTML output.
+ *
+ * Everything below is built by string-concatenating database values into
+ * markup and then echoed raw into the <select>, so every interpolated value
+ * has to go through here. Descriptions and names are set in other modules,
+ * which makes an unescaped one a stored XSS in the browser of any admin who
+ * loads this page -- note that "it's inside <option>" is not protection,
+ * since a payload can simply close the tag and the select first.
+ */
+if (!function_exists('dpp_h')) {
+	function dpp_h($text) {
+		return htmlspecialchars((string)$text, ENT_QUOTES, 'UTF-8');
+	}
+}
+
 $options=\FreePBX::Dpviz()->getOptions();
 
 
 if ($options['displaydestinations']){
-	$destinations=\FreePBX::Modules()->getDestinations();
+	$destinations=\FreePBX::Dpviz()->safeGetDestinations();
 	$displayDestinationOpt = ' [ '._('destination').' ]';
 }else{
 	$displayDestinationOpt = '';
@@ -220,9 +236,9 @@ if (isset($otherroutes['dpvizViews']) && count($otherroutes['dpvizViews']) > 0){
 		$skipJson = htmlspecialchars(json_encode($skipArray), ENT_QUOTES, 'UTF-8');
 		$description = htmlspecialchars($ii['description'], ENT_QUOTES, 'UTF-8');
 
-		$dropOptions .= '<option 
-			value="' . $ii['ext'] . '|' . $ii['jump'] . '" 
-			data-id="' . $ii['id'] .'" data-skips="' . $skipJson . '">' . $description . '</option>';
+		$dropOptions .= '<option
+			value="' . dpp_h($ii['ext']) . '|' . dpp_h($ii['jump']) . '"
+			data-id="' . dpp_h($ii['id']) .'" data-skips="' . $skipJson . '">' . $description . '</option>';
 		}
 		$dropOptions.='</optgroup>';
 }
@@ -242,7 +258,7 @@ if (isset($inroutes) && count($inroutes) > 0){
 			$displayDestination='';
 		}
 		
-		$dropOptions.='<option value="from-trunk,'.$e.$c.',1,'.$options['lang'].'">'.$e.$cName.' : '.$extt['description'].' '.$displayDestination.'</option>';
+		$dropOptions.='<option value="from-trunk,'.dpp_h($e.$c).',1,'.dpp_h($options['lang']).'">'.dpp_h($e.$cName).' : '.dpp_h($extt['description']).' '.dpp_h($displayDestination).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -251,7 +267,7 @@ if (isset($inroutes) && count($inroutes) > 0){
 if (isset($otherroutes['timeconditions']) && count($otherroutes['timeconditions']) > 0){
 	$dropOptions.='<optgroup label="' . _('Time Conditions') . '">';
 	foreach ($otherroutes['timeconditions'] as $i=>$ii){
-		$dropOptions.='<option value="timeconditions,'.$ii['timeconditions_id'].',1,'.$options['lang'].'">'.$ii['displayname'].'</option>';
+		$dropOptions.='<option value="timeconditions,'.dpp_h($ii['timeconditions_id']).',1,'.dpp_h($options['lang']).'">'.dpp_h($ii['displayname']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 	
@@ -267,7 +283,7 @@ if (isset($otherroutes['daynight']) && count($otherroutes['daynight']) > 0){
 				$name='('.$ext.') '.$iii['dest'];
 			}
 		}
-		$dropOptions.='<option value="app-daynight,'.$ext.',1,'.$options['lang'].'">'.$name.'</option>';
+		$dropOptions.='<option value="app-daynight,'.dpp_h($ext).',1,'.dpp_h($options['lang']).'">'.dpp_h($name).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 	
@@ -277,7 +293,7 @@ if (isset($otherroutes['daynight']) && count($otherroutes['daynight']) > 0){
 if (isset($otherroutes['dynroute']) && count($otherroutes['dynroute']) > 0){
 	$dropOptions.='<optgroup label="' . _('Dynamic Routes') . '">';
 	foreach ($otherroutes['dynroute'] as $i=>$ii){
-		$dropOptions.='<option value="dynroute-'.$ii['id'].',s,1,'.$options['lang'].'">'.$ii['name'].'</option>';
+		$dropOptions.='<option value="dynroute-'.dpp_h($ii['id']).',s,1,'.dpp_h($options['lang']).'">'.dpp_h($ii['name']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -285,7 +301,7 @@ if (isset($otherroutes['dynroute']) && count($otherroutes['dynroute']) > 0){
 if (isset($otherroutes['ivrs']) && count($otherroutes['ivrs']) > 0){
 	$dropOptions.='<optgroup label="IVRs">';
 	foreach ($otherroutes['ivrs'] as $i=>$ii){
-		$dropOptions.='<option value="ivr-'.$ii['id'].',s,1,'.$options['lang'].'">'.$ii['name'].'</option>';
+		$dropOptions.='<option value="ivr-'.dpp_h($ii['id']).',s,1,'.dpp_h($options['lang']).'">'.dpp_h($ii['name']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -294,7 +310,7 @@ if (isset($otherroutes['ivrs']) && count($otherroutes['ivrs']) > 0){
 if (isset($otherroutes['vqueues']) && count($otherroutes['vqueues']) > 0){
 	$dropOptions.='<optgroup label="' . _('Virtual Queues') . '">';
 	foreach ($otherroutes['vqueues'] as $i=>$ii){
-		$dropOptions.='<option value="ext-vqueues,'.$ii['id'].',1,'.$options['lang'].'" >'.$ii['name'].'</option>';
+		$dropOptions.='<option value="ext-vqueues,'.dpp_h($ii['id']).',1,'.dpp_h($options['lang']).'" >'.dpp_h($ii['name']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -303,7 +319,7 @@ if (isset($otherroutes['vqueues']) && count($otherroutes['vqueues']) > 0){
 if (isset($otherroutes['queues']) && count($otherroutes['queues']) > 0){
 	$dropOptions.='<optgroup label="' . _('Queues') . '">';
 	foreach ($otherroutes['queues'] as $i=>$ii){
-		$dropOptions.='<option value="ext-queues,'.$ii['extension'].',1,'.$options['lang'].'" >'.$ii['extension'].' : '.$ii['descr'].'</option>';
+		$dropOptions.='<option value="ext-queues,'.dpp_h($ii['extension']).',1,'.dpp_h($options['lang']).'" >'.dpp_h($ii['extension']).' : '.dpp_h($ii['descr']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -312,7 +328,7 @@ if (isset($otherroutes['queues']) && count($otherroutes['queues']) > 0){
 if (isset($otherroutes['ringgroups']) && count($otherroutes['ringgroups']) > 0){
 	$dropOptions.='<optgroup label="' . _('Ring Groups') . '">';
 	foreach ($otherroutes['ringgroups'] as $i=>$ii){
-		$dropOptions.='<option value="ext-group,'.$ii['grpnum'].',1,'.$options['lang'].'">'.$ii['grpnum'].' : '.$ii['description'].'</option>';
+		$dropOptions.='<option value="ext-group,'.dpp_h($ii['grpnum']).',1,'.dpp_h($options['lang']).'">'.dpp_h($ii['grpnum']).' : '.dpp_h($ii['description']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -321,7 +337,7 @@ if (isset($otherroutes['ringgroups']) && count($otherroutes['ringgroups']) > 0){
 if (isset($otherroutes['announcements']) && count($otherroutes['announcements']) > 0){
 	$dropOptions.='<optgroup label="' . _('Announcements') . '">';
 	foreach ($otherroutes['announcements'] as $i=>$ii){
-		$dropOptions.='<option value="app-announcement-'.$ii['announcement_id'].',s,1,'.$options['lang'].'">'.$ii['description'].'</option>';
+		$dropOptions.='<option value="app-announcement-'.dpp_h($ii['announcement_id']).',s,1,'.dpp_h($options['lang']).'">'.dpp_h($ii['description']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -330,7 +346,7 @@ if (isset($otherroutes['announcements']) && count($otherroutes['announcements'])
 if (isset($otherroutes['languages']) && count($otherroutes['languages']) > 0){
 	$dropOptions.='<optgroup label="' . _('Languages') . '">';
 	foreach ($otherroutes['languages'] as $i=>$ii){
-		$dropOptions.='<option value="app-languages,'.$ii['language_id'].',1,'.$options['lang'].'">'.$ii['description'].'</option>';
+		$dropOptions.='<option value="app-languages,'.dpp_h($ii['language_id']).',1,'.dpp_h($options['lang']).'">'.dpp_h($ii['description']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 	
@@ -340,7 +356,7 @@ if (isset($otherroutes['languages']) && count($otherroutes['languages']) > 0){
 if (isset($otherroutes['miscapps']) && count($otherroutes['miscapps']) > 0){
 	$dropOptions.='<optgroup label="' . _('Misc Applications') . '">';
 	foreach ($otherroutes['miscapps'] as $i=>$ii){
-		$dropOptions.='<option value="miscapps,'.$ii['miscapps_id'].',s,1,'.$options['lang'].'">'.$ii['description'].' ('.$ii['ext'].')</option>';
+		$dropOptions.='<option value="miscapps,'.dpp_h($ii['miscapps_id']).',s,1,'.dpp_h($options['lang']).'">'.dpp_h($ii['description']).' ('.dpp_h($ii['ext']).')</option>';
 	}
 	$dropOptions.='</optgroup>';
 }
@@ -349,7 +365,7 @@ if (isset($otherroutes['miscapps']) && count($otherroutes['miscapps']) > 0){
 if (isset($otherroutes['extensions']) && count($otherroutes['extensions']) > 0){
 	$dropOptions.='<optgroup label="' . _('Extensions') . '">';
 	foreach ($otherroutes['extensions'] as $i=>$ii){
-		$dropOptions.='<option value="from-did-direct,'.$ii['extension'].',1,'.$options['lang'].'">'.$ii['extension'].' '.$ii['name'].'</option>';
+		$dropOptions.='<option value="from-did-direct,'.dpp_h($ii['extension']).',1,'.dpp_h($options['lang']).'">'.dpp_h($ii['extension']).' '.dpp_h($ii['name']).'</option>';
 	}
 	$dropOptions.='</optgroup>';
 	
@@ -378,7 +394,7 @@ if (isset($otherroutes['extensions']) && count($otherroutes['extensions']) > 0){
 							<i class="fa fa-eye-slash"></i> <?php echo _('Sanitize Labels'); ?>
 						</button>
 						<button class="btn btn-default" onclick="openModal('customTimeModal')">
-								<i class="fa fa-clock-o"></i> Simulate Date & Time
+								<i class="fa fa-clock-o"></i> <?php echo _('Simulate Date & Time'); ?>
 						</button>
 						<button type="button" style="display:none;" id="saveModalBtn" class="btn btn-default">
 							<i class="fa fa-save"></i> <?php echo _('Save View'); ?>
@@ -388,8 +404,8 @@ if (isset($otherroutes['extensions']) && count($otherroutes['extensions']) > 0){
 				</div>
 				
 				
-				<button type="button" class="btn btn-default" id="reloadButton" disabled>
-          <i class="fa fa-refresh"></i> <?php echo _('Reload'); ?>
+				<button type="button" class="btn btn-default" id="reloadButton" title="<?php echo _('Reload'); ?> (R)" disabled>
+          <i class="fa fa-refresh"></i> <?php echo _('Reload'); ?> <span class="dpviz-key-hint">[R]</span>
         </button>
 
       </div>
@@ -412,10 +428,10 @@ if (isset($otherroutes['extensions']) && count($otherroutes['extensions']) > 0){
 				</select>
 
 				<!-- Buttons -->
-				<button id="prevBtn" class="btn btn-default btn-sm" title="<?php echo _('Previous'); ?>">
+				<button id="prevBtn" class="btn btn-default btn-sm" title="<?php echo _('Previous'); ?> (&#8592;)">
 					<i class="fa fa-chevron-left"></i>
 				</button>
-				<button id="nextBtn" class="btn btn-default btn-sm" title="<?php echo _('Next'); ?>">
+				<button id="nextBtn" class="btn btn-default btn-sm" title="<?php echo _('Next'); ?> (&#8594;)">
 					<i class="fa fa-chevron-right"></i>
 				</button>
 				<?php 
@@ -582,7 +598,7 @@ $(document).ready(function() {
 });
 
 
-// Enhanced getVisibleOptions to respect lastSearchTerm when dropdown closed
+// getVisibleOptions respects lastSearchTerm while the dropdown is closed
 function getVisibleOptions($el) {
   let searchTerm = lastSearchTerm || '';
 
@@ -646,7 +662,9 @@ $('#prevBtn').on('click', function() {
 
 <?php
 	$lang = isset($options['lang']) ? $options['lang'] : 'en';
-	echo 'const currentLang = "' . addslashes($lang) . '";';
+	// json_encode, not addslashes: it emits the surrounding quotes and escapes
+	// the sequences that actually matter inside a <script> block
+	echo 'const currentLang = ' . json_encode($lang) . ';';
 	echo 'var exportPrefix = ' . json_encode(trim(isset($options['exportprefix']) ? $options['exportprefix'] : '')) . ';';
 ?>
 
@@ -911,7 +929,7 @@ $(document).on('click', '#addNewDestBtn', function() {
   // Clear stored session name
   sessionStorage.removeItem('selectedName');
 
-  // Reset focus / mode if needed
+  // Reset focus / mode
   if (typeof resetFocusMode === 'function') resetFocusMode();
 
   // Reset the Select2 dropdown back to placeholder
@@ -919,7 +937,7 @@ $(document).on('click', '#addNewDestBtn', function() {
     $dialPlan.val(null).trigger('change');
   }
 
-  // Finally open your modal
+  // Open the modal
   openNewDestinationModal();
 });
 

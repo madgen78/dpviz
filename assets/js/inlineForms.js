@@ -686,7 +686,7 @@ $('#inlineNewForm .btn-group.radioset').each(function () {
 		const $name = $('#new_desc');
 		const nameVal = $name.val().trim();
 
-		// 🚨 Check for missing name
+		// Check for missing name
 		if (nameVal === '') {
 			return warnInvalid($name, 'Name is required.');
 		}
@@ -801,7 +801,7 @@ $('#inlineNewForm .btn-group.radioset').each(function () {
 					}
 			});
 
-			// 🔥 Stop form submission
+			// Stop form submission
 			if (!isValid) return;
 
 			payload.ivrEntries = ivrEntries;
@@ -922,7 +922,7 @@ $('#inlineNewForm .btn-group.radioset').each(function () {
 			const didVal = $did.val().trim();
 			const cidVal = $cid.val().trim();
 
-			// Only digits, commas, [ ], and dashes — no spaces
+			// Only digits, commas, [ ], and dashes; no spaces
 			const allowed = /^(\+?[0-9A-D\*\#]+|_[0-9A-D\*\#]+)$/;
 
 			// Always enforce FORMAT
@@ -1034,10 +1034,10 @@ $('#inlineNewForm .btn-group.radioset').each(function () {
 
 							$('#nodestmodal').hide();
 
-							// 🔹 Make sure the EXT field reflects the dialplan we want to redraw
+							// Make sure the EXT field reflects the dialplan we want to redraw
 							$('#ext').val(currentDialplan);
 
-							// 🔄 Reuse the existing reload logic
+							// Reuse the existing reload logic
 							$('#reloadButton').trigger('click');
 
 							fpbxToast('Inserted successfully into current dial plan!', 'success');
@@ -1049,7 +1049,7 @@ $('#inlineNewForm .btn-group.radioset').each(function () {
 
 
 				/* ---------------------------------------------------------
-				 * MODE: CREATE  (existing behavior)
+				 * MODE: CREATE
 				 * --------------------------------------------------------- */
 				$('#nodestmodal').hide();
 
@@ -1225,7 +1225,7 @@ function loadLanguages() {
 				$sel.append(new Option('(No languages found)', ''));
 		}
 
-    // Optional: enhance with Select2 if available
+    // enhance with Select2 if available
     if ($.fn.select2) {
       $sel.select2({
         dropdownParent: $('#nodestmodal'),
@@ -1250,20 +1250,20 @@ function loadMusic() {
 
     if (res && res.status === 'success' && Array.isArray(res.groups) && res.groups.length > 0) {
       res.groups.forEach(g => {
-        // Label and value are the same now
+        // label and value are identical here
         $sel.append(new Option(g.category, g.category));
       });
 
       // Add “None” option at the bottom
       $sel.append(new Option('None', 'none'));
 
-      // Auto-select the first item (or you could leave none selected)
+      // Auto-select the first item
       $sel.prop('selectedIndex', 1).trigger('change');
     } else {
       $sel.append(new Option('(No music found)', ''));
     }
 
-    // Optional: enhance with Select2 if available
+    // enhance with Select2 if available
     if ($.fn.select2) {
       $sel.select2({
         dropdownParent: $('#nodestmodal'),
@@ -1291,13 +1291,13 @@ function loadRecordings() {
       $sel.append(new Option('None', '0'));
 			
       res.groups.forEach(g => {
-        // Label and value are the same now
+        // label and value are identical here
         $sel.append(new Option(g.displayname, g.id));
       });
 
       
 
-      // Auto-select the first item (or you could leave none selected)
+      // Auto-select the first item
       $sel.prop('selectedIndex', 1).trigger('change');
     } else {
       $sel.append(new Option('(No recordings found)', ''));
@@ -1357,15 +1357,15 @@ function warnInvalid($el, msg) {
   // Focus the field
   $el.trigger('focus');
 
-  // If you have fpbxToast available, show it too (optional)
+  // Also raise a toast when fpbxToast is available
   if (typeof fpbxToast === 'function') {
     fpbxToast(msg, 'error', 'error');
   } else {
-    // Fallback (optional)
+    // Fallback
     // alert(msg);
   }
 
-  return false; // so you can `return warnInvalid(...)` to stop the flow
+  return false; // lets callers `return warnInvalid(...)` to stop the flow
 }
 
 

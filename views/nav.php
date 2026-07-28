@@ -6,6 +6,17 @@
 
 	<div class="dpviz-help-grid">
 		<section class="dpviz-help-card">
+			<h4><i class="fa fa-keyboard-o"></i> <?php echo _('Keyboard Shortcuts'); ?></h4>
+			<ul class="dpviz-help-list">
+				<li><i class="fa fa-refresh"></i><span><kbd>R</kbd> &mdash; <?php echo _('Reload the current graph.'); ?></span></li>
+				<li><i class="fa fa-arrows-h"></i><span><kbd>&larr;</kbd> / <kbd>&rarr;</kbd> &mdash; <?php echo _('Jump to the previous or next dial plan.'); ?></span></li>
+				<li><i class="fa fa-arrows-alt"></i><span><kbd>F</kbd> &mdash; <?php echo _('Fit the graph: reset pan and zoom to the default view.'); ?></span></li>
+				<li><i class="fa fa-question-circle"></i><span><kbd>?</kbd> &mdash; <?php echo _('Open this Navigation & Usage page.'); ?></span></li>
+				<li><i class="fa fa-info-circle"></i><span><?php echo _('Shortcuts pause while typing in a field, searching the dial plan list, or when a dialog is open.'); ?></span></li>
+			</ul>
+		</section>
+
+		<section class="dpviz-help-card">
 			<h4><i class="fa fa-mouse-pointer"></i> <?php echo _('Navigation Basics'); ?></h4>
 			<ul class="dpviz-help-list">
 				<li><i class="fa fa-ban"></i><span><?php echo _('Exclude Node(s): Press Shift + left-click a node to exclude it and downstream paths. Click "+" to show the path again. Use "Reset" to restore the original dial plan.'); ?></span></li>

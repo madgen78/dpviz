@@ -12,14 +12,12 @@ $ver = isset($modinfo['dpviz']['version']) ? $modinfo['dpviz']['version'] : '0.0
 		<form id="feedbackForm" class="modal-body-unified dpviz-feedback-body">
 			<label for="fbMessage" class="label-with-help">
 				<?php echo _('Your Feedback'); ?>:
-				<span class="help-icon" tabindex="0" aria-hidden="true"><i class="fa fa-question-circle fpbx-help-icon" data-for="fbMessage"></i></span>
 				<span class="help-text"><?php echo _('Provide any comments or suggestions (up to 500 characters).'); ?></span>
 			</label>
 			<textarea id="fbMessage" name="message" rows="7" maxlength="500" required></textarea>
 
 			<label for="fbEmail" class="label-with-help">
 				<?php echo _('Email (optional)'); ?>:
-				<span class="help-icon" tabindex="0" aria-hidden="true"><i class="fa fa-question-circle fpbx-help-icon" data-for="fbEmail"></i></span>
 				<span class="help-text"><?php echo _('Provide your email if you would like a response.'); ?></span>
 			</label>
 			<input type="email" id="fbEmail" name="email" />
@@ -47,13 +45,13 @@ $ver = isset($modinfo['dpviz']['version']) ? $modinfo['dpviz']['version'] : '0.0
 									<div class="dpviz-settings-actions-col-left">
 										<button id="openWhatsNewModal" type="button" class="btn btn-default"><?php echo _("What's New"); ?></button>
 										<div class="dpviz-settings-icons">
-											<a href="https://github.com/madgen78/dpviz/" class="emoji" title="GitHub" target="_blank"><i class="fa fa-github"></i></a>
-											<a href="https://buymeacoffee.com/adamvolchko" id="coffee" class="emoji" style="text-decoration:none;" title="<?php echo _('Buy Me a Coffee'); ?>" target="_blank">☕</a>
+											<a href="https://github.com/madgen78/dpviz/" class="btn btn-default" title="<?php echo _('Open the GitHub repository'); ?>" target="_blank"><i class="fa fa-github"></i> GitHub</a>
 											<?php
 												if (version_compare(get_framework_version(), '14.0.0', '>')) {
-												echo '<span id="openFeedbackModal" class="emoji" title="' . _('Give Feedback') . '"><i class="fa fa-commenting"></i></span>';
+												echo '<button id="openFeedbackModal" type="button" class="btn btn-default" title="' . _('Give Feedback') . '"><i class="fa fa-commenting"></i> ' . _('Feedback') . '</button>';
 												}
 											?>
+											<a href="https://buymeacoffee.com/adamvolchko" class="dpviz-coffee-link" title="<?php echo _('Buy me a coffee'); ?>" target="_blank" rel="noopener noreferrer"><i class="fa fa-coffee"></i><span class="sr-only"><?php echo _('Buy me a coffee'); ?></span></a>
 										</div>
 									</div>
 									<div class="dpviz-settings-actions-col-right"></div>

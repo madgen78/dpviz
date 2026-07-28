@@ -39,8 +39,8 @@ if (empty($exists)) {
         panzoom TINYINT(1) NOT NULL DEFAULT 1,
         dynmembers TINYINT(1) NOT NULL DEFAULT 0,
         combineQueueRing TINYINT(1) NOT NULL DEFAULT 0,
-				extOptional TINYINT(1) NOT NULL DEFAULT 0,
-        fmfm TINYINT(1) NOT NULL DEFAULT 0
+				extOptional TINYINT(1) NOT NULL DEFAULT 1,
+        fmfm TINYINT(1) NOT NULL DEFAULT 1
     )";
     $check = $db->query($sql);
     if (DB::IsError($check)) {
@@ -52,7 +52,7 @@ if (empty($exists)) {
 
 // Insert default row if the table was just created
 if ($table_created) {
-    $sql = "INSERT INTO dpviz (datetime, horizontal, panzoom, dynmembers, combineQueueRing, extOptional, fmfm) VALUES (1, 0, 1, 0, 0, 0, 0)";
+    $sql = "INSERT INTO dpviz (datetime, horizontal, panzoom, dynmembers, combineQueueRing, extOptional, fmfm) VALUES (1, 0, 1, 0, 0, 1, 1)";
     $check = $db->query($sql);
     if (DB::IsError($check)) {
         die_freepbx("Failed to insert initial row");

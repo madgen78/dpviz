@@ -9,6 +9,11 @@ html, body {
   min-height: 70vh;
 }
 
+/* Programmatic focus (for keyboard shortcuts) must not show a ring */
+#vizContainer:focus {
+  outline: none;
+}
+
 #vizGraph {
   width: 100%;
   min-height: 70vh;
@@ -26,6 +31,28 @@ html, body {
 
 #vizGraph.panning * {
   pointer-events: none;   /* disables hover/click during pan */
+}
+
+/* "Click graph to zoom" hint shown when the wheel is used on a disengaged graph */
+.panzoom-hint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 12px;
+  background: rgba(0,0,0,0.72);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.2;
+  border-radius: 14px;
+  white-space: nowrap;
+  pointer-events: none;   /* never intercept clicks/wheel */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+}
+
+.panzoom-hint.show {
+  opacity: 1;
 }
 
 svg {
@@ -100,9 +127,7 @@ a:hover {
 }
 
 #vizToolbar {
-	position: sticky; 
-	top:50px;
-	z-index:1000;
+	position: static;
 }
 
 .dropdown-large {
@@ -631,6 +656,7 @@ ul.help-list,
   border-radius: 5px;
   min-width: 150px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 100;   /* sit above the panzoom graph (#vizGraph position:relative), below modals */
 }
 
 .dropdownMenu button {
@@ -809,6 +835,15 @@ textarea:focus, input[type="email"]:focus {
   display: block;
 }
 
+/* Feedback modal only: two short hints, shown inline instead of behind a ?
+   icon. The Settings page keeps hover-reveal - 19 always-on hints there would
+   bury the fields they describe. */
+#feedbackModal .help-text {
+  display: block;
+  color: #6c757d;
+  font-weight: normal;
+}
+
 /* Feedback actions */
 .feedback-actions {
   margin-top: 15px;
@@ -866,7 +901,7 @@ textarea:focus, input[type="email"]:focus {
 
 #inlineNewForm .input-warn {
   position: absolute;
-  right: 25px;              /* adjust as needed (6–10px usually perfect) */
+  right: 25px;              /* adjust as needed, 6-10px */
   top: 50%;
   transform: translateY(-50%);  /* centers vertically no matter the height */
   color: #a94442;          /* FreePBX warning color */
@@ -936,7 +971,7 @@ textarea:focus, input[type="email"]:focus {
 	font-weight: bold;
 }
 
-/* 🟩 Add spacing and alignment fixes */
+/* Spacing and alignment fixes */
 .mode-buttons {
   float: right;                /* push buttons to right */
   gap: 6px;                    /* spacing between buttons (BS5 supports gap) */
@@ -972,7 +1007,7 @@ textarea:focus, input[type="email"]:focus {
   margin-left: -1px !important; /* overlap borders slightly */
 }
 
-/* Optional: make sure the buttons form a solid group */
+/* Keep the buttons as a solid group */
 .btn-group.radioset {
   display: inline-flex !important;
   gap: 0 !important; /* in case BS5 uses gap */
@@ -1157,6 +1192,15 @@ textarea:focus, input[type="email"]:focus {
   gap: 5px;
   flex-wrap: wrap;
   align-items: center;
+}
+.dpviz-key-hint {
+  margin-left: 4px;
+  font-size: 0.78em;
+  font-weight: 600;
+  opacity: 0.55;
+}
+#reloadButton:disabled .dpviz-key-hint {
+  opacity: 0.35;
 }
 .dpviz-toolbar-middle {
   flex: 1 1 520px;
@@ -1376,9 +1420,7 @@ textarea:focus, input[type="email"]:focus {
 
 /* Toolbar fix for current markup */
 #vizToolbar {
-  position: sticky;
-  top: 50px;
-  z-index: 1000;
+  position: static;
 }
 #vizToolbar > .row {
   display: flex;
@@ -1856,6 +1898,24 @@ textarea:focus, input[type="email"]:focus {
   flex-wrap: wrap;
 }
 
+/* Quiet, icon-only support link - deliberately not a button */
+.dpviz-coffee-link {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  opacity: 0.55;
+  font-size: 15px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.dpviz-coffee-link:hover,
+.dpviz-coffee-link:focus {
+  opacity: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
 .dpviz-settings-actions-col-right #update-result > div {
   margin-top: 0 !important;
 }
@@ -1995,10 +2055,49 @@ textarea:focus, input[type="email"]:focus {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 14px;
   flex: 0 0 auto;
 }
 
+/* Quiet repo link beside Close - the What's New modal auto-opens on a version
+   change, which is the one path that never passes the Settings page button. */
+.dpviz-whatsnew-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6c757d;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dpviz-whatsnew-github:hover,
+.dpviz-whatsnew-github:focus {
+  color: #337ab7;
+  text-decoration: underline;
+}
+
+/* Same keyboard-only ring as the preference toggle below, so both controls in
+   this footer behave alike. */
+.dpviz-whatsnew-github:focus {
+  outline: 2px solid #7cb69a;
+  outline-offset: 2px;
+}
+
+.dpviz-whatsnew-github:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* The toggle is a focusable div wrapping the checkbox AND its label, so a focus
+   ring outlines the whole row. Keyboard users need it; mouse users just clicked
+   the thing and don't. :focus-visible draws that distinction - and browsers too
+   old to know :focus-visible discard the second rule as invalid, keeping the
+   ring rather than silently losing it. */
 #whatsNewModal #toggleWhatsNewPreference:focus {
   outline: 2px solid #7cb69a;
   outline-offset: 2px;
+}
+
+#whatsNewModal #toggleWhatsNewPreference:focus:not(:focus-visible) {
+  outline: none;
 }

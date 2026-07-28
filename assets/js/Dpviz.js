@@ -34,24 +34,29 @@ $(document).ready(function() {
 
 									} else {
 
-											$('#update-result').html(
-													`<a href="config.php?display=modules" target="_blank" class="btn btn-default">
-															${response.latest} ${translations.available}
-															<i class="fa fa-external-link" aria-hidden="true"></i>
-													 </a>
-													 <div style="margin-top: 6px;">
-															${translations.currentVersion}: ${response.current}
-													 </div>`
-											);
+											// version strings come from the remote update
+											// endpoint, so they are third-party data -- set
+											// them as text rather than parsing them as markup
+											const $link = $('<a>')
+													.attr({ href: 'config.php?display=modules', target: '_blank' })
+													.addClass('btn btn-default')
+													.text(`${response.latest} ${translations.available} `)
+													.append($('<i>').addClass('fa fa-external-link').attr('aria-hidden', 'true'));
+
+											const $current = $('<div>')
+													.css('margin-top', '6px')
+													.text(`${translations.currentVersion}: ${response.current}`);
+
+											$('#update-result').empty().append($link, $current);
 									}
 
 							} else {
-									$('#update-result').html('Error: ' + response.message);
+									$('#update-result').text('Error: ' + response.message);
 							}
 					},
 
 					error: function (xhr, status, error) {
-							$('#update-result').html('AJAX error: ' + error);
+							$('#update-result').text('AJAX error: ' + error);
 					}
 			});
 	});
@@ -110,7 +115,7 @@ $('#dpvizForm').submit(function(event) {
 				saveButton.innerHTML = originalContent;
 				$('.nav-tabs li[data-name="dpbox"] a').tab('show'); // Switch tab
 
-				// ✅ Only reload if user actually changed displaydestinations
+				// Only reload if the user actually changed displaydestinations
 				var newDisplayDest = $('input[name="displaydestinations"]:checked').val();
 				if (newDisplayDest !== originalDisplayDest) {
 					location.reload();
@@ -403,7 +408,7 @@ function generateVisualization(ext, jump, skips) {
 						// keep highlight for just one path
 						document.querySelectorAll("g.edge").forEach(edge => {
 							edge.addEventListener("click", (e) => {
-								// clear other selections unless you want multi-select
+								// clear other selections
 								document.querySelectorAll("g.edge.selected").forEach(el => {
 									if (el !== edge) el.classList.remove("selected");
 								});
@@ -478,7 +483,7 @@ function generateVisualization(ext, jump, skips) {
 										isSanitized = !isSanitized;
 								});
 
-								// 🔹 GLOBAL DELEGATION: Handle clicks on nodes + header
+								// Delegated handler for clicks on nodes + header
 								document.addEventListener("click", e => {
 										if (!isSanitized) return;
 
@@ -512,15 +517,18 @@ function generateVisualization(ext, jump, skips) {
     error: function(xhr, status, error) {
 			spinner.style.display = "none";  // Hide spinner
 
-			const errorMsg = `
-					<strong>AJAX Error:</strong><br>
-					Status: ${status}<br>
-					Error: ${error}<br>
-					HTTP Status: ${xhr.status}<br>
-					Response: ${xhr.responseText}
-			`;
+			// xhr.responseText is the raw server response body -- on a PHP fatal
+			// that is an error page containing whatever data the handler was
+			// touching. Render it as text, never as markup.
+			const $err = $('<div>');
+			$err.append($('<strong>').text('AJAX Error:'), $('<br>'));
+			$err.append(document.createTextNode(`Status: ${status}`), $('<br>'));
+			$err.append(document.createTextNode(`Error: ${error}`), $('<br>'));
+			$err.append(document.createTextNode(`HTTP Status: ${xhr.status}`), $('<br>'));
+			$err.append(document.createTextNode('Response: '));
+			$err.append($('<pre>').css('white-space', 'pre-wrap').text(xhr.responseText));
 
-			$('#vizContainer').html(errorMsg);
+			$('#vizContainer').empty().append($err);
 			console.error('AJAX Error:', status, error);
 		}
   });
@@ -628,53 +636,72 @@ function getRecording(titleid) {
 		audioList.innerHTML = "";
 
 		$('#recordingmodal-title').html('<i class="fa fa-sitemap"></i> ' + translations[mod]);
-		let html = '';
-		
+
+		const displaynameTarget = document.getElementById('recording-displayname');
+		displaynameTarget.innerHTML = '';
+
+		// These buttons carry text straight out of the database -- IVR names,
+		// announcement/queue descriptions, recording display names. Build them
+		// as DOM nodes and set the label via textContent so a description
+		// containing markup is shown, not executed.
+		function recordingButton(iconClass, label, value, href) {
+			const el = document.createElement(href ? 'a' : 'div');
+			el.className = 'btn btn-default btn-lg' + (href ? '' : ' disabled');
+			el.style.width = '100%';
+			if (href) {
+				el.href = href;          // property assignment, never parsed as markup
+				el.target = '_blank';
+			}
+
+			const icon = document.createElement('i');
+			icon.className = iconClass;
+			el.appendChild(icon);
+
+			el.appendChild(document.createTextNode(' ' + label + ': ' + value));
+
+			if (href) {
+				const linkIcon = document.createElement('i');
+				linkIcon.className = 'fa fa-external-link';
+				linkIcon.setAttribute('aria-hidden', 'true');
+				el.appendChild(document.createTextNode(' '));
+				el.appendChild(linkIcon);
+			}
+			return el;
+		}
+
 		if (mod !== 'systemrecording' && mod !== 'voicemail'){
-			html += 
-				'<a href="config.php?display=' + url + '" target="_blank" style="width:100%" class="btn btn-default btn-lg">' +
-					'<i class="fa fa-sitemap"></i> ' + translations[mod] + ': ' + description +
-					' <i class="fa fa-external-link" aria-hidden="true"></i>' +
-				'</a>';
+			displaynameTarget.appendChild(recordingButton(
+				'fa fa-sitemap', translations[mod], description, 'config.php?display=' + url
+			));
 		}
 		// now decide on the recording button
-		
+
 		if (recId > 0) {
 			// valid recording → show second button
-			html += 
-				'<a href="config.php?display=recordings&action=edit&id=' + recId +
-					'" target="_blank" style="width:100%" class="btn btn-default btn-lg">' +
-					'<i class="fa fa-bullhorn"></i> ' + translations.recordingLabel + ': ' + displayname +
-					' <i class="fa fa-external-link" aria-hidden="true"></i>' +
-				'</a>';
+			displaynameTarget.appendChild(recordingButton(
+				'fa fa-bullhorn', translations.recordingLabel, displayname,
+				'config.php?display=recordings&action=edit&id=' + recId
+			));
 		} else if (recId === 'voicemail'){
-			html += 
-				'<a href="config.php?display=' + url +
-					'" target="_blank" style="width:100%" class="btn btn-default btn-lg">' +
-					'<i class="fa fa-envelope"></i> ' + translations.voicemail + ': ' + displayname +
-					' <i class="fa fa-external-link" aria-hidden="true"></i>' +
-				'</a>';
-			
+			displaynameTarget.appendChild(recordingButton(
+				'fa fa-envelope', translations.voicemail, displayname, 'config.php?display=' + url
+			));
+
 		} else {
 			// no recording → show standard message
-			html += 
-				'<div class="btn btn-default btn-lg disabled" style="width:100%">' +
-					'<i class="fa fa-bullhorn"></i> ' + translations.recordingLabel + ': ' + "None" +
-				'</div>';
-				
-			$('#recording-displayname').html(html);
+			displaynameTarget.appendChild(recordingButton(
+				'fa fa-bullhorn', translations.recordingLabel, 'None', null
+			));
 			return;
 		}
-
-
-		$('#recording-displayname').html(html);
 	
 		if (mod === 'voicemail' && !data.filename) {
 			throw new Error(`${translations.noVmFile}`);
 		}
 		
 		if (!data.filename || data.filename.trim() === '') {
-			throw new Error(`${translations.noFilesLang} <strong>${lang}</strong>`);
+			// plain text: the catch renders err.message via textContent now
+			throw new Error(`${translations.noFilesLang} ${lang}`);
 		}
 		
 		const filenames = data.filename.split('&').filter(f => f.trim() !== '');
@@ -758,7 +785,13 @@ function getRecording(titleid) {
 
 				const label = document.createElement('div');
 				label.classList.add('alert', 'alert-warning');
-				label.innerHTML = `File: <strong>${filename}.wav</strong> ${translations.fileNotFound}`;
+				// filename comes from the recording's playback list / voicemail
+				// paths, i.e. the database -- keep it out of innerHTML
+				const nameEl = document.createElement('strong');
+				nameEl.textContent = `${filename}.wav`;
+				label.appendChild(document.createTextNode('File: '));
+				label.appendChild(nameEl);
+				label.appendChild(document.createTextNode(` ${translations.fileNotFound}`));
 
 				container.appendChild(label);
 				audioList.appendChild(container);
@@ -794,7 +827,12 @@ function getRecording(titleid) {
 
 		const label = document.createElement('div');
 		label.classList.add('alert', 'alert-warning');
-		label.innerHTML = `<strong>Error:</strong> ${err.message}`;
+		// err.message can embed a database-derived filename (see the
+		// "Could not fetch" throw above), so it is not safe as markup
+		const errEl = document.createElement('strong');
+		errEl.textContent = 'Error:';
+		label.appendChild(errEl);
+		label.appendChild(document.createTextNode(` ${err.message}`));
 
 		container.appendChild(label);
 		audioList.appendChild(container);
@@ -839,6 +877,151 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+
+/* ---- DPViz keyboard shortcuts ---------------------------------------- */
+function dpvizShortcutsBlocked(event) {
+	// Leave browser/OS combos (Ctrl+R, Cmd+R, Alt+...) alone
+	if (event.ctrlKey || event.metaKey || event.altKey) {
+		return true;
+	}
+
+	// Dial plan search box open: its own field owns typing and arrows
+	if (document.querySelector('.select2-container--open')) {
+		return true;
+	}
+
+	var ae = document.activeElement;
+	if (ae) {
+		var tag = ae.tagName ? ae.tagName.toLowerCase() : '';
+		// select2 parks focus back on the #dialPlan <select> after a pick;
+		// that must not swallow shortcuts (its open dropdown is handled
+		// above). Other native selects (e.g. export format) still block.
+		var isDialPlanSelect = (ae.id === 'dialPlan');
+		if (ae.isContentEditable ||
+			tag === 'input' ||
+			tag === 'textarea' ||
+			(tag === 'select' && !isDialPlanSelect)) {
+			return true;
+		}
+	}
+
+	// Any dpviz dialog open
+	var modalIds = ['recordingmodal', 'saveModal', 'nodestmodal', 'customTimeModal', 'whatsNewModal', 'feedbackModal'];
+	for (var i = 0; i < modalIds.length; i++) {
+		var m = document.getElementById(modalIds[i]);
+		if (m && window.getComputedStyle(m).display !== 'none') {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+document.addEventListener('keydown', function (event) {
+	if (dpvizShortcutsBlocked(event)) {
+		return;
+	}
+
+	switch (event.key) {
+		case 'r':
+		case 'R': {
+			var reloadButton = document.getElementById('reloadButton');
+			if (reloadButton && !reloadButton.disabled) {
+				event.preventDefault();
+				$('#reloadButton').trigger('click');
+			}
+			break;
+		}
+		case 'f':
+		case 'F': {
+			// Fit: reset pan and zoom to the default view. No-ops when pan/zoom
+			// is switched off, since there is no transform to undo.
+			var vizGraph = document.getElementById('vizGraph');
+			if (vizGraph && typeof vizGraph._dpvizPanZoomReset === 'function') {
+				event.preventDefault();
+				vizGraph._dpvizPanZoomReset();
+			}
+			break;
+		}
+		case 'ArrowLeft':
+			event.preventDefault();
+			$('#prevBtn').trigger('click');
+			break;
+		case 'ArrowRight':
+			event.preventDefault();
+			$('#nextBtn').trigger('click');
+			break;
+		case '?':
+			event.preventDefault();
+			$('.nav-tabs li[data-name="navigation"] a').tab('show');
+			break;
+	}
+});
+
+/* ---- Ensure keystrokes reach the page without a click first ---------- */
+function dpvizEnsureKeyFocus() {
+	// Don't yank focus from a control the user is actively using.
+	// Exception: FreePBX auto-focuses its global quick-search (#fpbxsearch)
+	// on every page load (assets/js/search.js). If that box is focused but
+	// still empty, the user isn't searching - it's just the auto-focus - so
+	// it is safe to take focus so our shortcuts work without a first click.
+	var ae = document.activeElement;
+	if (ae && ae !== document.body) {
+		var inFpbxSearch = ae.closest ? ae.closest('#fpbxsearch') : null;
+		var fpbxSearchEmpty = inFpbxSearch && String(ae.value || '').trim() === '';
+
+		if (!fpbxSearchEmpty) {
+			var t = ae.tagName ? ae.tagName.toLowerCase() : '';
+			if (t === 'input' || t === 'textarea' || t === 'select' ||
+				ae.isContentEditable ||
+				(ae.classList && ae.classList.contains('select2-selection'))) {
+				return;
+			}
+		}
+	}
+
+	// A dialog / open dropdown owns focus while it's up
+	if (document.querySelector('.select2-container--open')) {
+		return;
+	}
+	var modalIds = ['recordingmodal', 'saveModal', 'nodestmodal', 'customTimeModal', 'whatsNewModal', 'feedbackModal'];
+	for (var i = 0; i < modalIds.length; i++) {
+		var m = document.getElementById(modalIds[i]);
+		if (m && window.getComputedStyle(m).display !== 'none') {
+			return;
+		}
+	}
+
+	var box = document.getElementById('vizContainer');
+	if (!box) {
+		return;
+	}
+	if (!box.hasAttribute('tabindex')) {
+		box.setAttribute('tabindex', '-1');
+	}
+	try {
+		box.focus({ preventScroll: true });
+	} catch (e) {
+		box.focus();
+	}
+}
+
+(function () {
+	function arm() {
+		// Two staggered tries: FreePBX's search .focus() runs in its own
+		// $(document).ready, which may land just after ours.
+		setTimeout(dpvizEnsureKeyFocus, 150);
+		setTimeout(dpvizEnsureKeyFocus, 600);
+	}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', arm);
+	} else {
+		arm();
+	}
+	window.addEventListener('load', arm);
+	// Re-arm whenever the Dial Plan tab becomes visible again
+	$(document).on('shown.bs.tab', 'a[href="#dpbox"]', dpvizEnsureKeyFocus);
+})();
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -1175,7 +1358,7 @@ hamburger.addEventListener("click", () => {
 	dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
 });
 
-// Optional: click outside to close
+// click outside to close
 document.addEventListener("click", (e) => {
 	if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
 		dropdown.style.display = "none";
@@ -1192,7 +1375,6 @@ function checkPanZoom() {
     initPanZoom("vizGraph");
   } else {
     vizGraph.classList.remove("panzoom-enabled");
-    // optionally: destroy/disable panzoom here if your lib supports it
   }
 }
 
@@ -1203,6 +1385,16 @@ function initPanZoom(containerId) {
   if (!svgElement) {
     console.warn("No SVG found in container", containerId);
     return;
+  }
+
+  // #vizGraph is a persistent container; only its innerHTML is swapped on each
+  // prev/next/reload render, but initPanZoom re-runs every time. Tear down the
+  // previous instance's listeners first so stale closures don't stack up. A
+  // leftover closure left engaged=true (e.g. after click-to-zoom, then keyboard
+  // navigation with no mouse event to release it) would keep calling
+  // preventDefault() and block page scrolling on the new graph.
+  if (typeof viewport._dpvizPanZoomCleanup === 'function') {
+    viewport._dpvizPanZoomCleanup();
   }
 
   let panX = 0, panY = 0, scale = 1;
@@ -1216,6 +1408,43 @@ function initPanZoom(containerId) {
   let velocityX = 0, velocityY = 0;
   let lastX = 0, lastY = 0;
   let inertiaFrame = null;
+
+  // click-to-engage: the wheel scrolls the page until the graph is clicked,
+  // then it zooms. Clicking anywhere outside the graph releases it again.
+  let engaged = false;
+  let hintTimer = null;
+
+  // "Click graph to zoom" hint (reuse if a prior load left one behind)
+  let hint = viewport.querySelector('.panzoom-hint');
+  if (!hint) {
+    hint = document.createElement('div');
+    hint.className = 'panzoom-hint';
+    hint.textContent = (typeof translations !== 'undefined' && translations.clickToZoom)
+      ? translations.clickToZoom
+      : 'Click graph to zoom';
+    viewport.appendChild(hint);
+  }
+
+  function setEngaged(on) {
+    if (engaged === on) return;
+    engaged = on;
+    if (on) hint.classList.remove('show');
+  }
+
+  // briefly surface the hint when the user wheels over a disengaged graph
+  function flashHint() {
+    hint.classList.add('show');
+    if (hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(function () {
+      hint.classList.remove('show');
+      hintTimer = null;
+    }, 1400);
+  }
+
+  // engage on a click inside the graph, release on a click anywhere else
+  function onDocMouseDownEngage(e) {
+    setEngaged(viewport.contains(e.target));
+  }
 
   function updateTransform() {
     svgElement.style.transform =
@@ -1298,6 +1527,12 @@ function initPanZoom(containerId) {
 	
 
 	function onWheel(e) {
+			// Not engaged: let the wheel scroll the page normally, and nudge
+			// the user toward clicking the graph if they meant to zoom.
+			if (!engaged) {
+				flashHint();
+				return;
+			}
 			e.preventDefault();
 			const rect = viewport.getBoundingClientRect();
 			const mouseX = e.clientX - rect.left;
@@ -1320,10 +1555,49 @@ function initPanZoom(containerId) {
 
 
 
+  // Restore the default view. Bound to the "F" (fit) shortcut rather than a
+  // mouse gesture: double-click means "zoom in" in most map/canvas UIs, and it
+  // collided with the node click handlers used by Highlight Paths and
+  // Sanitize Labels. Works whether or not the graph is engaged for wheel zoom,
+  // since you can zoom, click away to disengage, and still be left zoomed.
+  function resetView() {
+    // stop any inertia glide still running
+    if (inertiaFrame) {
+      cancelAnimationFrame(inertiaFrame);
+      inertiaFrame = null;
+    }
+
+    // restore the original (un-panned, un-zoomed) view
+    panX = 0;
+    panY = 0;
+    scale = 1;
+    velocityX = velocityY = 0;
+    updateTransform();
+  }
+
   viewport.addEventListener("mousedown", onMouseDown);
   document.addEventListener("mousemove", onMouseMove);
   document.addEventListener("mouseup", onMouseUp);
+  document.addEventListener("mousedown", onDocMouseDownEngage);
   viewport.addEventListener("wheel", onWheel, { passive: false });
+
+  // Expose the reset to the global keydown handler, which lives outside this
+  // closure. Cleared in the cleanup below so a stale closure can never fire
+  // against a detached SVG.
+  viewport._dpvizPanZoomReset = resetView;
+
+  // Remove exactly this instance's listeners on the next re-init, and cancel any
+  // pending timers/frames so nothing keeps firing against the detached SVG.
+  viewport._dpvizPanZoomCleanup = function () {
+    viewport.removeEventListener("mousedown", onMouseDown);
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+    document.removeEventListener("mousedown", onDocMouseDownEngage);
+    viewport.removeEventListener("wheel", onWheel);
+    viewport._dpvizPanZoomReset = null;
+    if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+    if (inertiaFrame) { cancelAnimationFrame(inertiaFrame); inertiaFrame = null; }
+  };
 }
 
 //mouse sensitivity
@@ -1373,11 +1647,6 @@ openBtn.onclick = () => {
 
 closeBtn.onclick = () => { modal.style.display = 'none'; };
 window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-
-document.getElementById("coffee").addEventListener("click", function () {
-  const url = `ajax.php?module=dpviz&command=coffee`;
-  fetch(url, { method: "POST", credentials: "same-origin" })
-});
 
 document.getElementById('feedbackForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -1553,18 +1822,18 @@ function wireGraphvizTooltips(container) {
   const parent = tn.parentNode;
   const val = (tn.textContent || '').trim();
 
-  // 🚫 skip root graph titles (graph0, graph1, etc)
+  // skip root graph titles (graph0, graph1, etc)
   if (parent && parent.classList.contains('graph')) {
     tn.remove();
     return;
   }
 
   if (parent && val !== '') {
-    // ✅ store for tooltips
+    // store for tooltips
     if (!titleMap.has(parent)) {
       titleMap.set(parent, normalize(val));
     }
-    // ✅ also keep for modal logic
+    // also keep for modal logic
     if (!parent.dataset.gvtitle) {
       parent.dataset.gvtitle = normalize(val);
     }
@@ -1626,10 +1895,10 @@ function wireGraphvizTooltips(container) {
   function getTooltipText(host) {
     if (!host) return '';
 
-    // 🚫 ignore root graph groups
+    // ignore root graph groups
     if (host.classList.contains('graph')) return '';
 
-    // ✅ First: prefer captured xlink/title
+    // prefer captured xlink/title
     let el = host;
     while (el && el !== svg) {
       const t = titleMap.get(el);
@@ -1713,10 +1982,10 @@ $(document).on('change', '#moduleSelect', function () {
 
     let canAddNew = false;
 
-    // 🔒 RULE #1: module must support creation
+    // module must support creation
     if (filteredAllowNew.includes(mod)) {
 
-        // 🔒 RULE #2: user must have permission
+        // user must have permission
         if (sections.includes('*')) {
             canAddNew = true;
         } else {
@@ -1848,7 +2117,7 @@ $(document).on('click', '#saveNoDestBtn', function () {
 		$('#inlineNewForm').remove();
 		if ($saveBtn.length) $saveBtn.prop('disabled', false);
 
-		// NOW SAVE THE RELATIONSHIP (the missing step!)
+		// save the relationship
 		fetch('ajax.php?module=dpviz&command=add_dyn_entry', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -1890,7 +2159,7 @@ $(document).on('click', '#saveNoDestBtn', function () {
 		$('#inlineNewForm').remove();
 		if ($saveBtn.length) $saveBtn.prop('disabled', false);
 
-		// NOW SAVE THE RELATIONSHIP (the missing step!)
+		// save the relationship
 		fetch('ajax.php?module=dpviz&command=save_nodest', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -1915,7 +2184,7 @@ $(document).on('click', '#saveNoDestBtn', function () {
 	}
 	
   /* -----------------------------------------------------
-   * MODE: NEW DESTINATION MODE (your old override)
+   * MODE: NEW DESTINATION
    * ----------------------------------------------------- */
   if (typeof newDestinationMode !== 'undefined' && newDestinationMode === true) {
     $('#nodestmodal').hide();
@@ -2031,7 +2300,7 @@ function loadInsertDestModal(titleText) {
     }
     $modal.data('previous', previous);
 
-    // ✅ NEW: sections come from PHP
+    // sections come from PHP
     const sections = Array.isArray(dpvizConfig.sections)
         ? dpvizConfig.sections
         : [];
@@ -2124,7 +2393,7 @@ function loadNewSelectionModal(titleText) {
             nodestData = data;
             const nodestKeys = Object.keys(nodestData); // LABELS
 
-            // ✅ NEW: sections come from PHP
+            // sections come from PHP
             const sections = Array.isArray(dpvizConfig.sections)
                 ? dpvizConfig.sections
                 : [];
@@ -2222,14 +2491,14 @@ function loadNewEntryModal(titleText) {
             nodestData = data;
             const nodestKeys = Object.keys(nodestData);
 
-            // ✅ sections from injected config
+            // sections from injected config
             const sections = Array.isArray(window.dpvizConfig?.sections)
                 ? window.dpvizConfig.sections
                 : [];
 
             const hasWildcard = sections.includes('*');
 
-            // ✅ modules user is allowed to CREATE
+            // modules the user is allowed to create
             const allowedCreatable = Array.isArray(filteredAllowNew)
                 ? filteredAllowNew.filter(function (label) {
 
@@ -2317,7 +2586,7 @@ function openNewDestinationModal() {
     $title.text(translations.newDestination || 'New Destination');
     $modal.data('mode', 'create');
 
-    // ✅ NEW: sections come from PHP
+    // sections come from PHP
     const sections = Array.isArray(dpvizConfig.sections)
         ? dpvizConfig.sections
         : [];

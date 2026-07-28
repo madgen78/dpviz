@@ -300,9 +300,6 @@ msgstr "不允许直接访问脚本"
 msgid "Check for Updates"
 msgstr "查找更新"
 
-msgid "Buy Me a Coffee"
-msgstr "买我咖啡"
-
 msgid "Date & Time Stamp"
 msgstr "日期与时间戳"
 
@@ -1138,60 +1135,6 @@ msgstr "在%s中的新功能"
 msgid "Here is a quick overview of the main improvements in this release."
 msgstr "这里是关于这个版本的主要改进的简要概述。"
 
-msgid "Interface & Layout"
-msgstr "界面与布局"
-
-msgid ""
-"Improved the toolbar layout so it behaves better on typical desktop screen "
-"sizes."
-msgstr "改进了工具栏布局，以便在典型桌面屏幕尺寸上更好地表现。"
-
-msgid ""
-"Moved export options into a cleaner download panel with a separate action "
-"button."
-msgstr "移动导出选项到一个更清洁的下载面板，并为其分配一个单独的操作按钮。"
-
-msgid ""
-"Refined the Navigation & Usage and Settings pages to make them easier to scan "
-"and use."
-msgstr "优化了导航与使用和设置页面，使它们更容易扫描和使用。"
-
-msgid "Workflow & Compatibility"
-msgstr "工作流程与兼容性"
-
-msgid ""
-"Unified modal styling and drag behavior so dialogs feel more consistent "
-"throughout the module."
-msgstr "统一对话框样式和拖动行为，使对话框在整个模块中感觉更一致。"
-
-msgid ""
-"Added an export filename prefix option to make downloaded files easier to "
-"organize."
-msgstr "添加了导出文件前缀选项，以便更容易组织下载的文件。"
-
-msgid "User Preferences"
-msgstr "用户设置"
-
-msgid ""
-"Settings now use the global module values as defaults, while each user can "
-"keep their own overrides."
-msgstr "设置现在使用全局模块值作为默认值，同时每个用户可以保留自己的覆盖值。"
-
-msgid ""
-"What's New visibility is now tracked per user, so each person can dismiss it "
-"independently."
-msgstr "新功能可见性现在按用户进行跟踪，因此每个人都可以独立消除它。"
-
-msgid ""
-"User-specific settings continue to fall back to the module defaults unless "
-"that user changes them."
-msgstr "用户特定设置将继续回退到模块默认值，除非该用户更改它们。"
-
-msgid ""
-"Mouse wheel zoom sensitivity can be adjusted in Settings if you want slower "
-"or faster graph navigation."
-msgstr "鼠轮缩放敏感度可以在设置中调整，如果您想要更慢或更快的图形导航。"
-
 msgid "Don't show this again for version %s"
 msgstr "不要再次显示此内容，对于版本%s"
 
@@ -1259,7 +1202,116 @@ msgstr ""
 msgid "Viewing Controls"
 msgstr "查看控制"
 
+msgid "Click graph to zoom"
+msgstr "点击图表以放大"
+
+msgid "Keyboard Shortcuts"
+msgstr "快捷键"
+
+msgid "Press R to reload the current graph."
+msgstr "按R键重新加载当前图表。"
+
 msgid ""
-"Moved more layout behavior into dpviz-owned styling to improve consistency "
-"across supported PBX platforms."
-msgstr "移动更多布局行为到dpviz所有的样式中，以提高在支持的PBX平台上的一致性。"
+"Use the Left and Right arrow keys to step to the previous or next dial plan."
+msgstr "使用左右箭头键跳到前一个或后一个拨号计划。"
+
+msgid "Press ? to jump straight to the Navigation & Usage page."
+msgstr "按？键可直接跳转到导航与使用页面。"
+
+msgid ""
+"Shortcuts work as soon as the page loads and pause automatically while you "
+"are typing, searching, or using a dialog."
+msgstr ""
+"快捷方式在页面加载时立即生效，并在您正在输入、搜索或使用对话框时自动暂停。"
+
+msgid ""
+"The Reload button shows an [R] hint, and the previous/next buttons show their "
+"shortcut keys on hover. A full list lives on the Navigation & Usage page."
+msgstr ""
+"重新加载按钮显示一个[R]提示，而上一页/下一页按钮在悬停时显示它们的快捷键。完整"
+"的列表位于“导航与使用”页面上。"
+
+msgid "Graph Navigation"
+msgstr "图形导航"
+
+msgid ""
+"The mouse wheel scrolls the page as usual until you click the graph to engage "
+"zoom. Click anywhere outside the graph to release it and scroll the page "
+"again. A brief \"Click graph to zoom\" hint appears if you wheel over the "
+"graph before engaging it."
+msgstr ""
+"鼠标轮滚动页面如同常规操作，直到你点击图表进行放大。点击图表外的任何地方释放它"
+"并继续滚动页面。如果在点击图表之前滚动鼠标轮悬停在图表上，会出现一句“点击图表"
+"进行放大”的提示。"
+
+msgid "Interface"
+msgstr "界面"
+
+msgid ""
+"The toolbar now scrolls with the page instead of floating, so it no longer "
+"overlaps the graph as you scroll."
+msgstr "工具栏现在与页面滚动一起滑动，而不是漂浮，所以它再也不会与图表重叠了。"
+
+msgid "announcement off"
+msgstr "宣布关闭"
+
+msgid "Reload the current graph."
+msgstr "重载当前图表。"
+
+msgid "Jump to the previous or next dial plan."
+msgstr "跳到前一个或下一个拨号计划。"
+
+msgid "Open this Navigation & Usage page."
+msgstr "打开此导航与使用页面。"
+
+msgid ""
+"Shortcuts pause while typing in a field, searching the dial plan list, or "
+"when a dialog is open."
+msgstr "快捷键在输入字段、搜索拨号计划列表或打开对话框时暂停。"
+
+msgid "Press F to fit the graph back to the default pan and zoom."
+msgstr "按F键以适应图形返回默认面板和缩放。"
+
+msgid ""
+"Nodes now have distinct colors where some previously shared the same one."
+msgstr "节点现在有独特的颜色，之前某些节点使用了相同的颜色。"
+
+msgid "Open the GitHub repository"
+msgstr "打开GitHub仓库"
+
+msgid "Fit the graph: reset pan and zoom to the default view."
+msgstr "适应图形：重置滚动条和放大缩小到默认视图。"
+
+msgid "Buy me a coffee"
+msgstr "买我一杯咖啡"
+
+msgid ""
+"Time Conditions that use a Calendar or Calendar Group now show the calendar "
+"name on the Match and No Match arrows again."
+msgstr "使用日历或日历组的时间条件现在在匹配和不匹配箭头上 again 显示日历名称。"
+
+msgid ""
+"Those arrows are now colored green for the path a call takes right now and "
+"red for the path it does not, the same way time group conditions already "
+"behaved. They stay black only when the state cannot be determined, such as "
+"when the Calendar module is disabled."
+msgstr ""
+"这些箭头现在根据调用的当前路径显示为绿色，而不是路径的其他部分显示为红色。这与"
+"时间组条件的行为保持一致。只有当日历模块被禁用时，箭头才会保持黑色。"
+
+msgid ""
+"Simulate Date & Time now evaluates calendars too, so you can check holiday "
+"routing before the date arrives."
+msgstr ""
+"现在模拟日期和时间也可以评估日历，所以你可以在日期到达之前检查节假日路由。"
+
+msgid "Selections %s"
+msgstr "选项 %s"
+
+msgid ""
+"A Time Condition pointed at a time group with no times defined no longer "
+"throws an error. It now shows \"No times defined\" on the arrows and follows "
+"No Match, which is what the dial plan actually does."
+msgstr ""
+"一个时间条件指向一个没有定义时间的时间组overty 已经不再抛出错误。现在在箭头上"
+"显示“没有定义时间”，并按照拨号规划实际行为继续进行。"

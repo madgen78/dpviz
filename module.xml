@@ -2,7 +2,7 @@
   <rawname>dpviz</rawname>
   <repo>unsupported</repo>
   <name>Dial Plan Vizualizer</name>
-  <version>1.0.33</version>
+  <version>1.0.34</version>
   <publisher>AdamV</publisher>
   <license>GPLv3+</license>
   <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
@@ -15,6 +15,7 @@
 	
   
 	<changelog>
+		*1.0.34* Added keyboard shortcuts (R to reload, Left/Right arrows to navigate dial plans, F to fit the graph, ? to open Navigation &amp; Usage). Added on-button shortcut hints. The toolbar now scrolls with the page instead of floating. Nodes now have distinct colors where some previously shared the same one. #43 Fixed a fatal error on Time Conditions using a time group with no times defined. These now show No Match as the active path. Corrected active / inactive edge coloring to only apply to Time Condition and Call Flow Control nodes. #44 A stale or broken third-party module can no longer take down the whole graph with a fatal error while destinations load; such errors are now logged and the graph still renders. Time Conditions driven by a Calendar or Calendar Group now show the calendar name on the arrows again and color the active path the way time groups do, including under simulated time. Find Me Follow Me and extension optional destinations are now on by default for new installs.
 		*1.0.33* Improved cross-version interface consistency across supported PBX platforms. Refined toolbar and export workflow. Polished modal styling and new destination forms. Reworked Navigation &amp; Usage and Settings presentation. Added per-user preference handling for settings and What's New visibility.
 		*1.0.32* Create and insert destinations honoring user permissions. Show active and inactive paths for TC and CFC (also ability to simulate). Mouse zoom sensitivity. Fixed ext optional destinations.
 		*1.0.31* Fixed .png exports. #34
@@ -45,7 +46,7 @@
 	<depends>
 		<module>recordings</module>
 		<module>soundlang</module>
-		<phpversion>5.3.0</phpversion>
+		<phpversion>5.6.0</phpversion>
 	</depends>
   <info>https://github.com/madgen78/dpviz</info>
   <supported>

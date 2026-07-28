@@ -3,7 +3,7 @@
 ## Overview
 The **Dial Plan Vizualizer** (dpviz) is a module for [FreePBX®](http://www.freepbx.org/), an open-source graphical user interface for managing [Asterisk](http://www.asterisk.org/) phone systems. FreePBX is licensed under GPL.
 
-This module visually maps out the call flow for any inbound route, making it an essential tool for PBX administrators. It simplifies troubleshooting, optimization, and documentation of call routing by providing a clear, interactive diagram of how calls are handled.
+This module draws the call flow for any inbound route as an interactive diagram, showing where a call goes at each step. That makes it easier to troubleshoot routing problems, tidy up a dial plan, and document an existing system.
 
 It is particularly useful for:
 - **Understanding call distribution** – "Which extensions ring when someone calls X?"
@@ -56,6 +56,7 @@ You may adjust the schedule as needed.
 5. **Asterisk DND or Call Forward** status is shown by the node border color: **yellow** (enabled).
 6. **Queue paused state** is shown with a ⏸️ in the edge text(single) or next to the extension(combine).
 7. **Dynamic queue member login status** is shown by the node border color: **blue**(logged in).
+8. **Active call path** is shown by the arrow color on Time Conditions and Call Flow Control: **green** (the path a call takes right now), **red** (not taken). Arrows stay **black** when dpviz cannot determine the state — for example a Time Condition using a Calendar while the Calendar module is disabled.
 
 ### Highlighting Call Paths
 - Click **Highlight Paths**, then select a node or edge to highlight it (links are inactive).
@@ -79,7 +80,15 @@ You may adjust the schedule as needed.
 - **Ignore / hide from a Node:** Press Shift and left-click a node to make it the last node drawn. Helpful for focusing on important routes. (eg. Time condition flows into another time condition.) Multiple "shift + clicks" are supported.
 - **Redraw from a Node:** Press Ctrl (Cmd on macOS) and left-click a node to make it the new starting point in the diagram. To revert, Ctrl/Cmd + left-click the "Back" node.
 - **Pan** by holding down the left mouse button and dragging.
-- **Zoom** using the mouse wheel.
+- **Zoom** using the mouse wheel. The wheel scrolls the page as usual until you click the graph to engage zoom; click anywhere outside the graph to release it again. Requires **Pan & Zoom** to be enabled in Settings.
+
+### Keyboard Shortcuts
+- **R** – Reload the current graph.
+- **← / →** – Jump to the previous or next dial plan.
+- **F** – Fit the graph: reset pan and zoom back to the default view.
+- **?** – Open the Navigation & Usage page.
+
+Shortcuts work as soon as the page loads, and pause automatically while you are typing in a field, searching the dial plan list, or when a dialog is open.
 
 ## Additional Features
 - **Listen** to recordings assigned to Announcement, Dynamic Route, IVR, Play Recording, Voicemail modules. (**Note**: Supports multi-part and multi-language recordings. Only .wav files are supported.)
@@ -87,17 +96,18 @@ You may adjust the schedule as needed.
 - **Click** on a destination to open it in a new tab.
 - **Click** on a "Match: (timegroup)" or "No Match" to open it in a new tab.
 - **Export** the dial plan with standard or custom filename. Choose between super, high, standard quality, or .SVG
+- **Simulate Date & Time** (hamburger menu) to see which path a call would take at another moment. Time Conditions and Calendars are both evaluated against the simulated time, so you can check holiday and after-hours routing before the date arrives.
 
 ## Dependencies
-- **PHP >= 5.3.0**
+- **PHP >= 5.6.0**
 - **Recordings**
 - **Sound Languages**
 
 ## Supported PBXs
-- **FreePBX 13 - 17**
+- **FreePBX 14 - 17**
 - **PBXact**
 - **TangoPBX**
-- **IncrediblePBX 2027 & 2025**
+- **IncrediblePBX 2027, 2025, & 2026**
 
 ## Supported Languange Translations
 - **Chinese (Simplified)**
@@ -111,8 +121,9 @@ You may adjust the schedule as needed.
 - **Russian**
 - **Spanish (Spain)**
 
+## Support
+dpviz is free and always will be. If it saves you time, you can [☕ buy me a coffee](https://buymeacoffee.com/adamvolchko).
+
 ## License
 This module's code is licensed under [GPLv3+](http://www.gnu.org/licenses/gpl-3.0.txt).
-
-[__Buy me a coffee! :coffee:__](https://buymeacoffee.com/adamvolchko)
 

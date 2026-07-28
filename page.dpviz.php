@@ -62,6 +62,7 @@ const translations = {
 	sanitizeLabels: "<?php echo _('Sanitize Labels'); ?>",
 	restoreLabels: "<?php echo _('Restore Labels'); ?>",
 	enterFilename: "<?php echo _('Enter filename'); ?>",
+	clickToZoom: "<?php echo _('Click graph to zoom'); ?>",
 	feedbackSuccess: "<?php echo _('Thank you! Your feedback has been sent.'); ?>",
 	feedbackError: "<?php echo _('Feedback submission failed. Please try again later.'); ?>",
 	systemrecording: "<?php echo _('System Recording'); ?>",
@@ -235,30 +236,39 @@ const translations = {
 										<p class="dpviz-whatsnew-intro"><?php echo _('Here is a quick overview of the main improvements in this release.'); ?></p>
 
 										<div class="dpviz-whatsnew-section">
-											<h3><?php echo _('Interface & Layout'); ?></h3>
+											<h3><?php echo _('Time Conditions'); ?></h3>
 											<ul>
-												<li><?php echo _('Improved the toolbar layout so it behaves better on typical desktop screen sizes.'); ?></li>
-												<li><?php echo _('Moved export options into a cleaner download panel with a separate action button.'); ?></li>
-												<li><?php echo _('Refined the Navigation & Usage and Settings pages to make them easier to scan and use.'); ?></li>
+												<li><?php echo _('A Time Condition pointed at a time group with no times defined no longer throws an error. It now shows "No times defined" on the arrows and follows No Match, which is what the dial plan actually does.'); ?></li>
+												<li><?php echo _('Time Conditions that use a Calendar or Calendar Group now show the calendar name on the Match and No Match arrows again.'); ?></li>
+												<li><?php echo _('Those arrows are now colored green for the path a call takes right now and red for the path it does not, the same way time group conditions already behaved. They stay black only when the state cannot be determined, such as when the Calendar module is disabled.'); ?></li>
+												<li><?php echo _('Simulate Date & Time now evaluates calendars too, so you can check holiday routing before the date arrives.'); ?></li>
 											</ul>
 										</div>
 
 										<div class="dpviz-whatsnew-section">
-											<h3><?php echo _('Workflow & Compatibility'); ?></h3>
+											<h3><?php echo _('Keyboard Shortcuts'); ?></h3>
 											<ul>
-												<li><?php echo _('Moved more layout behavior into dpviz-owned styling to improve consistency across supported PBX platforms.'); ?></li>
-												<li><?php echo _('Unified modal styling and drag behavior so dialogs feel more consistent throughout the module.'); ?></li>
-												<li><?php echo _('Added an export filename prefix option to make downloaded files easier to organize.'); ?></li>
+												<li><?php echo _('Press R to reload the current graph.'); ?></li>
+												<li><?php echo _('Use the Left and Right arrow keys to step to the previous or next dial plan.'); ?></li>
+												<li><?php echo _('Press F to fit the graph back to the default pan and zoom.'); ?></li>
+												<li><?php echo _('Press ? to jump straight to the Navigation & Usage page.'); ?></li>
+												<li><?php echo _('Shortcuts work as soon as the page loads and pause automatically while you are typing, searching, or using a dialog.'); ?></li>
+												<li><?php echo _('The Reload button shows an [R] hint, and the previous/next buttons show their shortcut keys on hover. A full list lives on the Navigation & Usage page.'); ?></li>
 											</ul>
 										</div>
 
 										<div class="dpviz-whatsnew-section">
-											<h3><?php echo _('User Preferences'); ?></h3>
+											<h3><?php echo _('Graph Navigation'); ?></h3>
 											<ul>
-												<li><?php echo _('Settings now use the global module values as defaults, while each user can keep their own overrides.'); ?></li>
-												<li><?php echo _('What\'s New visibility is now tracked per user, so each person can dismiss it independently.'); ?></li>
-												<li><?php echo _('User-specific settings continue to fall back to the module defaults unless that user changes them.'); ?></li>
-												<li><?php echo _('Mouse wheel zoom sensitivity can be adjusted in Settings if you want slower or faster graph navigation.'); ?></li>
+												<li><?php echo _('The mouse wheel scrolls the page as usual until you click the graph to engage zoom. Click anywhere outside the graph to release it and scroll the page again. A brief "Click graph to zoom" hint appears if you wheel over the graph before engaging it.'); ?></li>
+											</ul>
+										</div>
+
+										<div class="dpviz-whatsnew-section">
+											<h3><?php echo _('Interface'); ?></h3>
+											<ul>
+												<li><?php echo _('The toolbar now scrolls with the page instead of floating, so it no longer overlaps the graph as you scroll.'); ?></li>
+												<li><?php echo _('Nodes now have distinct colors where some previously shared the same one.'); ?></li>
 											</ul>
 										</div>
 
@@ -268,6 +278,8 @@ const translations = {
 												<span class="dpviz-whatsnew-toggletext-clean"><?php echo sprintf(_("Don't show this again for version %s"), $version); ?></span>
 											</div>
 											<div class="dpviz-whatsnew-right-clean">
+												<?php // Same msgid as the Settings page link so the existing translations apply. ?>
+												<a href="https://github.com/madgen78/dpviz/" class="dpviz-whatsnew-github" title="<?php echo _('Open the GitHub repository'); ?>" target="_blank" rel="noopener noreferrer"><i class="fa fa-github"></i> GitHub</a>
 												<button type="button" class="btn btn-default" id="closeWhatsNewAction"><?php echo _('Close'); ?></button>
 											</div>
 										</div>

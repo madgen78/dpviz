@@ -123,7 +123,7 @@ function restoreLinks() {
 }
 
 /**
- * 🔴 Modified: now uses dataset.gvtitle (set by wireGraphvizTooltips)
+ * Matches on dataset.gvtitle, which wireGraphvizTooltips sets.
  */
 function highlightPathToNode(nodeId) {
 	if (!svgContainer) return;
