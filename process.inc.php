@@ -1181,11 +1181,11 @@ function isCollapsibleSelection($sel) {
 /**
  * Collapse a list of IVR selection keys into a compact range string:
  *   0,1,2,3   -> "0-3"
- *   1,3,7     -> "1,3,7"
- *   0,1,2,5,6 -> "0-2,5,6"
+ *   1,3,7     -> "1, 3, 7"
+ *   0,1,2,5,6 -> "0-2, 5, 6"
  *
  * Runs of three or more consecutive keys become a range; a pair stays listed,
- * since "0,1" is no longer than "0-1" and reads more plainly. Non-numeric keys
+ * since "0, 1" is no longer than "0-1" and reads more plainly. Non-numeric keys
  * (Invalid Input, Timeout) are the caller's problem - they are not keypresses
  * and must not be folded into a range.
  *
@@ -1209,7 +1209,7 @@ function collapseSelectionRanges($keys) {
 
     $flush = function ($start, $prev) {
         if ($start === $prev)     { return (string)$start; }
-        if ($prev - $start === 1) { return $start . ',' . $prev; }
+        if ($prev - $start === 1) { return $start . ', ' . $prev; }
         return $start . '-' . $prev;
     };
 
@@ -1227,7 +1227,7 @@ function collapseSelectionRanges($keys) {
     }
     $parts[] = $flush($start, $prev);
 
-    return implode(',', $parts);
+    return implode(', ', $parts);
 }
 
 /**

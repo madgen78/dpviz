@@ -1939,7 +1939,7 @@ textarea:focus, input[type="email"]:focus {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 1060;
+  z-index: 1000050;   /* → above .select2-container--open (999999) so a dropdown left open at load can't punch through */
   background: rgba(0, 0, 0, 0.45);
   opacity: 0;
   transition: opacity 240ms ease;

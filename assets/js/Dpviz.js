@@ -1674,6 +1674,17 @@ document.getElementById('feedbackForm').addEventListener('submit', (e) => {
     form.reset();
 });
 
+//coffee ping → fire-and-forget, never block the link
+const coffeeLink = document.querySelector('.dpviz-coffee-link');
+if (coffeeLink) {
+    coffeeLink.addEventListener('click', () => {
+        fetch("ajax.php?module=dpviz&command=coffee", {
+            method: "POST",
+            keepalive: true
+        }).catch(() => {});
+    });
+}
+
 
 
 function getWhatsNewModalElements() {
@@ -1686,11 +1697,23 @@ function getWhatsNewModalElements() {
 	};
 }
 
+// any select2 opened while the page was still loading would sit under the modal → close it first
+function closeOpenSelect2Dropdowns() {
+	if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.select2) {
+		return;
+	}
+	try {
+		window.jQuery('select.select2-hidden-accessible').select2('close');
+	} catch (e) {}
+}
+
 function showWhatsNewModal() {
 	var elements = getWhatsNewModalElements();
 	if (!elements.modal) {
 		return;
 	}
+
+	closeOpenSelect2Dropdowns();
 
 	if (elements.hideCheckbox) {
 		elements.hideCheckbox.checked = !!whatsNewHiddenByServer;

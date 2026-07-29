@@ -639,6 +639,7 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 						case 'saveview':
 						case 'deleteview':
 						case 'feedback':
+						case 'coffee':
 						case 'nodestselect':
 						case 'save_nodest':
 						case 'create_destination':
@@ -1079,6 +1080,9 @@ class Dpviz extends \FreePBX_Helpers implements \BMO {
 										echo json_encode(array('status' => 'error', 'message' => $errorMsg));
 								}
 								exit;
+
+						case 'coffee':
+								return $this->sendAction('coffee');
 
 						case 'nodestselect':
 								$freepbx = \FreePBX::create();
