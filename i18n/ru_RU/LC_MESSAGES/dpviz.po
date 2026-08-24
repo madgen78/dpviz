@@ -1,1992 +1,284 @@
+# Russian (ru_RU) translation worklist for dpviz 1.0.35
+#
+# These are the strings added since the .pot your PR #47 was based on
+# (POT-Creation-Date: 2026-03-30). The 33 corrections from PR #47 have
+# already been applied upstream -- nothing there needs redoing.
+#
+# Entries marked "fuzzy" already carry a machine translation that needs a
+# native-speaker review; the rest are empty and need translating.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: dpviz 1.0.35\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-30 10:13-0400\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: Dmitriy Q <atsip-help@yandex.ru>\n"
-"Language-Team: \n"
+"Language-Team: TranslAster\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:47
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:375
-msgid "Highlight Paths"
-msgstr "Выделить Пути"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: page.dpviz.php:65
+msgid "Click graph to zoom"
+msgstr "Щелкните график, чтобы увеличить его"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:48
-msgid "Remove Highlights"
-msgstr "Удалить выделение"
+#: page.dpviz.php:85
+msgid "Exit expanded view"
+msgstr "Выйти из расширенного просмотра"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:49
-msgid "Checking..."
-msgstr "Проверка..."
+#: page.dpviz.php:87
+msgid "Your session has ended"
+msgstr "Ваша сессия закончилась"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:50
-msgid "You are up to date."
-msgstr "Вы актуальны."
+#: page.dpviz.php:88
+msgid "You were signed out, most likely in another tab or window."
+msgstr "Вы вышли из системы, скорее всего, в другой вкладке или окне."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:51
-msgid "available! Use Module Admin to update"
-msgstr "доступен! Используйте модуль администрирования для обновления"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:52
-msgid "Current installed version"
-msgstr "Текущая установленная версия"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:53
+#: page.dpviz.php:89
 msgid ""
-"could not be found. To generate the file, simply go to the recording, select "
-"the \\\"convert to\\\" wav option, and click submit."
+"You were signed out, most likely in another tab or window, so this change "
+"was not saved."
 msgstr ""
-"не могли быть найдены. Чтобы сгенерировать файл, просто перейдите к записи, "
-"выберите опцию \\\"преобразовать в\\\" wav и нажмите кнопку присылать."
+"Вы вышли из системы, скорее всего, в другой вкладке или окне, так что это "
+"изменение не было сохранено."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:54
-#: /var/www/html/admin/modules/dpviz/process.php:2112
-#: /var/www/html/admin/modules/dpviz/process.php:2114
-#: /var/www/html/admin/modules/dpviz/process.php:2117
-#: /var/www/html/admin/modules/dpviz/process.php:2125
-#: /var/www/html/admin/modules/dpviz/process.php:3148
-msgid "Recording"
-msgstr "Запись"
+#: page.dpviz.php:90
+msgid "Sign in again"
+msgstr "Войти снова"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:55
-msgid "No files found for language:"
-msgstr "Ни одного файла не найдено для языка:"
+#: page.dpviz.php:91
+msgid "All types"
+msgstr "Все типы"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:56
-msgid "Greeting has not been recorded or is missing."
-msgstr "Приветствие не записано или отсутствует."
+#: page.dpviz.php:92
+msgid "No matches"
+msgstr "Совпадений нет"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:57
-msgid "Copy filename"
-msgstr "Скопировать имя файла"
+#: page.dpviz.php:94
+msgid "Link"
+msgstr "Ссылка"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:58
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:448
-msgid "Download"
-msgstr "Скачать"
+#: page.dpviz.php:232 page.dpviz.php:233
+msgid "Find in graph"
+msgstr "Найти на графике"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:59
-msgid "Audio"
-msgstr "Аудио"
+#: page.dpviz.php:235
+msgid "Previous match"
+msgstr "Предыдущее совпадение"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:60
-msgid "View Saved Successfully"
-msgstr "Просмотр сохранен успешно"
+#: page.dpviz.php:238
+msgid "Next match"
+msgstr "Следующее совпадение"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:61
-msgid "View Deleted Successfully"
-msgstr "Просмотр успешно удален"
+#: page.dpviz.php:246
+msgid "Filter by type"
+msgstr "Фильтровать по типу"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:62
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:378
-msgid "Sanitize Labels"
-msgstr "Скрыть метки"
+#: page.dpviz.php:275 views/toolbar.php:497
+msgid "Recently Viewed"
+msgstr "Недавно просмотренные"
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:63
-msgid "Restore Labels"
-msgstr "Восстановить Этикетки"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:64
-msgid "Enter filename"
-msgstr "Введите имя файла"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:65
-msgid "Thank you! Your feedback has been sent."
-msgstr "Спасибо! Ваше мнение было успешно отправлено."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:66
-msgid "Feedback submission failed. Please try again later."
-msgstr "Отправка обратной связи не удалась. Попробуйте позже."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:67
-msgid "System Recording"
-msgstr "Записи в системе"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:68
-#: /var/www/html/admin/modules/dpviz/process.php:1434
-#: /var/www/html/admin/modules/dpviz/process.php:1618
-#: /var/www/html/admin/modules/dpviz/process.php:1620
-#: /var/www/html/admin/modules/dpviz/process.php:1623
-#: /var/www/html/admin/modules/dpviz/process.php:2430
-#: /var/www/html/admin/modules/dpviz/process.php:2432
-#: /var/www/html/admin/modules/dpviz/process.php:2435
-#: /var/www/html/admin/modules/dpviz/process.php:3078
-#: /var/www/html/admin/modules/dpviz/process.php:3080
-#: /var/www/html/admin/modules/dpviz/process.php:3083
-#: /var/www/html/admin/modules/dpviz/process.php:3229
-#: /var/www/html/admin/modules/dpviz/process.php:3231
-#: /var/www/html/admin/modules/dpviz/process.php:3234
-msgid "Announcement"
-msgstr "Приветствия"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:69
-msgid "IVR"
-msgstr "ИВР"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:70
-#: /var/www/html/admin/modules/dpviz/process.php:814
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1074
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1114
-msgid "Voicemail"
-msgstr "Смотреть сообщения озвучки"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:71
-#: /var/www/html/admin/modules/dpviz/process.php:406
-msgid "Ring Group"
-msgstr "Группа звонков"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:72
-#: /var/www/html/admin/modules/dpviz/process.php:374
-#: /var/www/html/admin/modules/dpviz/process.php:393
-msgid "Queue"
-msgstr "Очередь"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:73
-msgid "Voicemail Blast"
-msgstr "Возвращение голосовых сообщений"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:74
-#: /var/www/html/admin/modules/dpviz/process.php:3089
-msgid "Page Group"
-msgstr "Группа страниц"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:75
-msgid "Dynamic Route"
-msgstr "Динамическое направление"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:76
-#: /var/www/html/admin/modules/dpviz/process.php:1062
-msgid "Queue Callback"
-msgstr "Вызов в очередь обратного звонка"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:77
-#: /var/www/html/admin/modules/dpviz/process.php:140
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:423
-msgid "New Destination"
-msgstr "Новая цель"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:78
-msgid "Insert New Destination"
-msgstr "Вставьте новую цель"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:79
-msgid "Simulated date & time applied."
-msgstr "Симулированная дата и время применена."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:80
-msgid "Simulated date & time cleared."
-msgstr "Симулированная дата и время очищены."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:81
-msgid "You do not have permission to create new destinations."
-msgstr "Вы не имеете разрешения на создание новых назначений."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:88
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:97
-msgid "Dial Plan"
-msgstr "Диалплан"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:102
-#: /var/www/html/admin/modules/dpviz/views/nav.php:3
-msgid "Navigation & Usage"
-msgstr "Навигация & Использование"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:107
-msgid "Settings"
-msgstr "Настройки"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:118
-msgid "Loading..."
-msgstr "Загрузка..."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:155
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:164
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:384
-msgid "Save View"
-msgstr "Сохранить Вью"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:160
-#: /var/www/html/admin/modules/dpviz/process.php:1445
-#: /var/www/html/admin/modules/dpviz/process.php:1720
-#: /var/www/html/admin/modules/dpviz/process.php:1937
-#: /var/www/html/admin/modules/dpviz/process.php:2124
-#: /var/www/html/admin/modules/dpviz/process.php:2266
-#: /var/www/html/admin/modules/dpviz/process.php:3090
-#: /var/www/html/admin/modules/dpviz/process.php:3329
-#: /var/www/html/admin/modules/dpviz/process.php:3489
-#: /var/www/html/admin/modules/dpviz/process.php:3573
-msgid "Description"
-msgstr "Описание"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:163
-msgid "Delete View"
-msgstr "Удалить Просмотр"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:176
-msgid "Simulate Date & Time"
-msgstr "Симлировать Дата & Время"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:184
-msgid "Select Date & Time"
-msgstr "Выберите Дату & Время"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:192
-msgid "Click Reset to return to the real system time."
-msgstr "Нажмите \"Сбросить\" для возвращения к реальному времени системы."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:198
-msgid "Apply"
-msgstr "Применить"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:201
-#: /var/www/html/admin/modules/dpviz/process.php:102
-#: /var/www/html/admin/modules/dpviz/process.php:103
-#: /var/www/html/admin/modules/dpviz/process.php:285
-#: /var/www/html/admin/modules/dpviz/process.php:286
-#: /var/www/html/admin/modules/dpviz/views/options.php:28
-#: /var/www/html/admin/modules/dpviz/views/options.php:579
-msgid "Reset"
-msgstr "Сброс"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:210
-msgid "Dial Plan Not Selected"
-msgstr "Диалплан не выбран"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:210
-msgid "Use the dropdown to select a dial plan."
-msgstr "Используйте выпадающее меню для выбора диалплана."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:230
-#, php-format
-msgid "What's New in %s"
-msgstr "Что нового в %s"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:235
-msgid "Here is a quick overview of the main improvements in this release."
-msgstr "Вот краткое обозрение основных улучшений в этой версии."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:238
-msgid "Interface & Layout"
-msgstr "Интерфейс & Расположение"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:240
+#: page.dpviz.php:277
 msgid ""
-"Improved the toolbar layout so it behaves better on typical desktop screen "
-"sizes."
+"The dial plan dropdown now opens with a Recently Viewed group at the top "
+"holding the last five destinations you looked at, so going back to one "
+"you were just on no longer means scrolling or searching for it again."
 msgstr ""
-"Улучшена раскладка панели инструментов, чтобы она лучше работала на обычных "
-"размерах экрана настольных компьютеров."
+"Выпадающее меню диалплана теперь открывается с группой «Недавно "
+"просмотренные» вверху, в которой хранятся последние пять направлений, "
+"которые вы смотрели, так что возвращаться к тому, на котором вы только "
+"что были, больше не придётся листать или искать его снова."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:241
+#: page.dpviz.php:278
 msgid ""
-"Moved export options into a cleaner download panel with a separate action "
-"button."
+"Each entry is labelled with the group it came from, such as \"IVRs: Main "
+"Menu\", so it still reads clearly out of its usual place in the list."
 msgstr ""
-"Переместил опции экспорта в более чистый панель скачивания с отдельной "
-"кнопкой действия."
+"Каждое название отмечено группой, из которой оно пришло, например «IVR: "
+"Главное меню», так что оно всё равно понятно даже вне обычного места в "
+"списке."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:242
+#: page.dpviz.php:279
 msgid ""
-"Refined the Navigation & Usage and Settings pages to make them easier to "
-"scan and use."
+"The list is kept in your own browser and is tied to the account you "
+"signed in with. Admins sharing a login from different machines each keep "
+"their own list, and nothing is stored on the PBX."
 msgstr ""
-"Улучшили страницы \"Навигация & Использование\" и \"Настройки\", чтобы "
-"сделать их легче для сканирования и использования."
+"Список хранится в вашем собственном браузере и привязан к аккаунту, с "
+"которым вы вошли. Администраторы, использующие один логин с разных "
+"компьютеров, каждый сохраняют свой собственный список, и ничего не "
+"хранится на АТС."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:247
-msgid "Workflow & Compatibility"
-msgstr "Процесс работы и совместимость"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:249
+#: page.dpviz.php:280
 msgid ""
-"Moved more layout behavior into dpviz-owned styling to improve consistency "
-"across supported PBX platforms."
+"Entries follow renames on their own, and one quietly drops off the list "
+"once the destination is deleted or is no longer one your account can see."
 msgstr ""
-"Перемещено больше поведения интерфейса в стилизацию dpviz, чтобы улучшить "
-"согласованность на поддерживаемых платформах PBX."
+"Записи сами следуют за переименованиями, а одна тихо исчезает из списка, "
+"как только назначение удалено или стало недоступно для вашего аккаунта."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:250
+#: page.dpviz.php:281
 msgid ""
-"Unified modal styling and drag behavior so dialogs feel more consistent "
-"throughout the module."
+"The group hides itself as soon as you start typing in the search box, so "
+"results are never listed twice."
 msgstr ""
-"Объединенный модальный дизайн и поведение перетаскивания, чтобы диалоги "
-"чувствовались более однообразными по всей модули."
+"Группа скрывается, как только вы начинаете печатать в строке поиска, "
+"поэтому результаты никогда не отображаются дважды."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:251
+#: page.dpviz.php:286
+msgid "Expanded View"
+msgstr "Расширенный просмотр"
+
+#: page.dpviz.php:288
 msgid ""
-"Added an export filename prefix option to make downloaded files easier to "
-"organize."
+"The new expand button beside Export pins the module over the FreePBX "
+"navigation and gives the graph the whole window. Press it again to go "
+"back to the normal layout."
 msgstr ""
-"Добавлена возможность указания префикса имени файла для экспорта, чтобы "
-"скачанные файлы были легче организовать."
+"Новая кнопка разворачивания рядом с Экспортом закрепляет модуль поверх "
+"навигации FreePBX и выводит график на весь экран. Нажмите ее снова, чтобы "
+"вернуться к обычному виду."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:256
-msgid "User Preferences"
-msgstr "Преференции пользователя"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:258
+#: page.dpviz.php:289
 msgid ""
-"Settings now use the global module values as defaults, while each user can "
-"keep their own overrides."
+"This is deliberately not browser fullscreen: the browser stays as it is, "
+"the Escape key is left alone, and the tabs, toolbar and floating panels "
+"all keep working the way they normally do."
 msgstr ""
-"Настройки теперь используют значения модуля по умолчанию, в то время как "
-"каждый пользователь может сохранять свои собственные переопределения."
+"Это специально не полноэкранный режим браузера: браузер остаётся как "
+"есть, клавиша Escape оставлена без изменений, а вкладки, панель "
+"инструментов и всплывающие панели продолжают работать как обычно."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:259
+#: page.dpviz.php:290
 msgid ""
-"What's New visibility is now tracked per user, so each person can dismiss it "
-"independently."
+"Pan and zoom are reset each time you switch, so a graph you had dragged "
+"to one side is never left hanging off the edge of the resized view."
 msgstr ""
-"Видимость 'Что нового' теперь отслеживается для каждого пользователя "
-"отдельно, так что каждый человек может скрывать её независимо."
+"Панорамирование и масштабирование сбрасываются каждый раз при "
+"переключении, поэтому график, который вы сдвинули в сторону, никогда не "
+"остаётся свисать за краем изменённого вида."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:260
+#: page.dpviz.php:291
 msgid ""
-"User-specific settings continue to fall back to the module defaults unless "
-"that user changes them."
+"Press E to switch in and out of the expanded view without reaching for "
+"the button. Escape still leaves it as well."
 msgstr ""
-"Пользователь-ориентированные настройки по-прежнему возвращаются к значениям "
-"по умолчанию модуля, если что-то другое не задано пользователем."
+"Нажмите E, чтобы переключаться между расширенным видом и обычным, не "
+"дотрагиваясь до кнопки. Escape также работает, чтобы выйти."
 
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:261
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: page.dpviz.php:296 views/nav.php:9
+msgid "Keyboard Shortcuts"
+msgstr "Сочетания клавиш"
+
+#: page.dpviz.php:298
 msgid ""
-"Mouse wheel zoom sensitivity can be adjusted in Settings if you want slower "
-"or faster graph navigation."
+"R, F and the arrow keys now keep working while the recording, new "
+"destination and Simulate Date & Time panels are open. Those panels float "
+"over the graph and leave the toolbar clickable, so a shortcut for a "
+"button you can still click now behaves the same as clicking it."
 msgstr ""
-"Чувствительность вращения колеса мыши может быть изменена в настройках, если "
-"вам нужно уменьшить или увеличить скорость навигации в графическом окне."
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:268
-#, php-format
-msgid "Don't show this again for version %s"
-msgstr "Не показывать это еще раз для версии %s"
-
-#: /var/www/html/admin/modules/dpviz/page.dpviz.php:271
-msgid "Close"
-msgstr "Закрыть"
-
-#: /var/www/html/admin/modules/dpviz/process.php:90
-msgid "Error: Could not find inbound route for"
-msgstr "Ошибка: Не удалось найти входящий маршрут для"
-
-#: /var/www/html/admin/modules/dpviz/process.php:311
-#: /var/www/html/admin/modules/dpviz/process.php:1023
-#: /var/www/html/admin/modules/dpviz/process.php:2049
-#: /var/www/html/admin/modules/dpviz/process.php:2075
-msgid "Always"
-msgstr "Всегда"
-
-#: /var/www/html/admin/modules/dpviz/process.php:374
-msgid "Static Agent"
-msgstr "Статический агент"
-
-#: /var/www/html/admin/modules/dpviz/process.php:393
-msgid "Dynamic Agent"
-msgstr "Динамический агент"
-
-#: /var/www/html/admin/modules/dpviz/process.php:406
-msgid "Member"
-msgstr "Член"
-
-#: /var/www/html/admin/modules/dpviz/process.php:493
-msgid "In Use By"
-msgstr "В использовании"
-
-#: /var/www/html/admin/modules/dpviz/process.php:509
-#: /var/www/html/admin/modules/dpviz/process.php:510
-msgid "Destination not in use"
-msgstr "Назначение не используется"
-
-#: /var/www/html/admin/modules/dpviz/process.php:522
-msgid "Not in Use"
-msgstr "Не используется"
-
-#: /var/www/html/admin/modules/dpviz/process.php:523
-#: /var/www/html/admin/modules/dpviz/process.php:524
-msgid "This destination has no references"
-msgstr "Эта цель не имеет ссылок"
-
-#: /var/www/html/admin/modules/dpviz/process.php:640
-#: /var/www/html/admin/modules/dpviz/process.php:666
-#: /var/www/html/admin/modules/dpviz/process.php:1364
-msgid "Extension"
-msgstr "Внутр.номер"
-
-#: /var/www/html/admin/modules/dpviz/process.php:666
-#: /var/www/html/admin/modules/dpviz/process.php:1364
-#: /var/www/html/admin/modules/dpviz/process.php:1557
-#: /var/www/html/admin/modules/dpviz/process.php:1719
-#: /var/www/html/admin/modules/dpviz/process.php:2265
-#: /var/www/html/admin/modules/dpviz/process.php:2292
-msgid "Name"
-msgstr "Название"
-
-#: /var/www/html/admin/modules/dpviz/process.php:678
-#, php-format
-msgid "(%s secs)"
-msgstr "(%s секунд)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:685
-#, php-format
-msgid "No Answer (%s secs)"
-msgstr "Без ответа (%s сек)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:696
-msgid "Call Forward All"
-msgstr "Переадресация всех звонков"
-
-#: /var/www/html/admin/modules/dpviz/process.php:701
-msgid "Call Forward Busy"
-msgstr "Переадресация звонков при занятости"
-
-#: /var/www/html/admin/modules/dpviz/process.php:706
-msgid "Call Forward Unavailable"
-msgstr "Звонок переадресации недоступен"
-
-#: /var/www/html/admin/modules/dpviz/process.php:731
-msgid "No Answer, Busy, Not Reachable"
-msgstr "Без ответа, занят, недоступен"
-
-#: /var/www/html/admin/modules/dpviz/process.php:740
-msgid "No Answer & Busy"
-msgstr "Без ответа и занят"
-
-#: /var/www/html/admin/modules/dpviz/process.php:746
-#: /var/www/html/admin/modules/dpviz/process.php:795
-msgid "Not Reachable"
-msgstr "Недоступен"
-
-#: /var/www/html/admin/modules/dpviz/process.php:756
-msgid "No Answer & Not Reachable"
-msgstr "Без ответа & недоступен"
-
-#: /var/www/html/admin/modules/dpviz/process.php:762
-#: /var/www/html/admin/modules/dpviz/process.php:790
-#: /var/www/html/admin/modules/dpviz/process.php:2610
-msgid "Busy"
-msgstr "Занято"
-
-#: /var/www/html/admin/modules/dpviz/process.php:772
-msgid "Busy & Not Reachable"
-msgstr "Занято & Недоступен"
-
-#: /var/www/html/admin/modules/dpviz/process.php:778
-#: /var/www/html/admin/modules/dpviz/process.php:785
-msgid "No Answer"
-msgstr "Без ответа"
-
-#: /var/www/html/admin/modules/dpviz/process.php:812
-msgid "Busy Message"
-msgstr "Сообщение занято"
-
-#: /var/www/html/admin/modules/dpviz/process.php:812
-msgid "Instructions Only"
-msgstr "Только инструкции"
-
-#: /var/www/html/admin/modules/dpviz/process.php:812
-msgid "No Message"
-msgstr "Нет сообщения"
-
-#: /var/www/html/admin/modules/dpviz/process.php:812
-msgid "Unavailable Message"
-msgstr "Недоступное сообщение"
-
-#: /var/www/html/admin/modules/dpviz/process.php:874
-#: /var/www/html/admin/modules/dpviz/process.php:1071
-#: /var/www/html/admin/modules/dpviz/process.php:1449
-#: /var/www/html/admin/modules/dpviz/process.php:1939
-msgid "CID Prefix"
-msgstr "Префикс CID"
-
-#: /var/www/html/admin/modules/dpviz/process.php:875
-#: /var/www/html/admin/modules/dpviz/process.php:1938
-msgid "Alert Info"
-msgstr "Информация о предупреждении"
-
-#: /var/www/html/admin/modules/dpviz/process.php:876
-msgid "Music on hold Class"
-msgstr "Класс музыки на удержание"
-
-#: /var/www/html/admin/modules/dpviz/process.php:877
-#: /var/www/html/admin/modules/dpviz/process.php:1941
-msgid "Language"
-msgstr "Russian (Russia)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:895
-#: /var/www/html/admin/modules/dpviz/process.php:2154
-#: /var/www/html/admin/modules/dpviz/process.php:2162
-#: /var/www/html/admin/modules/dpviz/process.php:2838
-#: /var/www/html/admin/modules/dpviz/process.php:2851
-#: /var/www/html/admin/modules/dpviz/process.php:2859
-#: /var/www/html/admin/modules/dpviz/process.php:2992
-#: /var/www/html/admin/modules/dpviz/process.php:3005
-#: /var/www/html/admin/modules/dpviz/process.php:3013
-#: /var/www/html/admin/modules/dpviz/process.php:3049
-#: /var/www/html/admin/modules/dpviz/process.php:3191
-#: /var/www/html/admin/modules/dpviz/process.php:3286
-#: /var/www/html/admin/modules/dpviz/process.php:3299
-#: /var/www/html/admin/modules/dpviz/process.php:3307
-#: /var/www/html/admin/modules/dpviz/process.php:3341
-msgid "Continue"
-msgstr "Продолжить"
-
-#: /var/www/html/admin/modules/dpviz/process.php:904
-#: /var/www/html/admin/modules/dpviz/process.php:1274
-msgid "Caller Post Hangup"
-msgstr "Звонящий развесил звонок"
-
-#: /var/www/html/admin/modules/dpviz/process.php:909
-#: /var/www/html/admin/modules/dpviz/process.php:1279
-msgid "Agent Post Hangup"
-msgstr "Агент после разговора"
-
-#: /var/www/html/admin/modules/dpviz/process.php:914
-#: /var/www/html/admin/modules/dpviz/process.php:1284
-msgid "Queue Fail Over on FULL"
-msgstr "Отказ в очереди на ПОЛНОЕ"
-
-#: /var/www/html/admin/modules/dpviz/process.php:919
-#: /var/www/html/admin/modules/dpviz/process.php:1289
-msgid "Queue Fail Over on JOINEMPTY"
-msgstr "Переход очереди на JOINEMPTY"
-
-#: /var/www/html/admin/modules/dpviz/process.php:924
-#: /var/www/html/admin/modules/dpviz/process.php:1294
-msgid "Queue Fail Over on LEAVEEMPTY"
-msgstr "Обеспечение очереди при отсутствии на LEAVEEMPTY"
-
-#: /var/www/html/admin/modules/dpviz/process.php:929
-#: /var/www/html/admin/modules/dpviz/process.php:1299
-msgid "Queue Fail Over on JOINUNAVAIL"
-msgstr "Переход очереди на JOINUNAVAIL"
-
-#: /var/www/html/admin/modules/dpviz/process.php:934
-#: /var/www/html/admin/modules/dpviz/process.php:1304
-msgid "Queue Fail Over on LEAVEUNAVAIL"
-msgstr "Переход очереди на NEAVEUNAVAIL"
-
-#: /var/www/html/admin/modules/dpviz/process.php:963
-#: /var/www/html/admin/modules/dpviz/process.php:1077
-msgid "Join Announcement"
-msgstr "Присоединение к объявлению"
-
-#: /var/www/html/admin/modules/dpviz/process.php:963
-#: /var/www/html/admin/modules/dpviz/process.php:1434
-#: /var/www/html/admin/modules/dpviz/process.php:1618
-#: /var/www/html/admin/modules/dpviz/process.php:2112
-#: /var/www/html/admin/modules/dpviz/process.php:2430
-#: /var/www/html/admin/modules/dpviz/process.php:2683
-#: /var/www/html/admin/modules/dpviz/process.php:3078
-#: /var/www/html/admin/modules/dpviz/process.php:3229
-#: /var/www/html/admin/modules/dpviz/process.php:3413
-msgid "Feature Code"
-msgstr "Сервисные коды"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1014
-#: /var/www/html/admin/modules/dpviz/process.php:1025
-msgid "Unlimited"
-msgstr "Безлимитный"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1019
-#: /var/www/html/admin/modules/dpviz/process.php:1072
-#: /var/www/html/admin/modules/dpviz/process.php:1442
-#: /var/www/html/admin/modules/dpviz/process.php:1446
-msgid "Strategy"
-msgstr "Стратегия"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1020
-msgid "Call as Dialed"
-msgstr "Звонок как диалированный"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1020
-msgid "No Follow-Me or Call Forward"
-msgstr "Не Follow-Me или Переадресация звонков"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1020
-msgid "Extensions Only"
-msgstr "Расширения только"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1021
-#: /var/www/html/admin/modules/dpviz/process.php:1024
-#: /var/www/html/admin/modules/dpviz/process.php:1717
-#: /var/www/html/admin/modules/dpviz/process.php:1976
-#: /var/www/html/admin/modules/dpviz/process.php:2121
-#: /var/www/html/admin/modules/dpviz/process.php:3087
-#: /var/www/html/admin/modules/dpviz/process.php:3363
-#: /var/www/html/admin/modules/dpviz/process.php:3470
-#: /var/www/html/admin/modules/dpviz/process.php:3554
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1003
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1054
-#: /var/www/html/admin/modules/dpviz/views/options.php:88
-#: /var/www/html/admin/modules/dpviz/views/options.php:115
-#: /var/www/html/admin/modules/dpviz/views/options.php:142
-#: /var/www/html/admin/modules/dpviz/views/options.php:169
-#: /var/www/html/admin/modules/dpviz/views/options.php:196
-#: /var/www/html/admin/modules/dpviz/views/options.php:223
-#: /var/www/html/admin/modules/dpviz/views/options.php:250
-#: /var/www/html/admin/modules/dpviz/views/options.php:312
-#: /var/www/html/admin/modules/dpviz/views/options.php:343
-#: /var/www/html/admin/modules/dpviz/views/options.php:401
-#: /var/www/html/admin/modules/dpviz/views/options.php:428
-#: /var/www/html/admin/modules/dpviz/views/options.php:486
-#: /var/www/html/admin/modules/dpviz/views/options.php:513
-#: /var/www/html/admin/modules/dpviz/views/options.php:540
-msgid "No"
-msgstr "Нет"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1021
-#: /var/www/html/admin/modules/dpviz/process.php:1024
-#: /var/www/html/admin/modules/dpviz/process.php:1717
-#: /var/www/html/admin/modules/dpviz/process.php:1976
-#: /var/www/html/admin/modules/dpviz/process.php:2121
-#: /var/www/html/admin/modules/dpviz/process.php:3087
-#: /var/www/html/admin/modules/dpviz/process.php:3363
-#: /var/www/html/admin/modules/dpviz/process.php:3470
-#: /var/www/html/admin/modules/dpviz/process.php:3554
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1003
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1054
-#: /var/www/html/admin/modules/dpviz/views/options.php:86
-#: /var/www/html/admin/modules/dpviz/views/options.php:113
-#: /var/www/html/admin/modules/dpviz/views/options.php:140
-#: /var/www/html/admin/modules/dpviz/views/options.php:167
-#: /var/www/html/admin/modules/dpviz/views/options.php:194
-#: /var/www/html/admin/modules/dpviz/views/options.php:221
-#: /var/www/html/admin/modules/dpviz/views/options.php:248
-#: /var/www/html/admin/modules/dpviz/views/options.php:309
-#: /var/www/html/admin/modules/dpviz/views/options.php:341
-#: /var/www/html/admin/modules/dpviz/views/options.php:399
-#: /var/www/html/admin/modules/dpviz/views/options.php:426
-#: /var/www/html/admin/modules/dpviz/views/options.php:484
-#: /var/www/html/admin/modules/dpviz/views/options.php:511
-#: /var/www/html/admin/modules/dpviz/views/options.php:538
-msgid "Yes"
-msgstr "Да"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1022
-msgid "Ring Only"
-msgstr "Только звон"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1022
-msgid "Agent Ringing"
-msgstr "Звонок к агенту"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1023
-msgid "No Free Agents"
-msgstr "Нет Свободных Агентов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1023
-msgid "No Ready Agents"
-msgstr "Нет доступных агентов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1023
-msgid "There are both logged in and no free agents"
-msgstr ""
-"В системе есть агенты, которые залогинены и агенты, которые не залогинены"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1028
-#: /var/www/html/admin/modules/dpviz/process.php:1030
-msgid "Caller Position"
-msgstr "Позиция звонящего"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1028
-#: /var/www/html/admin/modules/dpviz/process.php:1066
-#: /var/www/html/admin/modules/dpviz/process.php:2120
-#: /var/www/html/admin/modules/dpviz/process.php:2662
-#: /var/www/html/admin/modules/dpviz/process.inc.php:609
-#: /var/www/html/admin/modules/dpviz/process.inc.php:614
-#: /var/www/html/admin/modules/dpviz/process.inc.php:621
-#: /var/www/html/admin/modules/dpviz/process.inc.php:635
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1014
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1029
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1062
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1065
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1114
-msgid "Disabled"
-msgstr "Отключенный"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1031
-msgid "Frequency"
-msgstr "Частота"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1032
-msgid "Minimum Announcement Interval"
-msgstr "Минимальный промежуток между объявлениями"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1033
-msgid "Announce Position"
-msgstr "Объявить положение"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1034
-msgid "Announce Hold Time"
-msgstr "Объявите время на ожидание"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1042
-msgid "every"
-msgstr "каждый"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1051
-#: /var/www/html/admin/modules/dpviz/process.php:1061
-#: /var/www/html/admin/modules/dpviz/process.php:1066
-msgid "Periodic Announcements"
-msgstr "Регулярные объявления"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1053
-#: /var/www/html/admin/modules/dpviz/process.php:1063
-msgid "Repeat Frequency"
-msgstr "Частота повторов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1070
-msgid "General Settings"
-msgstr "Общие настройки"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1073
-msgid "Agent Restrictions"
-msgstr "Ограничения агента"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1074
-msgid "Autofill"
-msgstr "Автозаполнение"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1075
-msgid "Skip Busy Agents"
-msgstr "Пропустить занятых агентов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1076
-msgid "Music On Hold Class"
-msgstr "Класс Музыки на Переадресации"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1078
-msgid "When"
-msgstr "Когда"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1079
-#: /var/www/html/admin/modules/dpviz/process.php:1451
-msgid "Call Recording"
-msgstr "Запись звонков"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1080
-msgid "Mark calls answered elsewhere"
-msgstr "Марк звонил, но вызов был перехвачен в другом месте"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1081
-msgid "Timing & Agent Options"
-msgstr "Время и параметры агента"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1082
-msgid "Max Wait Time"
-msgstr "Максимальное время ожидания"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1083
-msgid "Agent Timeout"
-msgstr "Время ожидания агента"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1084
-msgid "Agent Retry"
-msgstr "Попробовать снова агента"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1085
-msgid "Wrap Up Time"
-msgstr "Время для завершения"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1086
-msgid "Capacity Options"
-msgstr "Возможности емкости"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1087
-msgid "Max Callers"
-msgstr "Макс звонков"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1088
-msgid "Join Empty"
-msgstr "Присоединяйтесь к Пустому"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1089
-msgid "Leave Empty"
-msgstr "Оставить пустым"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1098
-#: /var/www/html/admin/modules/dpviz/process.php:1214
-#: /var/www/html/admin/modules/dpviz/process.php:1219
-msgid "Static"
-msgstr "Статика"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1100
-#: /var/www/html/admin/modules/dpviz/process.php:1245
-msgid "Dynamic"
-msgstr "Динамический"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1149
-#: /var/www/html/admin/modules/dpviz/process.php:1162
-#: /var/www/html/admin/modules/dpviz/process.php:1170
-#: /var/www/html/admin/modules/dpviz/process.php:1517
-#: /var/www/html/admin/modules/dpviz/process.php:1528
-#: /var/www/html/admin/modules/dpviz/process.php:1536
-#, php-format
-msgid "No Answer (%s)"
-msgstr "Ответ не получен (%s)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1184
-msgid "Penalty"
-msgstr "Пенальти"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1363
-#: /var/www/html/admin/modules/dpviz/process.php:1556
-#: /var/www/html/admin/modules/dpviz/process.php:1557
-#: /var/www/html/admin/modules/dpviz/process.php:3106
-#: /var/www/html/admin/modules/dpviz/process.php:3437
-#: /var/www/html/admin/modules/dpviz/process.php:3448
-msgid "Ext"
-msgstr "Экст"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1447
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1057
-msgid "Ring Time"
-msgstr "Время звонка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1448
-#: /var/www/html/admin/modules/dpviz/process.php:2607
-msgid "Music On Hold"
-msgstr "Музыка на удержании"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1450
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1059
-msgid "Confirm Calls"
-msgstr "Подтверждение вызовов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1620
-#: /var/www/html/admin/modules/dpviz/process.php:1623
-#: /var/www/html/admin/modules/dpviz/process.php:2114
-#: /var/www/html/admin/modules/dpviz/process.php:2117
-#: /var/www/html/admin/modules/dpviz/process.php:2432
-#: /var/www/html/admin/modules/dpviz/process.php:2435
-#: /var/www/html/admin/modules/dpviz/process.php:3415
-#: /var/www/html/admin/modules/dpviz/process.inc.php:535
-#: /var/www/html/admin/modules/dpviz/process.inc.php:538
-#: /var/www/html/admin/modules/dpviz/views/options.php:275
-msgid "None"
-msgstr "Ничего"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1642
-#: /var/www/html/admin/modules/dpviz/process.php:1768
-#, php-format
-msgid "Selection %s"
-msgstr "Выбор %s"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1649
-#: /var/www/html/admin/modules/dpviz/process.php:1756
-#: /var/www/html/admin/modules/dpviz/process.php:2913
-msgid "Invalid Input"
-msgstr "Неверный ввод"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1669
-#: /var/www/html/admin/modules/dpviz/process.php:1763
-#, php-format
-msgid "Timeout (%s secs x %s)"
-msgstr "Таймаут (%s сек x %s)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1694
-msgid "Add Selection"
-msgstr "Добавить выбор"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1721
-msgid "Enable Direct Dial"
-msgstr "Включить прямой звонок"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1722
-#: /var/www/html/admin/modules/dpviz/process.php:2785
-#: /var/www/html/admin/modules/dpviz/process.php:3238
-msgid "Timeout"
-msgstr "Таймаут"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1723
-msgid "Invalid Retries"
-msgstr "Недопустимое количество попыток"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1724
-msgid "Invalid Retry Recording"
-msgstr "Недопустимая попытка повтора записи"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1725
-msgid "Invalid Recording"
-msgstr "Недопустимая запись"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1726
-msgid "Timeout Retries"
-msgstr "Продолжительность попыток повторной попытки"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1727
-msgid "Timeout Retry Recording"
-msgstr "Таймаут перезагрузки записи"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1728
-msgid "Timeout Recording"
-msgstr "Таймаут записи"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1729
-msgid "Return to IVR after VM"
-msgstr "Вернуться в IVR после голосового ответа"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1758
-#, php-format
-msgid "Invalid Input x %s"
-msgstr "Недопустимый ввод x %s"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1936
-msgid "Caller ID Number"
-msgstr "Номер звонящего"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1940
-msgid "Music on hold class"
-msgstr "Класс музыки на удержание"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1977
-msgid "Block Unknown/Blocked Caller ID"
-msgstr "Блокировать неизвестных/заблокированые номера"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1978
-#: /var/www/html/admin/modules/dpviz/process.php:2024
-msgid "Number: Description"
-msgstr "Номер: Описание"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1988
-#: /var/www/html/admin/modules/dpviz/process.php:2032
-msgid "additional entries"
-msgstr "дополнительные записи"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1994
-msgid "Blacklist"
-msgstr "Чёрный список"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1996
-msgid "Disallowed by Blacklist"
-msgstr "Запрещен по списку черного списка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:1999
-msgid "Click to edit Blacklist"
-msgstr "Щелкните, чтобы отредактировать Чёрный список"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2038
-msgid "Allowlist"
-msgstr "Разрешенный список"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2040
-msgid "Disallowed by Allowlist"
-msgstr "Запрещенный списком разрешенных"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2043
-#: /var/www/html/admin/modules/dpviz/process.php:2056
-msgid "Click to edit Allowlist"
-msgstr "Нажмите, чтобы редактировать список разрешенных номеров"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2126
-msgid "Repeat Key"
-msgstr "Повторить Клавишу"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2127
-msgid "Allow Skip"
-msgstr "Дозволить пропуск"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2128
-msgid "Return to IVR"
-msgstr "Вернуться к IVR"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2129
-msgid "Don't Answer Channel"
-msgstr "Не отвечать на канал"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2189
-#: /var/www/html/admin/modules/dpviz/process.php:2821
-msgid "Mode"
-msgstr "Режим"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2221
-#: /var/www/html/admin/modules/dpviz/process.php:2222
-#: /var/www/html/admin/modules/dpviz/process.php:2264
-msgid "Timezone"
-msgstr "Часовой пояс"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2226
-msgid "Simulated time"
-msgstr "Симулированное время"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2228
-msgid "Local Time"
-msgstr "Локальное время"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2267
-msgid "Type"
-msgstr "Тип"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2276
-msgid "Calendars"
-msgstr "Календари"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2284
-#: /var/www/html/admin/modules/dpviz/process.php:2287
-msgid "All"
-msgstr "Все"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2285
-msgid "Categories"
-msgstr "Категории"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2288
-msgid "Events"
-msgstr "События"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2296
-msgid "Expand"
-msgstr "Развернуть"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2304
-#: /var/www/html/admin/modules/dpviz/process.php:2308
-#: /var/www/html/admin/modules/dpviz/process.php:2324
-#: /var/www/html/admin/modules/dpviz/process.php:2329
-#: /var/www/html/admin/modules/dpviz/process.php:2338
-#: /var/www/html/admin/modules/dpviz/process.php:2342
-msgid "Match"
-msgstr "Матч"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2354
-#: /var/www/html/admin/modules/dpviz/process.php:2358
-#: /var/www/html/admin/modules/dpviz/process.php:2375
-#: /var/www/html/admin/modules/dpviz/process.php:2389
-#: /var/www/html/admin/modules/dpviz/process.php:2393
-msgid "No Match"
-msgstr "Ничего не найдено"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2455
-msgid "Add Entry"
-msgstr "Добавить запись"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2474
-#, php-format
-msgid "Match: %s"
-msgstr "Соответствие: %s"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2534
-#, php-format
-msgid "Invalid Input, Default (%s) secs"
-msgstr "Недопустимый ввод, по умолчанию (%s) сек"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2544
-#: /var/www/html/admin/modules/dpviz/process.php:2553
-#, php-format
-msgid "Invalid Input (%s secs)"
-msgstr "Недопустимые данные (%s сек)"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2562
-#: /var/www/html/admin/modules/dpviz/process.php:2571
-#: /var/www/html/admin/modules/dpviz/process.php:3231
-#: /var/www/html/admin/modules/dpviz/process.php:3234
-msgid "Default"
-msgstr "Значение по умолчанию"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2608
-msgid "Play Ringtones"
-msgstr "Воспроизводить рингтоны"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2609
-msgid "Play No Service Message"
-msgstr "Воспроизвести сообщение \"Нет услуги\""
-
-#: /var/www/html/admin/modules/dpviz/process.php:2611
-msgid "Hang Up"
-msgstr "Завершить"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2612
-msgid "Congestion"
-msgstr "Перегруз"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2621
-#: /var/www/html/admin/modules/dpviz/process.php:2622
-msgid "Terminate Call"
-msgstr "Завершение вызова"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2673
-msgid "Day"
-msgstr "День"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2676
-msgid "Night"
-msgstr "Ночь"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2683
-msgid "Current Mode"
-msgstr "Текущий режим"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2688
-msgid "Night Mode"
-msgstr "Ночной режим"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2697
-msgid "Day Mode"
-msgstr "Дневной режим"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2734
-#: /var/www/html/admin/modules/dpviz/process.php:2746
-msgid "Call Flow"
-msgstr "Поток звонков"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2782
-msgid "Callback Number"
-msgstr "Номер обратного звонка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2783
-msgid "Delay Before Callback"
-msgstr "Задержка перед обратным звонком"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2784
-msgid "Caller ID"
-msgstr "Caller ID"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2798
-msgid "Destination after Callback"
-msgstr "Назначение после обратного звонка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2820
-msgid "Don't Care"
-msgstr "Неважно"
-
-#: /var/www/html/admin/modules/dpviz/process.php:2975
-msgid "Language Code"
-msgstr "Код языка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3086
-msgid "Skip"
-msgstr "Пропустить"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3086
-msgid "Force"
-msgstr "Сила"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3086
-msgid "Whisper"
-msgstr "Шепчать"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3092
-msgid "Busy Extensions"
-msgstr "Занятые расширения"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3093
-msgid "Duplex"
-msgstr "Дуплекс"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3097
-#: /var/www/html/admin/modules/dpviz/process.php:3431
-msgid "members"
-msgstr "члены"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3178
-msgid "Priority"
-msgstr "Приоритет"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3238
-msgid "Retries"
-msgstr "Попытки"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3238
-msgid "Retry Delay"
-msgstr "Отложенная попытка повторной отправки"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3251
-msgid "Callback Queue"
-msgstr "Очередь обратного звонка"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3329
-msgid "Engine"
-msgstr "Двигатель"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3375
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1002
-msgid "Tech"
-msgstr "Технология"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3376
-msgid "Outbound CallerID"
-msgstr "Внешний номер звонящего"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3377
-msgid "Status"
-msgstr "Статус"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3378
-msgid "CID Options"
-msgstr "Варианты CID"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3379
-msgid "Max Channels"
-msgstr "Максимальное количество каналов"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3380
-msgid "Continue If Busy"
-msgstr "Продолжить, если занят"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3411
-#: /var/www/html/admin/modules/dpviz/process.php:3415
-#: /var/www/html/admin/modules/dpviz/process.php:3419
-#: /var/www/html/admin/modules/dpviz/process.php:3422
-msgid "Audio Label"
-msgstr "Этикетка аудиозаписи"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3419
-msgid "Read Group Number"
-msgstr "Прочитать группу номеров"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3422
-msgid "Beep Only - No Confirmation"
-msgstr "Бой - Без подтверждения"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3483
-#: /var/www/html/admin/modules/dpviz/process.php:3567
-msgid "No dialplan found"
-msgstr ""
-"Найдены некоторые параметры диальплана, но нет доступного диальплана для "
-"этого номера."
-
-#: /var/www/html/admin/modules/dpviz/process.php:3486
-#: /var/www/html/admin/modules/dpviz/process.php:3490
-#: /var/www/html/admin/modules/dpviz/process.php:3570
-#: /var/www/html/admin/modules/dpviz/process.php:3574
-msgid "Target"
-msgstr "Цель"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3487
-#: /var/www/html/admin/modules/dpviz/process.php:3492
-#: /var/www/html/admin/modules/dpviz/process.php:3499
-#: /var/www/html/admin/modules/dpviz/process.php:3571
-#: /var/www/html/admin/modules/dpviz/process.php:3576
-#: /var/www/html/admin/modules/dpviz/process.php:3582
-msgid "Return"
-msgstr "Возврат"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3491
-#: /var/www/html/admin/modules/dpviz/process.php:3575
-msgid "Notes"
-msgstr "Примечание"
-
-#: /var/www/html/admin/modules/dpviz/process.php:3515
-msgid "Bad Dest: Blacklist"
-msgstr "Плохая Цель: Чёрный список"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:371
-msgid "Click to choose destination"
-msgstr "Нажмите, чтобы выбрать назначение"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:448
-msgid "Click to insert new destination"
-msgstr "Выбрать и вставить новую цель"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:464
-msgid "Click to add selection"
-msgstr "Нажмите, чтобы добавить выбор"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:480
-msgid "Click to add entry"
-msgstr "Щелкните, чтобы добавить запись"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:496
-msgid "Click to continue..."
-msgstr "Нажмите, чтобы продолжить..."
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:518
-#: /var/www/html/admin/modules/dpviz/process.inc.php:519
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1758
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1765
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1772
-msgid "Bad Dest"
-msgstr "Плохой пункт назначения"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:565
-msgid "month inverted"
-msgstr "месяц наоборот"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:581
-msgid "day-of-month inverted"
-msgstr "перевернутый день месяца"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:953
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1105
-msgid "INBOX"
-msgstr "INBOX"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:954
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1106
-msgid "Other"
-msgstr "Другое"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:955
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1107
-msgid "Total"
-msgstr "Итого"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1003
-msgid "Registration"
-msgstr "Регистрация"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1007
-msgid "User Agent"
-msgstr "Пользовательский агент"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1014
-msgid "Do Not Disturb"
-msgstr "Не беспокоить"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1014
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1029
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1049
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1074
-msgid "Enabled"
-msgstr "Включено"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1029
-msgid "Call Forward"
-msgstr "Переадресация вызова"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1056
-msgid "Initial Ring Time"
-msgstr "Начальное время звонка"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1058
-msgid "Follow-Me List"
-msgstr "Список подписчиков"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1079
-msgid "Email"
-msgstr "Электронная почта"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1127
-msgid "DND/CF"
-msgstr "ДНД/CF"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1148
-msgid "Paused"
-msgstr "Приостановленный"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1525
-msgid "Mon"
-msgstr "Пн"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1525
-msgid "Tue"
-msgstr "Вт"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1525
-msgid "Wed"
-msgstr "Ср"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1526
-msgid "Thu"
-msgstr "Чт"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1526
-msgid "Fri"
-msgstr "Пт"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1526
-msgid "Sat"
-msgstr "Сб"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1526
-msgid "Sun"
-msgstr "Вс"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1529
-msgid "Jan"
-msgstr "Янв"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1529
-msgid "Feb"
-msgstr "Фев"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1529
-msgid "Mar"
-msgstr "Мар"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1529
-msgid "Apr"
-msgstr "Апр"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1530
-msgid "May"
-msgstr "Май"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1530
-msgid "Jun"
-msgstr "Жун"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1530
-msgid "Jul"
-msgstr "Июл"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1530
-msgid "Aug"
-msgstr "Авг"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1531
-msgid "Sep"
-msgstr "Сен"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1531
-msgid "Oct"
-msgstr "Окт"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1531
-msgid "Nov"
-msgstr "Ноя"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1531
-msgid "Dec"
-msgstr "Дек"
-
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1712
-#: /var/www/html/admin/modules/dpviz/process.inc.php:1714
-msgid "Active"
-msgstr "Активный"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:1
-msgid "No direct script access allowed"
-msgstr "Не допускается прямой доступ к скриптам"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:9
-msgid "Feedback"
-msgstr "Отзыв"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:14
-msgid "Your Feedback"
-msgstr "Ваше мнение"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:16
-msgid "Provide any comments or suggestions (up to 500 characters)."
-msgstr "Предоставьте любые комментарии или предложения (до 500 символов)."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:21
-msgid "Email (optional)"
-msgstr "Электронная почта (необязательно)"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:23
-msgid "Provide your email if you would like a response."
-msgstr ""
-"Предоставьте свой адрес электронной почты, если вы хотите получить ответ."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:29
-msgid "Submit"
-msgstr "Отправить"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:48
-msgid "What's New"
-msgstr "Что Нового"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:51
-msgid "Buy Me a Coffee"
-msgstr "Купи кофе для меня"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:54
-msgid "Give Feedback"
-msgstr "Дайте отзыв"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:63
-msgid "Check for Updates"
-msgstr "Проверьте обновления"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:66
-msgid "Current version"
-msgstr "Текущая версия"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:81
-msgid "Auto-play audio"
-msgstr "Автоматическое воспроизведение аудио"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:96
-msgid "Automatically play audio when a node with audio is selected."
-msgstr "Автоматически воспроизводить аудио, когда выбран узел с аудио."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:108
-msgid "Date & Time Stamp"
-msgstr "Дата и время маркировки"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:123
-msgid "Displays the date and time on the graph."
-msgstr "Отображает дату и время на графике."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:135
-msgid "Pan & Zoom"
-msgstr "Пан и Зум"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:150
+"Клавиши R, F и стрелки теперь продолжают работать, пока открыты панели "
+"записи, нового назначения и Симуляции даты и времени. Эти панели плавают "
+"над графиком и оставляют панель инструментов кликабельной, поэтому "
+"сочетание клавиш для кнопки, по которой вы всё ещё можете кликнуть, "
+"теперь работает так же, как и сам клик."
+
+#: page.dpviz.php:299
 msgid ""
-"Allows you to use pan and zoom functions. Click and hold to pan, and use the "
-"mouse wheel to zoom."
+"Full dialogs such as Save View and this What's New window still take the "
+"keyboard for themselves, as before."
 msgstr ""
-"Позволяет использовать функции скольжения и масштабирования. Нажмите и "
-"удерживайте, чтобы скользить, и используйте колесо мыши для масштабирования."
+"Полные диалоги, такие как «Сохранить вид» и это окно «Что нового», по-"
+"прежнему захватывают клавиатуру для себя, как и раньше."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:162
-msgid "Horizontal Layout"
-msgstr "Горизонтальное расположение"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:177
-msgid "Displays the dial plan in a horizontal layout."
-msgstr "Отображает план диалинга в горизонтальном расположении."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:189
-msgid "Display Destinations for Inbound Routes"
-msgstr "Отобразить назначения для входящих маршрутов"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:204
-msgid "Inbound Routes will show the destination."
-msgstr "Входящие маршруты покажут направление."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:216
-msgid "Display Insert and Add Selection Nodes"
-msgstr "Отображение узлов \"Вставка\" и \"Добавление выбора\""
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:231
+#: page.dpviz.php:300
 msgid ""
-"Displays a + between nodes. Clicking it creates a new destination and "
-"automatically links it to the current destination. Also Displays Add "
-"Selection (IVRs) and Add Entry (Dynamic Routes) "
+"Reload stays blocked while a new destination form is part way filled in, "
+"so a stray keypress cannot throw away what you have typed."
 msgstr ""
-"Отображает знак + между узлами. Нажатие на него создает новую цель и "
-"автоматически связывает ее с текущей целью. Также отображает добавление "
-"выбора (IVR) и добавление записи (Динамические маршруты) "
+"Перезагрузка остаётся заблокированной, пока форма нового назначения "
+"заполнена частично, чтобы случайное нажатие клавиши не стерло то, что вы "
+"уже ввели."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:243
-msgid "Display In Use By Nodes"
-msgstr "Отображение В Употреблении У Узлов"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: page.dpviz.php:305
+msgid "Interface"
+msgstr "Интерфейс"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:258
-msgid "Display nodes where the selected destination is used."
-msgstr "Отображать узлы, используемые в выбранном назначении."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:270
-msgid "Shared extension node handling"
-msgstr "Общий узел обработки расширений"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:278
-msgid "Queues and Ring Groups Only"
-msgstr "Очереди и группы звонков"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:281
-msgid "All Destinations"
-msgstr "Все направления"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:289
+#: page.dpviz.php:307
 msgid ""
-"\"None\" displays individual extension nodes. \"Queues and Ring Groups "
-"Only\" combines them into one node. \"All\" merges all destinations into a "
-"single extension node."
+"The browser tab is now labelled for this module instead of showing only "
+"the shared FreePBX title, which makes it easier to pick out when several "
+"PBX pages are open at once."
 msgstr ""
-"\"None\" отображает отдельные узлы расширений. \"Колея и Группы колеи "
-"только\" объединяет их в один узел. \"Все\" объединяет все направления в "
-"единый узел расширения."
+"Вкладка браузера теперь подписана для этого модуля, а не просто "
+"показывает общий заголовок FreePBX, что облегчает её нахождение, когда "
+"открыто несколько страниц PBX одновременно."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:303
-msgid "Show Allowlist"
-msgstr "Показать разрешённый список"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: page.dpviz.php:318 views/options.php:48
+msgid "Open the GitHub repository"
+msgstr "Откройте репозиторий GitHub"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:321
-msgid "Displays the Allowlist information and destination."
-msgstr "Отображает информацию о списке разрешений и назначении."
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: process.php:1047
+msgid "announcement off"
+msgstr "объявление отключено"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:323
-msgid "Allowlist module is not installed."
-msgstr "Модуль Allowlist не установлен."
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: process.php:1894
+msgid "Selections %s"
+msgstr "Выберите %s"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:336
-msgid "Show Blacklist"
-msgstr "Показать черный список"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/options.php:54
+msgid "Buy me a coffee"
+msgstr "Купите мне кофе"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:351
-msgid "Displays the Blacklist information and destination."
-msgstr "Отображает информацию о черном списке и назначении."
+#: views/toolbar.php:409
+msgid "Find in Graph"
+msgstr "Найти на графике"
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:363
-msgid "Show Queue Agents"
-msgstr "Отобразить Очередь Агентов"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/nav.php:11
+msgid "Reload the current graph."
+msgstr "Перезагрузить текущую графическую информацию."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:368
-#: /var/www/html/admin/modules/dpviz/views/options.php:453
-msgid "Single"
-msgstr "Одиночный"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/nav.php:12
+msgid "Jump to the previous or next dial plan."
+msgstr "Перейти к предыдущему или следующему диалплану."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:371
-#: /var/www/html/admin/modules/dpviz/views/options.php:456
-msgid "Combine"
-msgstr "Соединить"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/nav.php:13
+msgid "Fit the graph: reset pan and zoom to the default view."
+msgstr ""
+"Подогнать график: сбросить перемещение и масштаб к отображению по "
+"умолчанию."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:374
-#: /var/www/html/admin/modules/dpviz/views/options.php:459
-msgid "Hide"
-msgstr "Скрыть"
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/nav.php:14
+msgid "Open this Navigation & Usage page."
+msgstr "Открыть эту страницу Навигация & Использование."
 
-#: /var/www/html/admin/modules/dpviz/views/options.php:382
+#: views/nav.php:15
+msgid "Expand the view, and go back to the normal layout again."
+msgstr "Разверните вид и снова вернитесь к обычной раскладке."
+
+#: views/nav.php:16
+msgid "Leave the expanded view."
+msgstr "Выйди из расширенного просмотра."
+
+# TRANSLATED BY MACHINE - PLEASE REVIEW
+#: views/nav.php:17
 msgid ""
-"\"Single\" displays individual agent nodes. \"Combine\" displays all agents "
-"in a single node. \"Hide\" does not display queue agents."
+"Shortcuts pause while typing in a field, searching the dial plan list, or "
+"when a dialog is open."
 msgstr ""
-"\"Одиночный\" отображает индивидуальные узлы агентов. \"Объединить\" "
-"отображает всех агентов в одном узле. \"Скрыть\" не отображает агентов "
-"очереди."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:394
-msgid "Show Dynamic Members for Queues"
-msgstr "Показать динамические участники очередей"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:409
-msgid "Displays the list of dynamic agents currently assigned to the queues."
-msgstr ""
-"Отображает список динамических агентов, которые в данный момент назначены на "
-"очереди."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:421
-msgid "Show Queue Agent Penalties"
-msgstr "Показать штрафы агента очереди"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:436
-msgid "Displays the penalty value for queue agents."
-msgstr "Отображает значение штрафа для агентов очереди."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:448
-msgid "Show Ring Group Members"
-msgstr "Показать участников группы звонков"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:467
-msgid ""
-"\"Single\" displays individual member nodes. \"Combine\" displays all "
-"members in a single node. \"Hide\" does not display members."
-msgstr ""
-"\"Одиночный\" отображает отдельные узлы членов. \"Скомбинировать\" "
-"отображает всех членов в одном узле. \"Скрыть\" не отображает членов."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:479
-msgid "Show Find Me Follow Me for Extensions"
-msgstr "Показать Find Me Follow Me для Расширений"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:494
-msgid "Displays Find Me Follow Me data for extensions."
-msgstr ""
-"Отображает информацию о настройках \"Найди меня, следуй за мной\" для "
-"расширений."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:506
-msgid "Show Extension Optional Destinations"
-msgstr "Отобразить Дополнительные Назначения Расширения (по умолчанию)"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:521
-msgid ""
-"Displays and follows the optional destinations (No Answer, Busy, Not "
-"Reachable) set for the extension in the Advanced tab."
-msgstr ""
-"Отображает и следует по опциональным направлениям (недоступен, занят, "
-"отсутствует ответ) установленным для расширения в разделе "
-"\"Предосторожности\"."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:533
-msgid "Show Minimal View"
-msgstr "Показать минимальный вид"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:548
-msgid ""
-"Shows (default) or hides the following types of nodes: Extensions, Queue "
-"Members, Ring Group Members, Recordings, Voicemail, and Voicemail Blasting "
-"Members."
-msgstr ""
-"Отображает (по умолчанию) или скрывает следующие типы узлов: Расширения, "
-"Члены очереди, Члены группы обращения, Записи, Сообщения голосового mail и "
-"Участники рассылки сообщений голосового mail."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:562
-msgid "Mouse Wheel Zoom Sensitivity"
-msgstr "Чувствительность к колесу мыши для масштабирования"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:589
-msgid ""
-"Controls mouse wheel zoom sensitivity. This preference is saved in your "
-"browser and does not affect other users."
-msgstr ""
-"Управляет чувствительностью прокрутки колеса мыши. Эта настройка сохраняется "
-"в вашем браузере и не влияет на других пользователей."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:602
-msgid "Export Filename Prefix"
-msgstr "Префикс имени файла для экспорта"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:614
-msgid ""
-"Optional text prepended to all exported filenames, for example a site or "
-"customer identifier."
-msgstr ""
-"Необязательный текст, предваряющий все имена файлов, которые будут "
-"экспортированы, например, идентификатор сайта или клиента."
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:622
-msgid "Saved!"
-msgstr "Сохранено!"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:623
-msgid "Save"
-msgstr "Сохранить"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:656
-msgid "Display & Navigation"
-msgstr "Отображение & Навигация"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:667
-msgid "Destinations & Nodes"
-msgstr "Цели и Узлы"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:681
-msgid "Queues & Ring Groups"
-msgstr "Очереди и группы звонка"
-
-#: /var/www/html/admin/modules/dpviz/views/options.php:691
-msgid "Export & Interaction"
-msgstr "Экспорт & Взаимодействие"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:9
-msgid "destination"
-msgstr "назначение"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:76
-msgid "Undefined Destination"
-msgstr "Неопределенное направление"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:217
-msgid "Saved Views"
-msgstr "Сохраненные Взгляды"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:232
-msgid "Inbound Routes"
-msgstr "Входящие маршруты"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:252
-msgid "Time Conditions"
-msgstr "Условия времени"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:262
-msgid "Call Flow Control"
-msgstr "Контроль потока звонков"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:278
-msgid "Dynamic Routes"
-msgstr "Динамические Маршруты"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:295
-msgid "Virtual Queues"
-msgstr "Виртуальные очереди"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:304
-msgid "Queues"
-msgstr "Колеи"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:313
-msgid "Ring Groups"
-msgstr "Группы звонков"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:322
-msgid "Announcements"
-msgstr "Объявления"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:331
-msgid "Languages"
-msgstr "Языки"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:341
-msgid "Misc Applications"
-msgstr "Разное приложения"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:350
-msgid "Extensions"
-msgstr "Расширения"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:392
-msgid "Reload"
-msgstr "Перезагрузить"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:410
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:462
-msgid "Choose Dial Plan"
-msgstr "Выберите план звонков"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:415
-msgid "Previous"
-msgstr "Предыдущий"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:418
-msgid "Next"
-msgstr "Следующий"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:432
-msgid "Export"
-msgstr "Экспорт"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:436
-msgid "Filename"
-msgstr "Название файла"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:439
-msgid "Format"
-msgstr "Формат"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:441
-msgid "Standard"
-msgstr "Стандартный"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:442
-msgid "High"
-msgstr "Высокий"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:443
-msgid "Super"
-msgstr "Отлично"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:732
-msgid "Container not found!"
-msgstr "Не найден контейнер!"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:791
-msgid "SVG not found!"
-msgstr "SVG не найден!"
-
-#: /var/www/html/admin/modules/dpviz/views/toolbar.php:839
-msgid "Downloading..."
-msgstr "Загрузка..."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:4
-msgid ""
-"Quick reference for exploring, testing, and exporting dial plans in DPViz."
-msgstr ""
-"Скорая референсная информация о поиске, тестировании и экспортировании "
-"планов диалинков в DPViz."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:9
-msgid "Navigation Basics"
-msgstr "Основы навигации"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:11
-msgid ""
-"Exclude Node(s): Press Shift + left-click a node to exclude it and "
-"downstream paths. Click \"+\" to show the path again. Use \"Reset\" to "
-"restore the original dial plan."
-msgstr ""
-"Исключить узел(а): Нажмите Shift + щелчок по узлу, чтобы исключить его и все "
-"входящие пути. Нажмите \"+\" для повторного отображения пути. Используйте "
-"\"Сброс\", чтобы вернуться к оригинальному плану routing."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:12
-msgid ""
-"Redraw from a Node: Press Ctrl (Cmd on macOS) + left-click a node to start "
-"from it. To revert, Ctrl/Cmd + left-click the parent node."
-msgstr ""
-"Перерисовать из узла: Нажмите Ctrl (Cmd на macOS) + левый клик по узлу, "
-"чтобы начать с него. Для отмены, нажмите Ctrl/Cmd + левый клик по "
-"родительскому узлу."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:13
-msgid ""
-"Highlight Paths: Click Highlight Paths, then select a node or edge. Click "
-"Remove Highlights to clear."
-msgstr ""
-"Подсвечивание путей: Нажмите \"Подсвечивание путей\", затем выберите узел "
-"или ребро. Нажмите \"Удалить подсветку\" для очистки."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:14
-msgid ""
-"Sanitize Labels: Click Sanitize Labels to hide node labels and the header "
-"for privacy. Click nodes afterwards to reveal them individually, or click "
-"Restore to show all labels again."
-msgstr ""
-"Скрыть подписи: Нажмите Скрыть подписи, чтобы скрыть подписи узлов и "
-"заголовок для сохранения конфиденциальности. Затем нажмите на узлы, чтобы "
-"показать их по отдельности, или на Восстановить, чтобы показать все подписи "
-"снова."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:19
-msgid "Tools & Actions"
-msgstr "Инструменты & Действия"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:21
-msgid ""
-"Simulate Date & Time: Preview how call routing will behave at a future date "
-"or time - useful for holidays, early closures, seasonal hours, or testing "
-"new time conditions."
-msgstr ""
-"Симулировать дату и время: просмотреть, как будет вести себя маршрутизация "
-"вызовов в будущее - полезен для праздников, раннего закрытия, сезонных "
-"часов, или тестирования новых условий времени."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:22
-msgid ""
-"Save View: Save the current dial plan layout. This button appears after "
-"modifying the view using CTRL or Shift + click on one or more nodes."
-msgstr ""
-"Сохранить просмотр: сохраните текущую разметку плана диалинга. Эта кнопка "
-"появляется после модификации просмотра, используя CTRL или Shift + нажатие "
-"на одну или несколько узлов."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:23
-msgid "Open Destinations: Click a destination to open it in a new tab."
-msgstr ""
-"Открыть Назначения: Нажмите на назначение, чтобы открыть его в новом окне."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:24
-msgid ""
-"Open Time Groups: Click on \"Match: (timegroup)\" or \"No Match\" to view "
-"details in a new tab."
-msgstr ""
-"Открыть группы времен: Нажмите на \"Соответствие: (временная группа)\" или "
-"\"Нет соответствия\", чтобы просмотреть детали в новом вкладке."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:29
-msgid "Viewing Controls"
-msgstr "Просмотр управления"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:31
-msgid "Hover: Move your cursor over a path to highlight it."
-msgstr "Хувер: Переместите курсор над путем, чтобы подсветить его."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:32
-msgid "Pan: Click and drag to move around the view."
-msgstr "Пан: Щелкните и перетащите, чтобы перемещаться по просмотру."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:33
-msgid "Zoom: Use the mouse wheel to zoom in and out."
-msgstr ""
-"Зум: Используйте колесо мыши, чтобы увеличивать и уменьшать объекты на "
-"экране."
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:38
-msgid "Extension Node Status"
-msgstr "Степень активности узла расширения"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:40
-msgid "Registered extension (green border)"
-msgstr "Зарегистрированное расширение (зеленая рамка)"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:41
-msgid "Dynamic agent logged into queue (blue border)"
-msgstr "Динамический агент вошёл в очередь (голущая рамка)"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:42
-msgid "DND or Call Forwarding enabled (yellow border)"
-msgstr "DND или Переадресация звонков включены (желтыйborder)"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:43
-msgid "Unregistered extension (red border)"
-msgstr "Не зарегистрированное расширение (красная рамка)"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:44
-msgid "Virtual or non-extension node (no border)"
-msgstr "Виртуальный или не-разделение-на-узлы узел (без границ)"
-
-#: /var/www/html/admin/modules/dpviz/views/nav.php:45
-msgid "Paused queue member"
-msgstr "Повторно обрабатываемый член очереди"
+"Сочетания клавиши приостанавливаются при вводе текста в поле, поиска в "
+"списке диалплана или при открытом диалоговом окне."
